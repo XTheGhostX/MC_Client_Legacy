@@ -16,5 +16,10 @@ namespace MC_Client
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Text = "Stuff";
+        }
     }
 }
