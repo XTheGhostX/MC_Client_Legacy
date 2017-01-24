@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,24 +20,31 @@ namespace MC_Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            button1.Text = "Stuff";
+            button_update.Enabled = false;
+            button_update.Text = "Loading";
 
             MySql.Data.MySqlClient.MySqlConnection conn;
             string myConnectionString;
 
-            myConnectionString = "server=127.0.0.1;uid=root;" +
-                "pwd=12345;database=test;";
+            myConnectionString = "server=51.255.41.80;uid=ermlpublicread;" +
+                "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
+            conn = new MySql.Data.MySqlClient.MySqlConnection(myConnectionString);
+            
 
             try
             {
-                conn = new MySql.Data.MySqlClient.MySqlConnection(myConnectionString);
-                conn.Open();
+                
+                conn.OpenAsync();
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                label1.Text =(ex.Message);
+                Console.Write(ex.Message);
             }
 
+            
+            conn.CloseAsync();
+            button_update.Enabled = true;
+            button_update.Text = "Check For updates";
         }
     }
 }
