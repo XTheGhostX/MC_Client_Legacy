@@ -25,6 +25,7 @@ namespace MC_Client
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
         public string Temp = Path +"\\TMP";
         public string Path_Config = Path + "\\Config";
+        public int IsDev = 0;
 
         public Form1()
         {
@@ -47,7 +48,7 @@ namespace MC_Client
         {
             button_update.Enabled = false;
             button_update.Text = "Loading";
-            comboBox_Versions.Text= "";
+            comboBox_Versions.Text = "";
 
             MySql.Data.MySqlClient.MySqlConnection conn;
             conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
@@ -55,7 +56,7 @@ namespace MC_Client
             string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version";
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
-            
+
             try
             {
                 conn.OpenAsync();
@@ -66,15 +67,40 @@ namespace MC_Client
             }
             MySqlDataReader dataReader = cmd.ExecuteReader();
             comboBox_Versions.Items.Clear();
-            while (dataReader.Read())
+            if (IsDev == 1)
             {
-                comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
-                comboBox_Versions.Text=(dataReader["Version_UID"].ToString());
+                while (dataReader.Read())
+                {
+                    int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
+                    if ((Tmp456 == 1))
+                    {
+                        comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
+                        comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                    }
+
+                }
+            }
+            else { 
+                while (dataReader.Read())
+                {
+                    int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
+                    int Tmp455 = Convert.ToInt32(dataReader["Dev"]);
+
+                    if ((Tmp456 == 1) && (Tmp455 == 0)) {
+                        comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
+                        comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                    }
+
+                }
+            }
+
+            if (comboBox_Versions.Text!=null)
+            {
+                button_Install.Enabled = true;
             }
 
             conn.CloseAsync();
             button_update.Enabled = true;
-            button_Install.Enabled = true;
             button_update.Text = "Check For updates";
         }
 
@@ -97,13 +123,13 @@ namespace MC_Client
 
         private void button_Install_Click(object sender, EventArgs e)
         {
-
+            
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             button_update.Enabled = false;
+            //stuff Connection
             MySql.Data.MySqlClient.MySqlConnection conn;
             conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
-
             try
             {
                 conn.OpenAsync();
@@ -115,13 +141,11 @@ namespace MC_Client
 
             string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text+ "'";
             MySqlCommand cmd = new MySqlCommand(query, conn);
-
             MySqlDataReader dataReader = cmd.ExecuteReader();
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
-            
-            //If the program is replacing the configs(next line)
-            if (true) { 
+             
+            //stuff Config
                 string Temp_ConfigPath = (Temp +"\\"+ comboBox_Versions.Text + "_Config.zip");
                 try
                 {
@@ -143,7 +167,7 @@ namespace MC_Client
                 foreach (string filePath in Tmp582)
                 {
                     var name = new FileInfo(filePath).Name.ToLower();
-            //Change BIOME STUFF to folder name
+                //Change BIOME STUFF to folder name
                     if (name != "biome stuff")
                     {
                         Directory.Delete(filePath, true);
@@ -152,18 +176,28 @@ namespace MC_Client
                 Directory.CreateDirectory(Path_Config);
                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
                     File.Delete(Temp_ConfigPath);
-                }
 
-            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
+                FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
+            
+
+            
+            //stuff Biome
 
             //Need A ACTUAL copy if the biome folders
             //(dataReader["Biome"].ToString());
 
+            //stuff Forge
+
             //Still need to look into how it is installed nowdays :P
             //(dataReader["Forge"].ToString());
 
+            //stuff Scripts
+
             //Not sure how it handles with custom directories
             //(dataReader["Script"].ToString());
+
+            //stuff Mods
+
             //Some one else can deal with mods
             //(dataReader["Mods"].ToString());
 
@@ -174,6 +208,18 @@ namespace MC_Client
             comboBox_Versions.Enabled = true;
             button_update.Enabled = true;
 
+        }
+
+        private void checkBox_Dev_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox_Dev.Checked == true)
+            {
+                IsDev = 1;
+            }
+            else
+            {
+                IsDev = 0;
+            }
         }
     }
 }

@@ -35,6 +35,7 @@
             this.button_Path = new System.Windows.Forms.Button();
             this.label_admin = new System.Windows.Forms.Label();
             this.button_Install = new System.Windows.Forms.Button();
+            this.checkBox_Dev = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button_update
@@ -59,8 +60,6 @@
             // comboBox_Versions
             // 
             this.comboBox_Versions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Versions.Items.AddRange(new object[] {
-            "No Entry"});
             this.comboBox_Versions.Location = new System.Drawing.Point(151, 38);
             this.comboBox_Versions.Name = "comboBox_Versions";
             this.comboBox_Versions.Size = new System.Drawing.Size(121, 21);
@@ -110,11 +109,23 @@
             this.button_Install.UseVisualStyleBackColor = true;
             this.button_Install.Click += new System.EventHandler(this.button_Install_Click);
             // 
+            // checkBox_Dev
+            // 
+            this.checkBox_Dev.AutoSize = true;
+            this.checkBox_Dev.Location = new System.Drawing.Point(184, 95);
+            this.checkBox_Dev.Name = "checkBox_Dev";
+            this.checkBox_Dev.Size = new System.Drawing.Size(88, 17);
+            this.checkBox_Dev.TabIndex = 7;
+            this.checkBox_Dev.Text = "Dev versions";
+            this.checkBox_Dev.UseVisualStyleBackColor = true;
+            this.checkBox_Dev.CheckedChanged += new System.EventHandler(this.checkBox_Dev_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.checkBox_Dev);
             this.Controls.Add(this.button_Install);
             this.Controls.Add(this.label_admin);
             this.Controls.Add(this.button_Path);
@@ -138,6 +149,7 @@
         private System.Windows.Forms.Button button_Path;
         private System.Windows.Forms.Label label_admin;
         private System.Windows.Forms.Button button_Install;
+        private System.Windows.Forms.CheckBox checkBox_Dev;
     }
 }
 
