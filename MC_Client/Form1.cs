@@ -16,7 +16,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MC_Client
 {
-    public partial class Form1 : Form
+    public partial class Form_ER : Form
     {
         //Add method of writing and reading custom install 
         public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -27,7 +27,7 @@ namespace MC_Client
         public string Path_Config = Path + "\\Config";
         public int IsDev = 0;
 
-        public Form1()
+        public Form_ER()
         {
             InitializeComponent();
             bool HasAdminPrivliges;
@@ -69,6 +69,7 @@ namespace MC_Client
             comboBox_Versions.Items.Clear();
             if (IsDev == 1)
             {
+                Log_Box.Items.Add("Obtaining Dev pack versions");
                 while (dataReader.Read())
                 {
                     int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
@@ -80,7 +81,8 @@ namespace MC_Client
 
                 }
             }
-            else { 
+            else {
+        Log_Box.Items.Add("Obtaining pack versions");
                 while (dataReader.Read())
                 {
                     int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
@@ -96,6 +98,7 @@ namespace MC_Client
 
             if (comboBox_Versions.Text!=null)
             {
+        Log_Box.Items.Add("Sucess please select a version");
                 button_Install.Enabled = true;
             }
 
@@ -123,11 +126,11 @@ namespace MC_Client
 
         private void button_Install_Click(object sender, EventArgs e)
         {
-            
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             button_update.Enabled = false;
-            //stuff Connection
+            Log_Box.Items.Add("Starting installation");
+    //stuff Connection
             MySql.Data.MySqlClient.MySqlConnection conn;
             conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
             try
@@ -145,15 +148,17 @@ namespace MC_Client
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
              
-            //stuff Config
+    //stuff Config
                 string Temp_ConfigPath = (Temp +"\\"+ comboBox_Versions.Text + "_Config.zip");
+            Log_Box.Items.Add("Downloading Configs");
                 try
                 {
                     webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + comboBox_Versions.Text + ".zip"), Temp_ConfigPath);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("The process failed: {0}", ex.ToString());
+            Log_Box.Items.Add("Download failed");
+                Console.WriteLine("The process failed: {0}", ex.ToString());
                 }
 
                 Directory.CreateDirectory(Path_Config);
@@ -167,22 +172,26 @@ namespace MC_Client
                 foreach (string filePath in Tmp582)
                 {
                     var name = new FileInfo(filePath).Name.ToLower();
-                //Change BIOME STUFF to folder name
-                    if (name != "biome stuff")
+                    if (name != "terraincontrol")
                     {
                         Directory.Delete(filePath, true);
                     }
                 }
+            Log_Box.Items.Add("Installing configs");
                 Directory.CreateDirectory(Path_Config);
                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
                     File.Delete(Temp_ConfigPath);
 
                 FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
-            
 
-            
+
+
             //stuff Biome
+            string BiomeLink = dataReader["Biome"].ToString();
+            if (BiomeLink != "null")
+            {
 
+            }
             //Need A ACTUAL copy if the biome folders
             //(dataReader["Biome"].ToString());
 
@@ -219,6 +228,19 @@ namespace MC_Client
             else
             {
                 IsDev = 0;
+            }
+            //Get triggered
+            button_update.PerformClick();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked == true)
+            {
+                this.Width = 450;
+            }else
+            {
+                this.Width = 300;
             }
         }
     }
