@@ -41,6 +41,8 @@ namespace MC_Client
                 button_Path.Enabled = true;
                 label_admin.Visible = false;
             }
+            toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
+            toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
 
         }
 
@@ -126,10 +128,13 @@ namespace MC_Client
 
         private void button_Install_Click(object sender, EventArgs e)
         {
+            Log_Box.Items.Clear();
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             button_update.Enabled = false;
+            checkBox_Biome.Enabled = false;
             Log_Box.Items.Add("Starting installation");
+
     //stuff Connection
             MySql.Data.MySqlClient.MySqlConnection conn;
             conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
@@ -139,7 +144,7 @@ namespace MC_Client
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                Console.Write(ex.Message);
+                Log_Box.Items.Add(ex.Message);
             }
 
             string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text+ "'";
@@ -187,10 +192,13 @@ namespace MC_Client
 
 
             //stuff Biome
-            string BiomeLink = dataReader["Biome"].ToString();
-            if (BiomeLink != "null")
+            string BiomeLink = "null";
+            while (dataReader.Read()){
+                BiomeLink = dataReader["Biome"].ToString();
+            }
+            if (BiomeLink.ToLower() != "null" && checkBox_Biome.Checked ==true)
             {
-
+                Log_Box.Items.Add("Installing Biome configurations");
             }
             //Need A ACTUAL copy if the biome folders
             //(dataReader["Biome"].ToString());
@@ -214,6 +222,7 @@ namespace MC_Client
             Directory.Delete(Temp, true);
             conn.CloseAsync();
             button_Install.Enabled = true;
+            checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
             button_update.Enabled = true;
 
@@ -233,9 +242,9 @@ namespace MC_Client
             button_update.PerformClick();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox1.Checked == true)
+            if(checkBox_Log.Checked == true)
             {
                 this.Width = 450;
             }else
@@ -243,5 +252,6 @@ namespace MC_Client
                 this.Width = 300;
             }
         }
+
     }
 }

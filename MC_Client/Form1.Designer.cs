@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button_update = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_Versions = new System.Windows.Forms.ComboBox();
@@ -36,8 +37,10 @@
             this.label_admin = new System.Windows.Forms.Label();
             this.button_Install = new System.Windows.Forms.Button();
             this.checkBox_Dev = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox_Log = new System.Windows.Forms.CheckBox();
             this.Log_Box = new System.Windows.Forms.ListBox();
+            this.checkBox_Biome = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // button_update
@@ -114,7 +117,7 @@
             // checkBox_Dev
             // 
             this.checkBox_Dev.AutoSize = true;
-            this.checkBox_Dev.Location = new System.Drawing.Point(184, 95);
+            this.checkBox_Dev.Location = new System.Drawing.Point(175, 115);
             this.checkBox_Dev.Name = "checkBox_Dev";
             this.checkBox_Dev.Size = new System.Drawing.Size(88, 17);
             this.checkBox_Dev.TabIndex = 7;
@@ -122,32 +125,45 @@
             this.checkBox_Dev.UseVisualStyleBackColor = true;
             this.checkBox_Dev.CheckedChanged += new System.EventHandler(this.checkBox_Dev_CheckedChanged);
             // 
-            // checkBox1
+            // checkBox_Log
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(184, 119);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(44, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Log";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox_Log.AutoSize = true;
+            this.checkBox_Log.Location = new System.Drawing.Point(175, 135);
+            this.checkBox_Log.Name = "checkBox_Log";
+            this.checkBox_Log.Size = new System.Drawing.Size(44, 17);
+            this.checkBox_Log.TabIndex = 8;
+            this.checkBox_Log.Text = "Log";
+            this.checkBox_Log.UseVisualStyleBackColor = true;
+            this.checkBox_Log.CheckedChanged += new System.EventHandler(this.checkBox_Log_CheckedChanged);
             // 
             // Log_Box
             // 
             this.Log_Box.FormattingEnabled = true;
             this.Log_Box.Location = new System.Drawing.Point(291, 9);
             this.Log_Box.Name = "Log_Box";
+            this.Log_Box.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.Log_Box.Size = new System.Drawing.Size(131, 238);
             this.Log_Box.TabIndex = 9;
+            // 
+            // checkBox_Biome
+            // 
+            this.checkBox_Biome.AccessibleDescription = "";
+            this.checkBox_Biome.AutoSize = true;
+            this.checkBox_Biome.Location = new System.Drawing.Point(175, 95);
+            this.checkBox_Biome.Name = "checkBox_Biome";
+            this.checkBox_Biome.Size = new System.Drawing.Size(98, 17);
+            this.checkBox_Biome.TabIndex = 10;
+            this.checkBox_Biome.Text = "Custom Biomes";
+            this.checkBox_Biome.UseVisualStyleBackColor = true;
             // 
             // Form_ER
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.checkBox_Biome);
             this.Controls.Add(this.Log_Box);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBox_Log);
             this.Controls.Add(this.checkBox_Dev);
             this.Controls.Add(this.button_Install);
             this.Controls.Add(this.label_admin);
@@ -177,8 +193,10 @@
         private System.Windows.Forms.Label label_admin;
         private System.Windows.Forms.Button button_Install;
         private System.Windows.Forms.CheckBox checkBox_Dev;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox_Log;
         private System.Windows.Forms.ListBox Log_Box;
+        private System.Windows.Forms.CheckBox checkBox_Biome;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
