@@ -101,6 +101,7 @@
             // 
             // button_Install
             // 
+            this.button_Install.Enabled = false;
             this.button_Install.Location = new System.Drawing.Point(151, 66);
             this.button_Install.Name = "button_Install";
             this.button_Install.Size = new System.Drawing.Size(121, 23);
