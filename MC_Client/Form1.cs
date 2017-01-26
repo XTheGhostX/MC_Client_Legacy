@@ -266,7 +266,7 @@ namespace MC_Client
                 string Tmp391 = "      \"gameDir\": \"" + (Path.Replace(@"\", @"\\"))+"\",";
                 MCP_Text[4] = Tmp391;
                 //Add vorge version!
-                MCP_Text[5] = "      \"lastVersionId\": \"1.10.2 - forge1.10.2 - 12.18.2.2151\",";
+                MCP_Text[5] = "      \"lastVersionId\": \"1.10.2-forge1.10.2-12.18.2.2151\",";
                 MCP_Text[6] = "      \"javaArgs\": \" - Xmx3G - XX:+UseConcMarkSweepGC - XX:+CMSIncrementalMode - XX:-UseAdaptiveSizePolicy - Xmn128M\"";
                 MCP_Text[7] = "    },";
 
