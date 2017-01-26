@@ -26,6 +26,7 @@ namespace MC_Client
         public string Temp = Path +"\\TMP";
         public string Path_Config = Path + "\\Config";
         public int IsDev = 0;
+        public bool IsFresh = true;
 
         public Form_ER()
         {
@@ -43,7 +44,18 @@ namespace MC_Client
             }
             toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
             toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
+//ADD CONFIGS
+            if (File.Exists(AppData + "\\.minecraft\\ERealms.ini"))
+            {
+                checkBox_Fresh.Enabled = true;
+            }
+            else
+            {
+                checkBox_Fresh.Checked = true;
+            }
 
+
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -199,9 +211,10 @@ namespace MC_Client
             if (BiomeLink.ToLower() != "null" && checkBox_Biome.Checked ==true)
             {
                 Log_Box.Items.Add("Installing Biome configurations");
+                //Need A ACTUAL copy if the biome folders
+                //(dataReader["Biome"].ToString());
             }
-            //Need A ACTUAL copy if the biome folders
-            //(dataReader["Biome"].ToString());
+
 
             //stuff Forge
 
@@ -218,7 +231,29 @@ namespace MC_Client
             //Some one else can deal with mods
             //(dataReader["Mods"].ToString());
 
+            //stuff MC launcher profile
+            string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
+            string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
+            bool  isERProfile = false;
+                for (int currentLine = 3; currentLine <= MCP_Text.Length -1; ++currentLine)
+                {
+                if (MCP_Text[currentLine].Contains("ERealms"))
+                {
+                    isERProfile = true;
+                }
+                if (MCP_Text[currentLine].Contains("\"selectedProfile\""))
+                    {
+                        MCP_Text[currentLine] = "  \"selectedProfile\": \"ERealms\",";
+                    }
+                }
+            if (IsFresh == true) isERProfile = false;
+            
+                Log_Box.Items.Add("Made ERealms profile");
+            File.WriteAllLines(MCProfile_Path,MCP_Text);
 
+
+
+            //stuff end
             Directory.Delete(Temp, true);
             conn.CloseAsync();
             button_Install.Enabled = true;
@@ -252,6 +287,24 @@ namespace MC_Client
                 this.Width = 300;
             }
         }
+        //stuff timer
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            button_update.PerformClick();
+        }
 
+        private void checkBox_Timer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Timer.Checked == true)
+                timer1.Start();
+            else
+                timer1.Stop();
+        }
+
+        private void textBox1_time_TextChanged(object sender, EventArgs e)
+        {
+            checkBox_Timer.Checked = false;
+            timer1.Interval = int.Parse(textBox1_time.Text)* 60000;
+        }
     }
 }

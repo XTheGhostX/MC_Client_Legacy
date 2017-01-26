@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.button_update = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label_time = new System.Windows.Forms.Label();
             this.comboBox_Versions = new System.Windows.Forms.ComboBox();
             this.textBox_Path = new System.Windows.Forms.TextBox();
             this.button_Path = new System.Windows.Forms.Button();
@@ -41,6 +41,10 @@
             this.Log_Box = new System.Windows.Forms.ListBox();
             this.checkBox_Biome = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.checkBox_Timer = new System.Windows.Forms.CheckBox();
+            this.textBox1_time = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button_update
@@ -53,14 +57,14 @@
             this.button_update.UseVisualStyleBackColor = true;
             this.button_update.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
+            // label_time
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 118);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Test text";
+            this.label_time.AutoSize = true;
+            this.label_time.Location = new System.Drawing.Point(10, 210);
+            this.label_time.Name = "label_time";
+            this.label_time.Size = new System.Drawing.Size(101, 13);
+            this.label_time.TabIndex = 1;
+            this.label_time.Text = "Update every x min:";
             // 
             // comboBox_Versions
             // 
@@ -156,11 +160,49 @@
             this.checkBox_Biome.Text = "Custom Biomes";
             this.checkBox_Biome.UseVisualStyleBackColor = true;
             // 
+            // checkBox_Fresh
+            // 
+            this.checkBox_Fresh.AutoSize = true;
+            this.checkBox_Fresh.Enabled = false;
+            this.checkBox_Fresh.Location = new System.Drawing.Point(175, 159);
+            this.checkBox_Fresh.Name = "checkBox_Fresh";
+            this.checkBox_Fresh.Size = new System.Drawing.Size(82, 17);
+            this.checkBox_Fresh.TabIndex = 11;
+            this.checkBox_Fresh.Text = "Fresh Install";
+            this.checkBox_Fresh.UseVisualStyleBackColor = true;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // checkBox_Timer
+            // 
+            this.checkBox_Timer.AutoSize = true;
+            this.checkBox_Timer.Location = new System.Drawing.Point(13, 229);
+            this.checkBox_Timer.Name = "checkBox_Timer";
+            this.checkBox_Timer.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_Timer.TabIndex = 12;
+            this.checkBox_Timer.UseVisualStyleBackColor = true;
+            this.checkBox_Timer.CheckedChanged += new System.EventHandler(this.checkBox_Timer_CheckedChanged);
+            // 
+            // textBox1_time
+            // 
+            this.textBox1_time.Location = new System.Drawing.Point(34, 226);
+            this.textBox1_time.Name = "textBox1_time";
+            this.textBox1_time.Size = new System.Drawing.Size(77, 20);
+            this.textBox1_time.TabIndex = 13;
+            this.textBox1_time.Text = "30";
+            this.textBox1_time.TextChanged += new System.EventHandler(this.textBox1_time_TextChanged);
+            // 
             // Form_ER
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.textBox1_time);
+            this.Controls.Add(this.checkBox_Timer);
+            this.Controls.Add(this.checkBox_Fresh);
             this.Controls.Add(this.checkBox_Biome);
             this.Controls.Add(this.Log_Box);
             this.Controls.Add(this.checkBox_Log);
@@ -170,7 +212,7 @@
             this.Controls.Add(this.button_Path);
             this.Controls.Add(this.textBox_Path);
             this.Controls.Add(this.comboBox_Versions);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label_time);
             this.Controls.Add(this.button_update);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
@@ -186,7 +228,7 @@
         #endregion
 
         private System.Windows.Forms.Button button_update;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label_time;
         private System.Windows.Forms.ComboBox comboBox_Versions;
         private System.Windows.Forms.TextBox textBox_Path;
         private System.Windows.Forms.Button button_Path;
@@ -197,6 +239,10 @@
         private System.Windows.Forms.ListBox Log_Box;
         private System.Windows.Forms.CheckBox checkBox_Biome;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox checkBox_Fresh;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.CheckBox checkBox_Timer;
+        private System.Windows.Forms.TextBox textBox1_time;
     }
 }
 
