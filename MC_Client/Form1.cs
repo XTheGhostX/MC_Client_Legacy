@@ -23,6 +23,7 @@ namespace MC_Client
         public static string Path = AppData+"\\.minecraft\\ElementalRealms";
         public string ERConnectionString = "server=51.255.41.80;uid=ermlpublicread;" +
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
+        public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp = Path +"\\TMP";
         public string Path_Config = Path + "\\Config";
         public int IsDev = 0;
@@ -53,7 +54,12 @@ namespace MC_Client
             {
                 checkBox_Fresh.Checked = true;
             }
-
+            if (!File.Exists(MCProfile_Path))
+            {
+                MessageBox.Show("You must open the Minecraft launcher atleast once before installing the pack", "ERealms user error",
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
 
            
         }
@@ -232,8 +238,8 @@ namespace MC_Client
             //(dataReader["Mods"].ToString());
 
             //stuff MC launcher profile
-            string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
+
             bool  isERProfile = false;
                 for (int currentLine = 3; currentLine <= MCP_Text.Length -1; ++currentLine)
                 {
@@ -247,7 +253,24 @@ namespace MC_Client
                     }
                 }
             if (IsFresh == true) isERProfile = false;
-            
+            if(isERProfile == false)
+            {
+                int tmp302 = MCP_Text.Length;
+                Array.Resize(ref MCP_Text, MCP_Text.Length + 6);
+                for(int currentLine =1; currentLine < tmp302-1; ++currentLine)
+                {
+                    MCP_Text[tmp302 + 6 - currentLine] = MCP_Text[tmp302 - currentLine];
+                }
+                MCP_Text[2] = "    \"ERealms\": {";
+                MCP_Text[3] = "      \"name\": \"ERealms\",";
+                string Tmp391 = "      \"gameDir\": \"" + (Path.Replace(@"\", @"\\"))+"\",";
+                MCP_Text[4] = Tmp391;
+                //Add vorge version!
+                MCP_Text[5] = "      \"lastVersionId\": \"1.10.2 - forge1.10.2 - 12.18.2.2151\",";
+                MCP_Text[6] = "      \"javaArgs\": \" - Xmx3G - XX:+UseConcMarkSweepGC - XX:+CMSIncrementalMode - XX:-UseAdaptiveSizePolicy - Xmn128M\"";
+                MCP_Text[7] = "    },";
+
+            }
                 Log_Box.Items.Add("Made ERealms profile");
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
