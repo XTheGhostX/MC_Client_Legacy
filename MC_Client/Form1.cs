@@ -28,11 +28,18 @@ namespace MC_Client
         public string Path_Config = Path + "\\Config";
         public int IsDev = 0;
         public bool IsFresh = true;
-        public string ForgeVersion ="Forge-Name";
+        public string ForgeName="Forge-Name";
+        public string MCF_version="1.10.2-forge";
+            public string Version_Script = "Script_V";
+            public string Version_Biome = "Biome_V";
+            public string Version_Cfg = "Config_V";
+            public string Version_Forge = "Forge_V";
+            public string SList_Mods = "Mods list";
 
         public Form_ER()
         {
             InitializeComponent();
+
             bool HasAdminPrivliges;
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
@@ -71,8 +78,7 @@ namespace MC_Client
             button_update.Text = "Loading";
             comboBox_Versions.Text = "";
 
-            MySql.Data.MySqlClient.MySqlConnection conn;
-            conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
+            MySqlConnection conn = new MySqlConnection(ERConnectionString);
 
             string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version";
             MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -117,6 +123,27 @@ namespace MC_Client
                 }
             }
 
+            query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
+            cmd = new MySqlCommand(query, conn);
+            dataReader.Close();
+            dataReader = cmd.ExecuteReader();
+
+            Log_Box.Items.Add("Obtaining Refrences");
+            while (dataReader.Read())
+            {
+                Version_Script = (dataReader["Script"].ToString());
+                Version_Biome = (dataReader["Biome"].ToString());
+                Version_Cfg = (dataReader["Config"].ToString());
+                Version_Forge = (dataReader["Forge"].ToString());
+                SList_Mods = (dataReader["Mods"].ToString());
+            }
+            Log_Box.Items.Add("Biome version:"+Version_Biome);
+            Log_Box.Items.Add("Config version:"+Version_Cfg);
+            Log_Box.Items.Add("Forge_Version:"+Version_Forge);
+            Log_Box.Items.Add("Version:"+Version_Script);
+            //Remove after testing is done
+            Log_Box.Items.Add("Mod list:"+SList_Mods);
+
             if (comboBox_Versions.Text!=null)
             {
         Log_Box.Items.Add("Sucess please select a version");
@@ -144,7 +171,6 @@ namespace MC_Client
         {
             
         }
-        //Entire install needs to be changed to use seprate versions for configs forge etc and not the modpack version as download refrence
         private void button_Install_Click(object sender, EventArgs e)
         {
             Log_Box.Items.Clear();
@@ -155,30 +181,16 @@ namespace MC_Client
             Log_Box.Items.Add("Starting installation");
             if(Directory.Exists(Temp))FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
 
-            //stuff Connection
-            MySql.Data.MySqlClient.MySqlConnection conn;
-            conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
-            try
-            {
-                conn.OpenAsync();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                Log_Box.Items.Add(ex.Message);
-            }
 
-            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text+ "'";
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
+
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
-             
     //stuff Config
-                string Temp_ConfigPath = (Temp +"\\"+ comboBox_Versions.Text + "_Config.zip");
+                string Temp_ConfigPath = (Temp +"\\"+ Version_Cfg + "_Config.zip");
             Log_Box.Items.Add("Downloading Configs");
                 try
                 {
-                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + comboBox_Versions.Text + ".zip"), Temp_ConfigPath);
+                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
                 }
                 catch (Exception ex)
                 {
@@ -205,30 +217,25 @@ namespace MC_Client
             Log_Box.Items.Add("Installing configs");
                 Directory.CreateDirectory(Path_Config);
                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
+            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
 
 
             //stuff Biome
-            string BiomeLink = "null";
-            while (dataReader.Read()){
-                BiomeLink = dataReader["Biome"].ToString();
-            }
-            if (BiomeLink.ToLower() != "null" && checkBox_Biome.Checked ==true)
-            {
+
                 Log_Box.Items.Add("Installing Biome configurations");
+                //Deleate biomes instalation if it is not checked
                 //Need A ACTUAL copy if the biome folders
                 //Using githu DB entry Biome probably getting removed
                 //(dataReader["Biome"].ToString());
-            }
-
+    
 
             //stuff Forge
 
-            string Temp_ForgePath = (Temp + "\\" + comboBox_Versions.Text + "_Forge.zip");
+            string Temp_ForgePath = (Temp + "\\" + Version_Forge + "_Forge.zip");
             Log_Box.Items.Add("Downloading Forge");
             try
             {
-                webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + comboBox_Versions.Text + ".zip"), Temp_ForgePath);
+                webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
             }
             catch (Exception ex)
             {
@@ -236,8 +243,9 @@ namespace MC_Client
                 Console.WriteLine("The process failed: {0}", ex.ToString());
             }
             ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
-            ForgeVersion = (Directory.GetDirectories(Temp+"\\MC_Forge-"+ comboBox_Versions.Text + "\\versions"))[0].Remove(0,82);
-            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + comboBox_Versions.Text), AppData+"\\.minecraft", true);
+            string tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
+            ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
+            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData+"\\.minecraft", true);
             //stuff Scripts
 
             //Not sure how it handles with custom directories
@@ -277,7 +285,7 @@ namespace MC_Client
                 MCP_Text[3] = "      \"name\": \"ERealms\",";
                 string Tmp391 = "      \"gameDir\": \"" + (Path.Replace(@"\", @"\\"))+"\",";
                 MCP_Text[4] = Tmp391;
-                MCP_Text[5] = "      \"lastVersionId\": \""+ForgeVersion+"\",";
+                MCP_Text[5] = "      \"lastVersionId\": \""+ForgeName+"\",";
                 MCP_Text[6] = "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
                 MCP_Text[7] = "    },";
 
@@ -289,7 +297,6 @@ namespace MC_Client
 
             //stuff end
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
-            conn.CloseAsync();
             button_Install.Enabled = true;
             checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
