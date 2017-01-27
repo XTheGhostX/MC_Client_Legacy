@@ -151,6 +151,7 @@ namespace MC_Client
             }
 
             conn.CloseAsync();
+            dataReader.Close();
             button_update.Enabled = true;
             button_update.Text = "Check For updates";
         }
