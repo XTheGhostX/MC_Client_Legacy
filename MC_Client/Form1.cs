@@ -218,6 +218,7 @@ namespace MC_Client
             {
                 Log_Box.Items.Add("Installing Biome configurations");
                 //Need A ACTUAL copy if the biome folders
+                //Using githu DB entry Biome probably getting removed
                 //(dataReader["Biome"].ToString());
             }
 
@@ -296,7 +297,6 @@ namespace MC_Client
             {
                 IsDev = 0;
             }
-            //Get triggered
             button_update.PerformClick();
         }
 
