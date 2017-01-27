@@ -144,7 +144,7 @@ namespace MC_Client
         {
             
         }
-
+        //Entire install needs to be changed to use seprate versions for configs forge etc and not the modpack version as download refrence
         private void button_Install_Click(object sender, EventArgs e)
         {
             Log_Box.Items.Clear();
@@ -264,7 +264,7 @@ namespace MC_Client
                     }
                 }
             if (IsFresh == true) isERProfile = false;
-            //Finnish is ERProfile
+            //Finnish isERProfile
             if(isERProfile == false)
             {
                 int tmp302 = MCP_Text.Length;
