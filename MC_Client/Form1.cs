@@ -28,6 +28,7 @@ namespace MC_Client
         public string Path_Config = Path + "\\Config";
         public int IsDev = 0;
         public bool IsFresh = true;
+        public string ForgeVersion ="Forge-Name";
 
         public Form_ER()
         {
@@ -152,8 +153,9 @@ namespace MC_Client
             button_update.Enabled = false;
             checkBox_Biome.Enabled = false;
             Log_Box.Items.Add("Starting installation");
+            if(Directory.Exists(Temp))FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
 
-    //stuff Connection
+            //stuff Connection
             MySql.Data.MySqlClient.MySqlConnection conn;
             conn = new MySql.Data.MySqlClient.MySqlConnection(ERConnectionString);
             try
@@ -203,10 +205,7 @@ namespace MC_Client
             Log_Box.Items.Add("Installing configs");
                 Directory.CreateDirectory(Path_Config);
                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-                    File.Delete(Temp_ConfigPath);
-
-                FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
-
+            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + comboBox_Versions.Text), Path_Config, true);
 
 
             //stuff Biome
@@ -225,9 +224,20 @@ namespace MC_Client
 
             //stuff Forge
 
-            //Still need to look into how it is installed nowdays :P
-            //(dataReader["Forge"].ToString());
-
+            string Temp_ForgePath = (Temp + "\\" + comboBox_Versions.Text + "_Forge.zip");
+            Log_Box.Items.Add("Downloading Forge");
+            try
+            {
+                webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + comboBox_Versions.Text + ".zip"), Temp_ForgePath);
+            }
+            catch (Exception ex)
+            {
+                Log_Box.Items.Add("Download failed");
+                Console.WriteLine("The process failed: {0}", ex.ToString());
+            }
+            ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
+            ForgeVersion = (Directory.GetDirectories(Temp+"\\MC_Forge-"+ comboBox_Versions.Text + "\\versions"))[0].Remove(0,82);
+            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + comboBox_Versions.Text), AppData+"\\.minecraft", true);
             //stuff Scripts
 
             //Not sure how it handles with custom directories
@@ -254,6 +264,7 @@ namespace MC_Client
                     }
                 }
             if (IsFresh == true) isERProfile = false;
+            //Finnish is ERProfile
             if(isERProfile == false)
             {
                 int tmp302 = MCP_Text.Length;
@@ -266,9 +277,8 @@ namespace MC_Client
                 MCP_Text[3] = "      \"name\": \"ERealms\",";
                 string Tmp391 = "      \"gameDir\": \"" + (Path.Replace(@"\", @"\\"))+"\",";
                 MCP_Text[4] = Tmp391;
-                //Add vorge version!
-                MCP_Text[5] = "      \"lastVersionId\": \"1.10.2-forge1.10.2-12.18.2.2151\",";
-                MCP_Text[6] = "      \"javaArgs\": \" - Xmx3G - XX:+UseConcMarkSweepGC - XX:+CMSIncrementalMode - XX:-UseAdaptiveSizePolicy - Xmn128M\"";
+                MCP_Text[5] = "      \"lastVersionId\": \""+ForgeVersion+"\",";
+                MCP_Text[6] = "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
                 MCP_Text[7] = "    },";
 
             }
@@ -278,7 +288,7 @@ namespace MC_Client
 
 
             //stuff end
-            Directory.Delete(Temp, true);
+            FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             conn.CloseAsync();
             button_Install.Enabled = true;
             checkBox_Biome.Enabled = true;
