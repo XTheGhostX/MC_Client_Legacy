@@ -171,6 +171,7 @@
             this.checkBox_Fresh.TabIndex = 11;
             this.checkBox_Fresh.Text = "Fresh Install";
             this.checkBox_Fresh.UseVisualStyleBackColor = true;
+            this.checkBox_Fresh.CheckedChanged += new System.EventHandler(this.checkBox_Fresh_CheckedChanged);
             // 
             // timer1
             // 

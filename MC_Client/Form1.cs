@@ -25,9 +25,10 @@ namespace MC_Client
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
-        public string Path_Config;
-        public string Path_Change;
-        public string Path_Settings;
+        public string Path_Config, Path_mod, Path_Change, Path_Settings;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script;
+        public string[] ModLibName =new string[0];
+        public string[] ModLibLink = new string[0];
         public int IsDev = 0;
         public bool IsFresh;
         public string ForgeName="Forge-Name";
@@ -51,6 +52,7 @@ namespace MC_Client
             }
             Temp = Path + "\\TMP";
             Path_Config = Path + "\\Config";
+            Path_mod =Path + "\\mods";
             Path_Settings =Path + "\\ERealms.ini";
             InitializeComponent();
 
@@ -70,21 +72,7 @@ namespace MC_Client
             toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
             if (File.Exists(Path_Settings))
             {
-                checkBox_Fresh.Enabled = false;
-                ER_Settings = File.ReadAllLines(Path_Settings);
-                Array.Resize(ref ER_Settings, ER_Settings.Length + 4);
-                string tmp152;
-                tmp152 = AfterP(ER_Settings, "Biomes:");
-                if (tmp152 != null) checkBox_Biome.Checked= bool.Parse(tmp152);
-                tmp152 = AfterP(ER_Settings, "IsDev:");
-                if (tmp152 != null) checkBox_Dev.Checked = bool.Parse(tmp152);
-                tmp152 = AfterP(ER_Settings, "Log:");
-                if (tmp152 != null) checkBox_Log.Checked = bool.Parse(tmp152);
-                tmp152 = AfterP(ER_Settings, "UpdateChecker:");
-                if (tmp152 != null) checkBox_Timer.Checked = bool.Parse(tmp152);
-                tmp152 = AfterP(ER_Settings, "UpdateCheckerMin:");
-                if (tmp152 != null) textBox1_time.Text = tmp152;
-
+                checkBox_Fresh.Enabled = true;
             }
             else
             {
@@ -98,7 +86,26 @@ namespace MC_Client
                 Environment.Exit(0);
             }
 
-           
+            ER_Settings = File.ReadAllLines(Path_Settings);
+            Array.Resize(ref ER_Settings, ER_Settings.Length + 8);
+            string tmp152;
+            tmp152 = AfterP(ER_Settings, "Biomes:");
+            if (tmp152 != null) checkBox_Biome.Checked = bool.Parse(tmp152);
+            //Could change Dev value to be bool but Database
+            tmp152 = AfterP(ER_Settings, "IsDev:");
+            if (tmp152 != null) checkBox_Dev.Checked = bool.Parse(tmp152);
+            tmp152 = AfterP(ER_Settings, "Log:");
+            if (tmp152 != null) checkBox_Log.Checked = bool.Parse(tmp152);
+            tmp152 = AfterP(ER_Settings, "UpdateChecker:");
+            if (tmp152 != null) checkBox_Timer.Checked = bool.Parse(tmp152);
+            tmp152 = AfterP(ER_Settings, "UpdateCheckerMin:");
+            if (tmp152 != null) textBox1_time.Text = tmp152;
+            tmp152 = AfterP(ER_Settings, "Cfg:");
+            if (tmp152 != null) Installed_Config = tmp152;
+            tmp152 = AfterP(ER_Settings, "Forge:");
+            if (tmp152 != null) Installed_Forge = tmp152;
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -235,23 +242,24 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             button_update.Enabled = false;
             checkBox_Biome.Enabled = false;
             Log_Box.Items.Add("Starting installation");
-            if(Directory.Exists(Temp))FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
+            if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
 
 
 
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
-    //stuff Config
-                string Temp_ConfigPath = (Temp +"\\"+ Version_Cfg + "_Config.zip");
-            Log_Box.Items.Add("Downloading Configs");
+            //stuff Config
+            if (Version_Cfg != Installed_Config || IsFresh) {
+                string Temp_ConfigPath = (Temp + "\\" + Version_Cfg + "_Config.zip");
+                Log_Box.Items.Add("Downloading Configs");
                 try
                 {
                     webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
                 }
                 catch (Exception ex)
                 {
-            Log_Box.Items.Add("Download failed");
-                Console.WriteLine("The process failed: {0}", ex.ToString());
+                    Log_Box.Items.Add("Download failed");
+                    Console.WriteLine("The process failed: {0}", ex.ToString());
                 }
 
                 Directory.CreateDirectory(Path_Config);
@@ -259,7 +267,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 string[] Tmp122 = Directory.GetFiles(Path_Config);
                 foreach (string filePath in Tmp122)
                 {
-                        File.Delete(filePath);
+                    File.Delete(filePath);
                 }
                 string[] Tmp582 = Directory.GetDirectories(Path_Config);
                 foreach (string filePath in Tmp582)
@@ -270,24 +278,25 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Directory.Delete(filePath, true);
                     }
                 }
-            Log_Box.Items.Add("Installing configs");
+                Log_Box.Items.Add("Installing configs");
                 Directory.CreateDirectory(Path_Config);
-                   ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-
+                ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
+                FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
+                ER_Settings[7]="Cfg:"+Version_Cfg;
+            }
 
             //stuff Biome
 
-                Log_Box.Items.Add("Installing Biome configurations");
-                //Deleate biomes instalation if it is not checked
-                //Need A ACTUAL copy if the biome folders
-                //Using githu DB entry Biome probably getting removed
-                //(dataReader["Biome"].ToString());
-    
+            Log_Box.Items.Add("Installing Biome configurations");
+            //Deleate biomes instalation if it is not checked
+            //Need A ACTUAL copy if the biome folders
+            //Using githu DB entry Biome probably getting removed
+            //(dataReader["Biome"].ToString());
+
 
             //stuff Forge
-
-            string Temp_ForgePath = (Temp + "\\" + Version_Forge + "_Forge.zip");
+            if (Version_Forge !=Installed_Forge ||IsFresh) { 
+                string Temp_ForgePath = (Temp + "\\" + Version_Forge + "_Forge.zip");
             Log_Box.Items.Add("Downloading Forge");
             try
             {
@@ -301,16 +310,80 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
             string tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
             ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
-            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData+"\\.minecraft", true);
+            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
+                ER_Settings[6] ="Forge:"+Version_Forge;
+        }
+
             //stuff Scripts
 
             //Not sure how it handles with custom directories
             //(dataReader["Script"].ToString());
 
-            //stuff Mods
 
-            //Some one else can deal with mods
-            //(dataReader["Mods"].ToString());
+            //stuff Mods
+            MySqlConnection conn = new MySqlConnection(ERConnectionString);
+            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Mods";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+            try
+            {
+                conn.OpenAsync();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                Console.Write(ex.Message);
+            }
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                Log_Box.Items.Add("Obtaining Mod links");
+
+        int Tmp451 = 0;
+            while (dataReader.Read())
+            {
+                Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
+                Array.Resize(ref ModLibName, ModLibName.Length + 1);
+                ModLibName[Tmp451]=dataReader["FileName"].ToString();
+                ModLibLink[Tmp451]= dataReader["URL"].ToString();
+                Tmp451++;
+                }
+            
+
+            dataReader.Close();
+            conn.CloseAsync();
+
+
+            Log_Box.Items.Add("Installing Mods...");
+
+            string[] mods =SList_Mods.Split(",".ToCharArray());
+            
+            if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
+            if (IsFresh)
+            {
+                FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
+                Directory.CreateDirectory(Path_mod);
+                for(int modNum = 0; modNum <= mods.Length-1;++modNum)
+                {
+                    for (int i=0;i<= ModLibName.Length-1;++i)
+                    {
+                        if (ModLibName[i]==mods[modNum])
+                        {
+                            try
+                            {
+                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod+"\\"+ModLibName[i]);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log_Box.Items.Add("Downloading"+ModLibName[i]+" failed..."+ex);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Not fresh install of mods
+            }
+
 
             //stuff MC launcher profile
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
@@ -385,6 +458,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             ER_Settings[2] = "Log:"+checkBox_Log.Checked;
         }
+
+        private void checkBox_Fresh_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Fresh.Checked)
+                IsFresh = true;
+            else
+                IsFresh = false;
+        }
+
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -414,7 +496,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void checkBox_Biome_CheckedChanged(object sender, EventArgs e)
         {
-            ER_Settings[0] ="Biomes:"+checkBox_Biome.Checked;
+            ER_Settings[5] ="Biomes:"+checkBox_Biome.Checked;
         }
 
         public string AfterP(string[] Arrayy, string word)
@@ -427,6 +509,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     if (Arrayy[currentLine].Contains(word))
                     {
                         tmp142 = Arrayy[currentLine].Remove(0, word.Length);
+                        break;
                     }
                 }
             }
