@@ -20,12 +20,13 @@ namespace MC_Client
     {
         //Add method of writing and reading custom install 
         public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static string Path = AppData+"\\.minecraft\\ElementalRealms";
+        public string Path = AppData+"\\.minecraft\\ElementalRealms";
         public string ERConnectionString = "server=51.255.41.80;uid=ermlpublicread;" +
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
-        public string Temp = Path +"\\TMP";
-        public string Path_Config = Path + "\\Config";
+        public string Temp;
+        public string Path_Config;
+        public string Path_Change;
         public int IsDev = 0;
         public bool IsFresh = true;
         public string ForgeName="Forge-Name";
@@ -38,8 +39,18 @@ namespace MC_Client
 
         public Form_ER()
         {
+            //just change path here
+            string tmp999=Environment.GetEnvironmentVariable("ERealms", EnvironmentVariableTarget.User);
+            if (tmp999 != null)
+            {
+                Path = tmp999;
+            }
+            Temp = Path + "\\TMP";
+            Path_Config = Path + "\\Config";
+
             InitializeComponent();
 
+            textBox_Path.Text=Path;
             bool HasAdminPrivliges;
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
@@ -162,16 +173,48 @@ namespace MC_Client
         {
 
         }
-        
+
         private void textBox_Path_TextChanged(object sender, EventArgs e)
         {
-            
+            textBox_Path.Enabled = false;
+            button_Path.Enabled = false;
+            //Maybe promp the user if they are absolutley sure
+            Path_Change = textBox_Path.Text;
+            if(Path != Path_Change){ 
+            string text = File.ReadAllText(MCProfile_Path);
+            text = text.Replace(Path.Replace(@"\", @"\\"), Path_Change.Replace(@"\", @"\\"));
+            File.WriteAllText(MCProfile_Path, text);
+
+                Directory.CreateDirectory(Path);
+            FileSystem.MoveDirectory(Path, Path_Change, true);
         }
-        
+            Path = Path_Change;
+            System.Environment.SetEnvironmentVariable("ERealms", Path_Change, EnvironmentVariableTarget.User);
+            textBox_Path.Enabled = true;
+            button_Path.Enabled = true;
+        }
+
         private void button_Path_Click(object sender, EventArgs e)
         {
-            
+            DialogResult tmp310 = folderBrowserDialog1.ShowDialog();
+            if (tmp310 == DialogResult.OK)
+            {
+                textBox_Path.Enabled = false;
+                button_Path.Enabled = false;
+                if (!string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
+                {
+                   textBox_Path.Text= folderBrowserDialog1.SelectedPath;
+
+                }
+                else
+                    MessageBox.Show("Please select a valid install destination", "ERealms user error",
+MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBox_Path.Enabled = true;
+                button_Path.Enabled = true;
+            }
+
         }
+
         private void button_Install_Click(object sender, EventArgs e)
         {
             Log_Box.Items.Clear();

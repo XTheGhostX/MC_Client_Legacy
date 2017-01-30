@@ -45,6 +45,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBox_Timer = new System.Windows.Forms.CheckBox();
             this.textBox1_time = new System.Windows.Forms.TextBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // button_update
@@ -243,6 +244,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkBox_Timer;
         private System.Windows.Forms.TextBox textBox1_time;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
