@@ -27,8 +27,9 @@ namespace MC_Client
         public string Temp;
         public string Path_Config;
         public string Path_Change;
+        public string Path_Settings;
         public int IsDev = 0;
-        public bool IsFresh = true;
+        public bool IsFresh;
         public string ForgeName="Forge-Name";
         public string MCF_version="1.10.2-forge";
             public string Version_Script = "Script_V";
@@ -36,6 +37,9 @@ namespace MC_Client
             public string Version_Cfg = "Config_V";
             public string Version_Forge = "Forge_V";
             public string SList_Mods = "Mods list";
+        //if one of you wants to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
+        //You can change it so it uses a list instead of a array
+        public string[] ER_Settings;
 
         public Form_ER()
         {
@@ -47,7 +51,7 @@ namespace MC_Client
             }
             Temp = Path + "\\TMP";
             Path_Config = Path + "\\Config";
-
+            Path_Settings =Path + "\\ERealms.ini";
             InitializeComponent();
 
             textBox_Path.Text=Path;
@@ -64,14 +68,28 @@ namespace MC_Client
             }
             toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
             toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
-//ADD CONFIGS
-            if (File.Exists(AppData + "\\.minecraft\\ERealms.ini"))
+            if (File.Exists(Path_Settings))
             {
-                checkBox_Fresh.Enabled = true;
+                checkBox_Fresh.Enabled = false;
+                ER_Settings = File.ReadAllLines(Path_Settings);
+                Array.Resize(ref ER_Settings, ER_Settings.Length + 4);
+                string tmp152;
+                tmp152 = AfterP(ER_Settings, "Biomes:");
+                if (tmp152 != null) checkBox_Biome.Checked= bool.Parse(tmp152);
+                tmp152 = AfterP(ER_Settings, "IsDev:");
+                if (tmp152 != null) checkBox_Dev.Checked = bool.Parse(tmp152);
+                tmp152 = AfterP(ER_Settings, "Log:");
+                if (tmp152 != null) checkBox_Log.Checked = bool.Parse(tmp152);
+                tmp152 = AfterP(ER_Settings, "UpdateChecker:");
+                if (tmp152 != null) checkBox_Timer.Checked = bool.Parse(tmp152);
+                tmp152 = AfterP(ER_Settings, "UpdateCheckerMin:");
+                if (tmp152 != null) textBox1_time.Text = tmp152;
+
             }
             else
             {
                 checkBox_Fresh.Checked = true;
+                File.Create(Path_Settings);
             }
             if (!File.Exists(MCProfile_Path))
             {
@@ -167,12 +185,6 @@ namespace MC_Client
             button_update.Text = "Check For updates";
         }
 
-
-
-        private void comboBox_Versions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void textBox_Path_TextChanged(object sender, EventArgs e)
         {
@@ -358,6 +370,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 IsDev = 0;
             }
+            ER_Settings[1] = "IsDev:"+checkBox_Dev.Checked;
             button_update.PerformClick();
         }
 
@@ -370,6 +383,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 this.Width = 300;
             }
+            ER_Settings[2] = "Log:"+checkBox_Log.Checked;
         }
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
@@ -383,12 +397,40 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 timer1.Start();
             else
                 timer1.Stop();
+            ER_Settings[3] = "UpdateChecker:" + checkBox_Timer.Checked;
         }
 
         private void textBox1_time_TextChanged(object sender, EventArgs e)
         {
             checkBox_Timer.Checked = false;
             timer1.Interval = int.Parse(textBox1_time.Text)* 60000;
+            ER_Settings[4] = "UpdateCheckerMin:" + textBox1_time.Text;
+        }
+
+        private void Form_ER_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            File.WriteAllLines(Path_Settings,ER_Settings);
+        }
+
+        private void checkBox_Biome_CheckedChanged(object sender, EventArgs e)
+        {
+            ER_Settings[0] ="Biomes:"+checkBox_Biome.Checked;
+        }
+
+        public string AfterP(string[] Arrayy, string word)
+        {
+            string tmp142=null;
+            for (int currentLine = 0; currentLine <= Arrayy.Length - 1; ++currentLine)
+            {
+                if (Arrayy[currentLine] != null)
+                {
+                    if (Arrayy[currentLine].Contains(word))
+                    {
+                        tmp142 = Arrayy[currentLine].Remove(0, word.Length);
+                    }
+                }
+            }
+            if (tmp142 == null) return null; else return tmp142;
         }
     }
 }

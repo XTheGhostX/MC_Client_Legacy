@@ -74,7 +74,6 @@
             this.comboBox_Versions.Name = "comboBox_Versions";
             this.comboBox_Versions.Size = new System.Drawing.Size(121, 21);
             this.comboBox_Versions.TabIndex = 2;
-            this.comboBox_Versions.SelectedIndexChanged += new System.EventHandler(this.comboBox_Versions_SelectedIndexChanged);
             // 
             // textBox_Path
             // 
@@ -160,6 +159,7 @@
             this.checkBox_Biome.TabIndex = 10;
             this.checkBox_Biome.Text = "Custom Biomes";
             this.checkBox_Biome.UseVisualStyleBackColor = true;
+            this.checkBox_Biome.CheckedChanged += new System.EventHandler(this.checkBox_Biome_CheckedChanged);
             // 
             // checkBox_Fresh
             // 
@@ -221,6 +221,7 @@
             this.Name = "Form_ER";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Elemental Realms Installer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
