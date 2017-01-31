@@ -282,7 +282,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Directory.CreateDirectory(Path_Config);
                 ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
                 FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                ER_Settings[7]="Cfg:"+Version_Cfg;
+                ER_Settings[7] = "Cfg:" + Version_Cfg;
             }
 
             //stuff Biome
@@ -295,24 +295,24 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             //stuff Forge
-            if (Version_Forge !=Installed_Forge ||IsFresh) { 
+            if (Version_Forge != Installed_Forge || IsFresh) {
                 string Temp_ForgePath = (Temp + "\\" + Version_Forge + "_Forge.zip");
-            Log_Box.Items.Add("Downloading Forge");
-            try
-            {
-                webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                Log_Box.Items.Add("Downloading Forge");
+                try
+                {
+                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                }
+                catch (Exception ex)
+                {
+                    Log_Box.Items.Add("Download failed");
+                    Console.WriteLine("The process failed: {0}", ex.ToString());
+                }
+                ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
+                string tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
+                ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
+                FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
+                ER_Settings[6] = "Forge:" + Version_Forge;
             }
-            catch (Exception ex)
-            {
-                Log_Box.Items.Add("Download failed");
-                Console.WriteLine("The process failed: {0}", ex.ToString());
-            }
-            ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
-            string tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
-            ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
-            FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
-                ER_Settings[6] ="Forge:"+Version_Forge;
-        }
 
             //stuff Scripts
 
@@ -335,18 +335,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                Log_Box.Items.Add("Obtaining Mod links");
+            Log_Box.Items.Add("Obtaining Mod links");
 
-        int Tmp451 = 0;
+            int Tmp451 = 0;
             while (dataReader.Read())
             {
                 Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
                 Array.Resize(ref ModLibName, ModLibName.Length + 1);
-                ModLibName[Tmp451]=dataReader["FileName"].ToString();
-                ModLibLink[Tmp451]= dataReader["URL"].ToString();
+                ModLibName[Tmp451] = dataReader["FileName"].ToString();
+                ModLibLink[Tmp451] = dataReader["URL"].ToString();
                 Tmp451++;
-                }
-            
+            }
+
 
             dataReader.Close();
             conn.CloseAsync();
@@ -354,26 +354,26 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Log_Box.Items.Add("Installing Mods...");
 
-            string[] mods =SList_Mods.Split(",".ToCharArray());
-            
+            string[] mods = SList_Mods.Split(",".ToCharArray());
+
             if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
             if (IsFresh)
             {
                 FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
                 Directory.CreateDirectory(Path_mod);
-                for(int modNum = 0; modNum <= mods.Length-1;++modNum)
+                for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
                 {
-                    for (int i=0;i<= ModLibName.Length-1;++i)
+                    for (int i = 0; i <= ModLibName.Length - 1; ++i)
                     {
-                        if (ModLibName[i]==mods[modNum])
+                        if (ModLibName[i] == mods[modNum])
                         {
                             try
                             {
-                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod+"\\"+ModLibName[i]);
+                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
                             }
                             catch (Exception ex)
                             {
-                                Log_Box.Items.Add("Downloading"+ModLibName[i]+" failed..."+ex);
+                                Log_Box.Items.Add("Downloading" + ModLibName[i] + " failed..." + ex);
                             }
                         }
                     }
@@ -381,9 +381,38 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                //Not fresh install of mods
-            }
+                string[] CurrentMods = Directory.GetFiles(Path_mod);
+                for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
+                {
+                    int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
+                    if (modsIndex == -1)
+                        File.Delete(CurrentMods[modNum]);
+                    else 
+                    mods[modsIndex] = null;
 
+                }
+                //set mods that are ment to stay to null in mods array
+                
+                mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                {
+                    for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                    {
+                        if (ModLibName[i] == mods[modNum])
+                        {
+                            try
+                            {
+                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log_Box.Items.Add("Downloading" + ModLibName[i] + " failed..." + ex);
+                            }
+                        }
+                    }
+                }
+            }
+        
 
             //stuff MC launcher profile
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
