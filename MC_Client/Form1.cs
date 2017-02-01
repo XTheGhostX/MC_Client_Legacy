@@ -38,13 +38,12 @@ namespace MC_Client
             public string Version_Cfg = "Config_V";
             public string Version_Forge = "Forge_V";
             public string SList_Mods = "Mods list";
-        //if one of you wants to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
+        //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
         public string[] ER_Settings;
 
         public Form_ER()
         {
-            //just change path here
             string tmp999=Environment.GetEnvironmentVariable("ERealms", EnvironmentVariableTarget.User);
             if (tmp999 != null)
             {
@@ -77,6 +76,7 @@ namespace MC_Client
             else
             {
                 checkBox_Fresh.Checked = true;
+                if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
                 File.Create(Path_Settings);
             }
             if (!File.Exists(MCProfile_Path))
@@ -391,8 +391,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     mods[modsIndex] = null;
 
                 }
-                //set mods that are ment to stay to null in mods array
-                
                 mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
                 {
@@ -513,6 +511,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void textBox1_time_TextChanged(object sender, EventArgs e)
         {
+            //Make sure the user is not a idiot(null value, or to big to store)
             checkBox_Timer.Checked = false;
             timer1.Interval = int.Parse(textBox1_time.Text)* 60000;
             ER_Settings[4] = "UpdateCheckerMin:" + textBox1_time.Text;
