@@ -26,7 +26,7 @@ namespace MC_Client
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
-        public string Path_Config, Path_mod, Path_Change, Path_Settings;
+        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script;
         public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script;
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
@@ -52,6 +52,7 @@ namespace MC_Client
             }
             Temp = Path + "\\TMP";
             Path_Config = Path + "\\Config";
+            Path_Script = Path + "\\scripts";
             Path_mod =Path + "\\mods";
             Path_Settings =Path + "\\ERealms.ini";
             InitializeComponent();
@@ -105,7 +106,8 @@ namespace MC_Client
             if (tmp152 != null) Installed_Config = tmp152;
             tmp152 = AfterP(ER_Settings, "Forge:");
             if (tmp152 != null) Installed_Forge = tmp152;
-
+            tmp152 = AfterP(ER_Settings, "Script:");
+            if (tmp152 != null) Installed_Script = tmp152;
 
         }
 
@@ -300,6 +302,29 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             //stuff Scripts
+            
+            if (Version_Script != Installed_Script || IsFresh)
+            {
+                string Temp_ScriptPath = (Temp + "\\" + Version_Script + "_Script.zip");
+                Log_Box.Items.Add("Downloading Configs");
+                try
+                {
+                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                }
+                catch (Exception ex)
+                {
+                    Log_Box.Items.Add("Download failed");
+                    Console.WriteLine("The process failed: {0}", ex.ToString());
+                }
+
+                if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
+                FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
+                Log_Box.Items.Add("Installing scripts");
+                Directory.CreateDirectory(Path_Script);
+                ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
+                FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
+                ER_Settings[8] = "Script:" + Version_Script;
+            }
 
             //Not sure how it handles with custom directories
             //(dataReader["Script"].ToString());
@@ -506,10 +531,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Version_Forge = (dataReader["Forge"].ToString());
                 SList_Mods = (dataReader["Mods"].ToString());
             }
-            Log_Box.Items.Add("Biome version:" + Version_Biome);
+            Log_Box.Items.Add("Biome Version:" + Version_Biome);
             Log_Box.Items.Add("Config version:" + Version_Cfg);
-            Log_Box.Items.Add("Forge_Version:" + Version_Forge);
-            Log_Box.Items.Add("Version:" + Version_Script);
+            Log_Box.Items.Add("Forge Version:" + Version_Forge);
+            Log_Box.Items.Add("Script Version:" + Version_Script);
             //Remove after testing is done
             Log_Box.Items.Add("Mod list:" + SList_Mods);
 

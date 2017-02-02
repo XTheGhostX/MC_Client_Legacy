@@ -117,14 +117,476 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="textBox1_time.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 20</value>
+  </data>
+  <data name="&gt;&gt;label_admin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button_update.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;button_Install.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="Log_Box.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 9</value>
+  </data>
+  <data name="checkBox_Fresh.Text" xml:space="preserve">
+    <value>Fresh Install</value>
+  </data>
+  <data name="checkBox_Dev.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 17</value>
+  </data>
+  <data name="Log_Box.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="textBox_Path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 20</value>
+  </data>
+  <data name="label_admin.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Timer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Path.Name" xml:space="preserve">
+    <value>button_Path</value>
+  </data>
+  <data name="&gt;&gt;button_update.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;timer1.Name" xml:space="preserve">
+    <value>timer1</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Versions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Versions.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="checkBox_Timer.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="label_admin.Text" xml:space="preserve">
+    <value>To change dir run as Admin</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Dev.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Biome.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="checkBox_Fresh.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;checkBox_Timer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_update.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="button_Path.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Log.Name" xml:space="preserve">
+    <value>checkBox_Log</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Biome.Name" xml:space="preserve">
+    <value>checkBox_Biome</value>
+  </data>
+  <data name="textBox1_time.Text" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fresh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_Timer.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBox_Fresh.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 159</value>
+  </data>
+  <data name="label_admin.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label_admin.Name" xml:space="preserve">
+    <value>label_admin</value>
+  </data>
+  <data name="checkBox_Dev.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;button_update.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="comboBox_Versions.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="button_Path.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="button_Install.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 66</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="checkBox_Dev.Text" xml:space="preserve">
+    <value>Dev versions</value>
+  </data>
+  <data name="textBox_Path.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="button_Install.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_Timer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 14</value>
+  </data>
+  <data name="label_admin.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;textBox1_time.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Log.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="checkBox_Biome.Text" xml:space="preserve">
+    <value>Custom Biomes</value>
+  </data>
+  <data name="Log_Box.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Path.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="checkBox_Biome.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
+  </data>
+  <data name="checkBox_Dev.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_update.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_Versions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="&gt;&gt;button_Install.Name" xml:space="preserve">
+    <value>button_Install</value>
+  </data>
+  <data name="button_update.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 9</value>
+  </data>
+  <data name="checkBox_Biome.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Timer.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;Log_Box.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Form_ER</value>
+  </data>
+  <data name="textBox_Path.Text" xml:space="preserve">
+    <value>%appdata%\.minecraft\ElementalRealms</value>
+  </data>
+  <data name="textBox_Path.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
+    <value>toolTip1</value>
+  </data>
+  <data name="textBox1_time.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 226</value>
+  </data>
+  <data name="&gt;&gt;label_time.Name" xml:space="preserve">
+    <value>label_time</value>
+  </data>
+  <data name="checkBox_Biome.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 95</value>
+  </data>
+  <data name="&gt;&gt;button_Install.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 300</value>
+  </data>
+  <data name="&gt;&gt;textBox1_time.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_time.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_update.Name" xml:space="preserve">
+    <value>button_update</value>
+  </data>
+  <data name="textBox1_time.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="button_Path.Text" xml:space="preserve">
+    <value>..</value>
+  </data>
+  <data name="label_time.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_time.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Install.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBox_Fresh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 17</value>
+  </data>
+  <data name="checkBox_Dev.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fresh.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
+    <value>folderBrowserDialog1</value>
+  </data>
+  <data name="&gt;&gt;label_time.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="checkBox_Fresh.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_Install.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>The Elemental Installer</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fresh.Name" xml:space="preserve">
+    <value>checkBox_Fresh</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Versions.Name" xml:space="preserve">
+    <value>comboBox_Versions</value>
+  </data>
+  <data name="&gt;&gt;Log_Box.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="comboBox_Versions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Log_Box.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label_time.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label_admin.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="checkBox_Timer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 229</value>
+  </data>
+  <data name="button_Install.Text" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Log.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Log_Box.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 238</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Timer.Name" xml:space="preserve">
+    <value>checkBox_Timer</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Timer.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_Biome.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 17</value>
+  </data>
+  <data name="button_Install.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Biome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBox_Path.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 229</value>
+  </data>
+  <data name="&gt;&gt;label_admin.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="checkBox_Log.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;button_Install.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_Path.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_time.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label_admin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 212</value>
+  </data>
+  <data name="button_Path.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 228</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Dev.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_Fresh.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Log.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 17</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Path.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_time.Text" xml:space="preserve">
+    <value>Update every x min:</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Dev.Name" xml:space="preserve">
+    <value>checkBox_Dev</value>
+  </data>
+  <data name="&gt;&gt;Log_Box.Name" xml:space="preserve">
+    <value>Log_Box</value>
+  </data>
+  <data name="textBox1_time.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="checkBox_Biome.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>284, 261</value>
+  </data>
+  <data name="button_update.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="&gt;&gt;textBox1_time.Name" xml:space="preserve">
+    <value>textBox1_time</value>
+  </data>
+  <data name="checkBox_Log.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_time.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 13</value>
+  </data>
+  <data name="button_update.Text" xml:space="preserve">
+    <value>Check For updates</value>
+  </data>
+  <data name="checkBox_Log.Text" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="label_admin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 13</value>
+  </data>
+  <data name="&gt;&gt;button_Path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fresh.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="checkBox_Fresh.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="checkBox_Dev.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 115</value>
+  </data>
+  <data name="&gt;&gt;button_Path.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Dev.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Versions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Name" xml:space="preserve">
+    <value>textBox_Path</value>
+  </data>
+  <data name="checkBox_Log.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 135</value>
+  </data>
+  <data name="textBox_Path.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_time.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 210</value>
+  </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_admin.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Log.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_Biome.AccessibleDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;checkBox_Biome.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="comboBox_Versions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>151, 38</value>
+  </data>
+  <data name="checkBox_Log.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;textBox1_time.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="Log_Box.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en</value>
   </metadata>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>114, 17</value>
+  </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
   <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>201, 17</value>
