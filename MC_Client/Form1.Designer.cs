@@ -74,6 +74,7 @@
             this.comboBox_Versions.Name = "comboBox_Versions";
             this.comboBox_Versions.Size = new System.Drawing.Size(121, 21);
             this.comboBox_Versions.TabIndex = 2;
+            this.comboBox_Versions.SelectedIndexChanged += new System.EventHandler(this.comboBox_Versions_SelectedIndexChanged);
             // 
             // textBox_Path
             // 

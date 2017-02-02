@@ -159,27 +159,6 @@ namespace MC_Client
                 }
             }
 
-            query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
-            cmd = new MySqlCommand(query, conn);
-            dataReader.Close();
-            dataReader = cmd.ExecuteReader();
-
-            Log_Box.Items.Add("Obtaining Refrences");
-            while (dataReader.Read())
-            {
-                Version_Script = (dataReader["Script"].ToString());
-                Version_Biome = (dataReader["Biome"].ToString());
-                Version_Cfg = (dataReader["Config"].ToString());
-                Version_Forge = (dataReader["Forge"].ToString());
-                SList_Mods = (dataReader["Mods"].ToString());
-            }
-            Log_Box.Items.Add("Biome version:"+Version_Biome);
-            Log_Box.Items.Add("Config version:"+Version_Cfg);
-            Log_Box.Items.Add("Forge_Version:"+Version_Forge);
-            Log_Box.Items.Add("Version:"+Version_Script);
-            //Remove after testing is done
-            Log_Box.Items.Add("Mod list:"+SList_Mods);
-
             if (comboBox_Versions.Text!=null)
             {
         Log_Box.Items.Add("Sucess please select a version");
@@ -291,7 +270,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             //Deleate biomes instalation if it is not checked
             //Need A ACTUAL copy if the biome folders
             //Using githu DB entry Biome probably getting removed
-            //(dataReader["Biome"].ToString());
 
 
             //stuff Forge
@@ -492,6 +470,45 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 IsFresh = true;
             else
                 IsFresh = false;
+        }
+
+        private void comboBox_Versions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            MySqlConnection conn = new MySqlConnection(ERConnectionString);
+            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+
+            try
+            {
+                conn.OpenAsync();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                Console.Write(ex.Message);
+            }
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+
+            Log_Box.Items.Add("Obtaining Refrences");
+            while (dataReader.Read())
+            {
+                Version_Script = (dataReader["Script"].ToString());
+                Version_Biome = (dataReader["Biome"].ToString());
+                Version_Cfg = (dataReader["Config"].ToString());
+                Version_Forge = (dataReader["Forge"].ToString());
+                SList_Mods = (dataReader["Mods"].ToString());
+            }
+            Log_Box.Items.Add("Biome version:" + Version_Biome);
+            Log_Box.Items.Add("Config version:" + Version_Cfg);
+            Log_Box.Items.Add("Forge_Version:" + Version_Forge);
+            Log_Box.Items.Add("Version:" + Version_Script);
+            //Remove after testing is done
+            Log_Box.Items.Add("Mod list:" + SList_Mods);
+
+
+            dataReader.Close();
+            conn.CloseAsync();
         }
 
         //stuff timer
