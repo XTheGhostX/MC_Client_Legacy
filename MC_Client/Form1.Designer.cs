@@ -162,6 +162,13 @@
             this.checkBox_Biome.UseVisualStyleBackColor = true;
             this.checkBox_Biome.CheckedChanged += new System.EventHandler(this.checkBox_Biome_CheckedChanged);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 100;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            // 
             // checkBox_Fresh
             // 
             this.checkBox_Fresh.AutoSize = true;

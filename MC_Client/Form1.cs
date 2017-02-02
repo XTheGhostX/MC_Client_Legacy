@@ -18,6 +18,7 @@ namespace MC_Client
 {
     public partial class Form_ER : Form
     {
+        //Add feedback that the program is installing (Change mouse cursor or something IDK)
         //Add method of writing and reading custom install 
         public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public string Path = AppData+"\\.minecraft\\ElementalRealms";
@@ -266,10 +267,16 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             //stuff Biome
 
-            Log_Box.Items.Add("Installing Biome configurations");
-            //Deleate biomes instalation if it is not checked
-            //Need A ACTUAL copy if the biome folders
-            //Using githu DB entry Biome probably getting removed
+                if (checkBox_Biome.Checked == true)
+                {
+                    //Need A ACTUAL copy if the biome folders
+                    Log_Box.Items.Add("Installing Biome configurations");
+                }
+                else
+                {
+                    //Deleate biomes instalation if it is not checked and a diffrent version
+                }
+            
 
 
             //stuff Forge
@@ -509,6 +516,17 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             dataReader.Close();
             conn.CloseAsync();
+            if (Version_Biome == "null")
+            {
+                checkBox_Biome.Checked = false;
+                checkBox_Biome.Enabled = false;
+                toolTip1.SetToolTip(checkBox_Biome, "This version does not support Custom biomes");
+            }
+            else
+            {
+                toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
+                checkBox_Biome.Enabled = true;
+            }
         }
 
         //stuff timer
