@@ -19,7 +19,8 @@ namespace MC_Client
     public partial class Form_ER : Form
     {
         //Add feedback that the program is installing (Change mouse cursor or something IDK)
-        //Add method of writing and reading custom install 
+        //Add method of writing and reading custom install
+        public bool HasAdminPrivliges = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator); 
         public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public string Path = AppData+"\\.minecraft\\ElementalRealms";
         public string ERConnectionString = "server=51.255.41.80;uid=ermlpublicread;" +
@@ -59,11 +60,6 @@ namespace MC_Client
             InitializeComponent();
             
             textBox_Path.Text=Path;
-            bool HasAdminPrivliges;
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-            HasAdminPrivliges = principal.IsInRole(WindowsBuiltInRole.Administrator);
-
             if (HasAdminPrivliges)
             {
                 textBox_Path.Enabled = true;
@@ -194,8 +190,12 @@ namespace MC_Client
         }
             Path = Path_Change;
             System.Environment.SetEnvironmentVariable("ERealms", Path_Change, EnvironmentVariableTarget.User);
-            textBox_Path.Enabled = true;
-            button_Path.Enabled = true;
+
+            if (HasAdminPrivliges)
+            {
+                textBox_Path.Enabled = true;
+                button_Path.Enabled = true;
+            }
         }
 
         private void button_Path_Click(object sender, EventArgs e)
@@ -495,6 +495,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             File.WriteAllLines(Path_Settings, ER_Settings);
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             button_Install.Enabled = true;
+            if(Version_Biome != "null")
             checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
             button_update.Enabled = true;
