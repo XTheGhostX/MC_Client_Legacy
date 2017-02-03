@@ -26,7 +26,7 @@ namespace MC_Client
                 "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
-        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script;
+        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script, Path_Biome;
         public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script;
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
@@ -52,11 +52,12 @@ namespace MC_Client
             }
             Temp = Path + "\\TMP";
             Path_Config = Path + "\\Config";
+            Path_Biome = Path_Config + "\\TerrainControl";
             Path_Script = Path + "\\scripts";
             Path_mod =Path + "\\mods";
             Path_Settings =Path + "\\ERealms.ini";
             InitializeComponent();
-
+            
             textBox_Path.Text=Path;
             bool HasAdminPrivliges;
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
@@ -81,6 +82,7 @@ namespace MC_Client
                 if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
                 File.Create(Path_Settings);
             }
+            if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!File.Exists(MCProfile_Path))
             {
                 MessageBox.Show("You must open the Minecraft launcher atleast once before installing the pack", "ERealms user error",
@@ -108,7 +110,8 @@ namespace MC_Client
             if (tmp152 != null) Installed_Forge = tmp152;
             tmp152 = AfterP(ER_Settings, "Script:");
             if (tmp152 != null) Installed_Script = tmp152;
-
+            tmp152 = AfterP(ER_Settings, "Biome:");
+            if (tmp152 != null) Installed_Biome = tmp152;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -265,19 +268,42 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
                 FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
                 ER_Settings[7] = "Cfg:" + Version_Cfg;
+                Installed_Config = Version_Cfg;
             }
 
             //stuff Biome
-
+            if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
                 if (checkBox_Biome.Checked == true)
                 {
                     //Need A ACTUAL copy if the biome folders
                     Log_Box.Items.Add("Installing Biome configurations");
-                }
-                else
+
+                if (Version_Biome != Installed_Biome || IsFresh)
                 {
-                    //Deleate biomes instalation if it is not checked and a diffrent version
+                    string Temp_BiomePath = (Temp + "\\" + Version_Biome + "_Biome.zip");
+                    Log_Box.Items.Add("Downloading Biome");
+                    try
+                    {
+                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log_Box.Items.Add("Download failed");
+                        Console.WriteLine("The process failed: {0}", ex.ToString());
+                    }
+
+                    FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+                    Log_Box.Items.Add("Installing scripts");
+                    Directory.CreateDirectory(Path_Biome);
+                    ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
+                    FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
+                    ER_Settings[9] = "Biome:" + Version_Biome;
+                    Installed_Biome = Version_Biome;
                 }
+            }
+                else
+                if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+
             
 
 
@@ -299,6 +325,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
                 FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
                 ER_Settings[6] = "Forge:" + Version_Forge;
+                Installed_Forge = Version_Forge;
             }
 
             //stuff Scripts
@@ -324,6 +351,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
                 FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
                 ER_Settings[8] = "Script:" + Version_Script;
+                Installed_Script = Version_Script;
             }
 
             //Not sure how it handles with custom directories
@@ -462,6 +490,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             //stuff end
+            File.WriteAllLines(Path_Settings, ER_Settings);
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             button_Install.Enabled = true;
             checkBox_Biome.Enabled = true;
