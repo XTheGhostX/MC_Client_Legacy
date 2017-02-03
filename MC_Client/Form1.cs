@@ -234,42 +234,43 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
             //stuff Config
-            if (Version_Cfg != Installed_Config || IsFresh) {
-                string Temp_ConfigPath = (Temp + "\\" + Version_Cfg + "_Config.zip");
-                Log_Box.Items.Add("Downloading Configs");
-                try
+                if (Version_Cfg != Installed_Config || IsFresh)
                 {
-                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
-                }
-                catch (Exception ex)
-                {
-                    Log_Box.Items.Add("Download failed");
-                    Console.WriteLine("The process failed: {0}", ex.ToString());
-                }
-
-                Directory.CreateDirectory(Path_Config);
-
-                string[] Tmp122 = Directory.GetFiles(Path_Config);
-                foreach (string filePath in Tmp122)
-                {
-                    File.Delete(filePath);
-                }
-                string[] Tmp582 = Directory.GetDirectories(Path_Config);
-                foreach (string filePath in Tmp582)
-                {
-                    var name = new FileInfo(filePath).Name.ToLower();
-                    if (name != "terraincontrol")
+                    string Temp_ConfigPath = (Temp + "\\" + Version_Cfg + "_Config.zip");
+                    Log_Box.Items.Add("Downloading Configs");
+                    try
                     {
-                        Directory.Delete(filePath, true);
+                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
                     }
+                    catch (Exception ex)
+                    {
+                        Log_Box.Items.Add("Download failed");
+                        Console.WriteLine("The process failed: {0}", ex.ToString());
+                    }
+
+                    Directory.CreateDirectory(Path_Config);
+
+                    string[] Tmp122 = Directory.GetFiles(Path_Config);
+                    foreach (string filePath in Tmp122)
+                    {
+                        File.Delete(filePath);
+                    }
+                    string[] Tmp582 = Directory.GetDirectories(Path_Config);
+                    foreach (string filePath in Tmp582)
+                    {
+                        var name = new FileInfo(filePath).Name.ToLower();
+                        if (name != "terraincontrol")
+                        {
+                            Directory.Delete(filePath, true);
+                        }
+                    }
+                    Log_Box.Items.Add("Installing configs");
+                    Directory.CreateDirectory(Path_Config);
+                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
+                    FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
+                    ER_Settings[7] = "Cfg:" + Version_Cfg;
+                    Installed_Config = Version_Cfg;
                 }
-                Log_Box.Items.Add("Installing configs");
-                Directory.CreateDirectory(Path_Config);
-                ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-                FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                ER_Settings[7] = "Cfg:" + Version_Cfg;
-                Installed_Config = Version_Cfg;
-            }
 
             //stuff Biome
             if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
@@ -329,31 +330,32 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             //stuff Scripts
-            
-            if (Version_Script != Installed_Script || IsFresh)
+            if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
+            if (Version_Script != "null")
             {
-                string Temp_ScriptPath = (Temp + "\\" + Version_Script + "_Script.zip");
-                Log_Box.Items.Add("Downloading Configs");
-                try
+                if (Version_Script != Installed_Script || IsFresh)
                 {
-                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                    string Temp_ScriptPath = (Temp + "\\" + Version_Script + "_Script.zip");
+                    Log_Box.Items.Add("Downloading Configs");
+                    try
+                    {
+                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log_Box.Items.Add("Download failed");
+                        Console.WriteLine("The process failed: {0}", ex.ToString());
+                    }
+                    FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
+                    Log_Box.Items.Add("Installing scripts");
+                    Directory.CreateDirectory(Path_Script);
+                    ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
+                    FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
+                    ER_Settings[8] = "Script:" + Version_Script;
+                    Installed_Script = Version_Script;
                 }
-                catch (Exception ex)
-                {
-                    Log_Box.Items.Add("Download failed");
-                    Console.WriteLine("The process failed: {0}", ex.ToString());
-                }
-
-                if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
-                FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-                Log_Box.Items.Add("Installing scripts");
-                Directory.CreateDirectory(Path_Script);
-                ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
-                FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
-                ER_Settings[8] = "Script:" + Version_Script;
-                Installed_Script = Version_Script;
             }
-
+            else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
             //Not sure how it handles with custom directories
             //(dataReader["Script"].ToString());
 
