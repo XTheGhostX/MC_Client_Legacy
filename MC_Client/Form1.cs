@@ -87,7 +87,7 @@ namespace MC_Client
             }
 
             ER_Settings = File.ReadAllLines(Path_Settings);
-            Array.Resize(ref ER_Settings, ER_Settings.Length + 8);
+            Array.Resize(ref ER_Settings, ER_Settings.Length + 9);
             string tmp152;
             tmp152 = AfterP(ER_Settings, "Biomes:");
             if (tmp152 != null) checkBox_Biome.Checked = bool.Parse(tmp152);
@@ -104,6 +104,8 @@ namespace MC_Client
             if (tmp152 != null) Installed_Config = tmp152;
             tmp152 = AfterP(ER_Settings, "Forge:");
             if (tmp152 != null) Installed_Forge = tmp152;
+            tmp152 = AfterP(ER_Settings, "ForgeName:");
+            if (tmp152 != null) ForgeName = tmp152;
             tmp152 = AfterP(ER_Settings, "Script:");
             if (tmp152 != null) Installed_Script = tmp152;
             tmp152 = AfterP(ER_Settings, "Biome:");
@@ -326,6 +328,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
                 FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
                 ER_Settings[6] = "Forge:" + Version_Forge;
+                ER_Settings[10]= "ForgeName:"+ForgeName;
                 Installed_Forge = Version_Forge;
             }
 
