@@ -475,13 +475,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             bool  isERProfile = false;
                 for (int currentLine = 3; currentLine <= MCP_Text.Length -1; ++currentLine)
                 {
-                if (MCP_Text[currentLine].Contains("ERealms"))
+                if (MCP_Text[currentLine].Contains(Pack_Name))
                 {
                     isERProfile = true;
                 }
                 if (MCP_Text[currentLine].Contains("\"selectedProfile\""))
                     {
-                        MCP_Text[currentLine] = "  \"selectedProfile\": \"ERealms\",";
+                        MCP_Text[currentLine] = "  \"selectedProfile\": \""+Pack_Name+"\",";
                     }
                 }
             if (IsFresh == true) isERProfile = false;
@@ -496,7 +496,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 MCP_Text[2] = "    \"ERealms\": {";
                 MCP_Text[3] = "      \"name\": \"ERealms\",";
-                string Tmp391 = "      \"gameDir\": \"" + (Path.Replace(@"\", @"\\"))+"\",";
+                string Tmp391 = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\"))+"\",";
                 MCP_Text[4] = Tmp391;
                 MCP_Text[5] = "      \"lastVersionId\": \""+ForgeName+"\",";
                 MCP_Text[6] = "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
@@ -531,6 +531,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             ER_Settings[1] = "IsDev:"+checkBox_Dev.Checked;
             button_update.PerformClick();
+        }
+
+        private void button_Modpack_Click(object sender, EventArgs e)
+        {
+            var OpenEditText =System.Diagnostics.Process.Start(Path_Packs);
+            OpenEditText.WaitForExit();
+            PackList();
         }
 
         private void checkBox_Log_CheckedChanged(object sender, EventArgs e)

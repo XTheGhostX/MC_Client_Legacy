@@ -48,6 +48,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
+            this.button_Modpack = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_update
@@ -162,10 +163,18 @@
             this.comboBox_Pack.Name = "comboBox_Pack";
             this.comboBox_Pack.SelectedIndexChanged += new System.EventHandler(this.comboBox_Pack_SelectedIndexChanged);
             // 
+            // button_Modpack
+            // 
+            resources.ApplyResources(this.button_Modpack, "button_Modpack");
+            this.button_Modpack.Name = "button_Modpack";
+            this.button_Modpack.UseVisualStyleBackColor = true;
+            this.button_Modpack.Click += new System.EventHandler(this.button_Modpack_Click);
+            // 
             // Form_ER
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Modpack);
             this.Controls.Add(this.comboBox_Pack);
             this.Controls.Add(this.textBox1_time);
             this.Controls.Add(this.checkBox_Timer);
@@ -210,6 +219,7 @@
         private System.Windows.Forms.TextBox textBox1_time;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ComboBox comboBox_Pack;
+        private System.Windows.Forms.Button button_Modpack;
     }
 }
 
