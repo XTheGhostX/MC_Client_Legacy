@@ -23,16 +23,16 @@ namespace MC_Client
         public bool HasAdminPrivliges = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator); 
         public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public string Path = AppData+"\\.minecraft\\ElementalRealms";
-        public string ERConnectionString = "server=51.255.41.80;uid=ermlpublicread;" +
-                "pwd=hmDmxuhheilgKXUWTjzC;database=ElementalRealms_ModdedLauncher;";
+        public string ERConnectionString;
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
-        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script, Path_Biome;
-        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script;
+        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script, Path_Biome, Path_Pack;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script, Pack_Name, Path_Packs;
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
         public int IsDev = 0;
         public bool IsFresh;
+        string[] Pack_List =new string[0];
         public string ForgeName="Forge-Name";
         public string MCF_version="1.10.2-forge";
             public string Version_Script = "Script_V";
@@ -52,13 +52,13 @@ namespace MC_Client
                 Path = tmp999;
             }
             Temp = Path + "\\TMP";
-            Path_Config = Path + "\\Config";
-            Path_Biome = Path_Config + "\\TerrainControl";
-            Path_Script = Path + "\\scripts";
-            Path_mod =Path + "\\mods";
+            Path_Pack = Path;
             Path_Settings =Path + "\\ERealms.ini";
+            Path_Packs = Path + "\\ER_Packs.ini";
             InitializeComponent();
-            
+            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
+            PackList();
+
             textBox_Path.Text=Path;
             if (HasAdminPrivliges)
             {
@@ -120,17 +120,19 @@ namespace MC_Client
 
             MySqlConnection conn = new MySqlConnection(ERConnectionString);
 
-            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version";
+            string query = "SELECT * FROM "+ Pack_Name + ".Version";
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
 
             try
             {
-                conn.OpenAsync();
+                conn.Open();
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
                 Console.Write(ex.Message);
+                MessageBox.Show(ex.Message, "ERealms connection error",
+   MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             MySqlDataReader dataReader = cmd.ExecuteReader();
             comboBox_Versions.Items.Clear();
@@ -230,7 +232,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             checkBox_Biome.Enabled = false;
             Log_Box.Items.Add("Starting installation");
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
-
+            if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
 
 
             WebClient webClient = new WebClient();
@@ -238,11 +240,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             //stuff Config
                 if (Version_Cfg != Installed_Config || IsFresh)
                 {
-                    string Temp_ConfigPath = (Temp + "\\" + Version_Cfg + "_Config.zip");
+                    string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
                     Log_Box.Items.Add("Downloading Configs");
                     try
                     {
-                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
+                    if (Version_Cfg.Contains("http"))
+                        webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
+                         else
+                        webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
                     }
                     catch (Exception ex)
                     {
@@ -283,11 +288,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 if (Version_Biome != Installed_Biome || IsFresh)
                 {
-                    string Temp_BiomePath = (Temp + "\\" + Version_Biome + "_Biome.zip");
+                    string Temp_BiomePath = (Temp + "\\" + Pack_Name + "_Biome.zip");
                     Log_Box.Items.Add("Downloading Biome");
                     try
                     {
-                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
+                        if (Version_Biome.Contains("http"))
+                            webClient.DownloadFile(new Uri(Version_Biome), Temp_BiomePath);
+                        else
+                            webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
                     }
                     catch (Exception ex)
                     {
@@ -312,11 +320,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             //stuff Forge
             if (Version_Forge != Installed_Forge || IsFresh) {
-                string Temp_ForgePath = (Temp + "\\" + Version_Forge + "_Forge.zip");
+                string Temp_ForgePath = (Temp + "\\" + Pack_Name + "_Forge.zip");
                 Log_Box.Items.Add("Downloading Forge");
                 try
                 {
-                    webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                    if (Version_Forge.Contains("http"))
+                        webClient.DownloadFile(new Uri(Version_Forge), Temp_ForgePath);
+                    else
+                        webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
                 }
                 catch (Exception ex)
                 {
@@ -338,11 +349,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 if (Version_Script != Installed_Script || IsFresh)
                 {
-                    string Temp_ScriptPath = (Temp + "\\" + Version_Script + "_Script.zip");
+                    string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
                     Log_Box.Items.Add("Downloading Configs");
                     try
                     {
-                        webClient.DownloadFile(new Uri("https://github.com/ElementalRealms/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                        if (Version_Script.Contains("http"))
+                            webClient.DownloadFile(new Uri(Version_Script), Temp_ScriptPath);
+                        else
+                            webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
                     }
                     catch (Exception ex)
                     {
@@ -365,7 +379,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             //stuff Mods
             MySqlConnection conn = new MySqlConnection(ERConnectionString);
-            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Mods";
+            string query = "SELECT * FROM "+ Pack_Name + ".Mods";
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
             try
@@ -531,6 +545,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             ER_Settings[2] = "Log:"+checkBox_Log.Checked;
         }
 
+
         private void checkBox_Fresh_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_Fresh.Checked)
@@ -543,7 +558,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
 
             MySqlConnection conn = new MySqlConnection(ERConnectionString);
-            string query = "SELECT * FROM ElementalRealms_ModdedLauncher.Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
+            string query = "SELECT * FROM "+ Pack_Name + ".Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
 
@@ -637,6 +652,41 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             if (tmp142 == null) return null; else return tmp142;
+        }
+        public void PackList()
+        {
+            Pack_List= new string[0];
+            Array.Resize(ref Pack_List, Pack_List.Length + 1);
+            Pack_List[0] = "51.255.41.80,ermlpublicread,hmDmxuhheilgKXUWTjzC,ElementalRealms";
+            if (!File.Exists(Path_Packs)) File.Create(Path_Packs); else
+            Pack_List = Pack_List.Concat(File.ReadAllLines(Path_Packs)).ToArray().Where(c => c != null).ToArray();
+            comboBox_Pack.Items.Clear();
+            for(int i=0;i<Pack_List.Length; i++)
+                comboBox_Pack.Items.Add(Pack_List[i].Split(',')[3]);
+            comboBox_Pack.Text=Pack_List[0].Split(',')[3];
+
+             
+        }
+
+
+        private void comboBox_Pack_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Pack_Name = comboBox_Pack.Text;
+            Path_Pack = Path + "\\" + Pack_Name;
+            string[] tmp105 =new string[4];
+            for(int i = 0; i < Pack_List.Length; i++)
+            {
+                tmp105 = Pack_List[i].Split(',');
+                if (tmp105[3] == Pack_Name)
+                    break;
+            }
+            ERConnectionString = "server="+tmp105[0]+";uid="+tmp105[1]+";" +
+                                    "pwd="+tmp105[2]+";database="+tmp105[3]+";";
+            Path_Config = Path_Pack + "\\Config";
+            Path_Biome = Path_Config + "\\TerrainControl";
+            Path_Script = Path_Pack + "\\scripts";
+            Path_mod = Path_Pack + "\\mods";
+
         }
     }
 }

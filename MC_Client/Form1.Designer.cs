@@ -43,17 +43,17 @@
             this.checkBox_Biome = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBox_Timer = new System.Windows.Forms.CheckBox();
             this.textBox1_time = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button_update
             // 
             resources.ApplyResources(this.button_update, "button_update");
             this.button_update.Name = "button_update";
-            this.toolTip1.SetToolTip(this.button_update, resources.GetString("button_update.ToolTip"));
             this.button_update.UseVisualStyleBackColor = true;
             this.button_update.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -61,28 +61,24 @@
             // 
             resources.ApplyResources(this.label_time, "label_time");
             this.label_time.Name = "label_time";
-            this.toolTip1.SetToolTip(this.label_time, resources.GetString("label_time.ToolTip"));
             // 
             // comboBox_Versions
             // 
-            resources.ApplyResources(this.comboBox_Versions, "comboBox_Versions");
             this.comboBox_Versions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox_Versions, "comboBox_Versions");
             this.comboBox_Versions.Name = "comboBox_Versions";
-            this.toolTip1.SetToolTip(this.comboBox_Versions, resources.GetString("comboBox_Versions.ToolTip"));
             this.comboBox_Versions.SelectedIndexChanged += new System.EventHandler(this.comboBox_Versions_SelectedIndexChanged);
             // 
             // textBox_Path
             // 
             resources.ApplyResources(this.textBox_Path, "textBox_Path");
             this.textBox_Path.Name = "textBox_Path";
-            this.toolTip1.SetToolTip(this.textBox_Path, resources.GetString("textBox_Path.ToolTip"));
             this.textBox_Path.TextChanged += new System.EventHandler(this.textBox_Path_TextChanged);
             // 
             // button_Path
             // 
             resources.ApplyResources(this.button_Path, "button_Path");
             this.button_Path.Name = "button_Path";
-            this.toolTip1.SetToolTip(this.button_Path, resources.GetString("button_Path.ToolTip"));
             this.button_Path.UseVisualStyleBackColor = true;
             this.button_Path.Click += new System.EventHandler(this.button_Path_Click);
             // 
@@ -90,13 +86,11 @@
             // 
             resources.ApplyResources(this.label_admin, "label_admin");
             this.label_admin.Name = "label_admin";
-            this.toolTip1.SetToolTip(this.label_admin, resources.GetString("label_admin.ToolTip"));
             // 
             // button_Install
             // 
             resources.ApplyResources(this.button_Install, "button_Install");
             this.button_Install.Name = "button_Install";
-            this.toolTip1.SetToolTip(this.button_Install, resources.GetString("button_Install.ToolTip"));
             this.button_Install.UseVisualStyleBackColor = true;
             this.button_Install.Click += new System.EventHandler(this.button_Install_Click);
             // 
@@ -104,7 +98,6 @@
             // 
             resources.ApplyResources(this.checkBox_Dev, "checkBox_Dev");
             this.checkBox_Dev.Name = "checkBox_Dev";
-            this.toolTip1.SetToolTip(this.checkBox_Dev, resources.GetString("checkBox_Dev.ToolTip"));
             this.checkBox_Dev.UseVisualStyleBackColor = true;
             this.checkBox_Dev.CheckedChanged += new System.EventHandler(this.checkBox_Dev_CheckedChanged);
             // 
@@ -112,23 +105,20 @@
             // 
             resources.ApplyResources(this.checkBox_Log, "checkBox_Log");
             this.checkBox_Log.Name = "checkBox_Log";
-            this.toolTip1.SetToolTip(this.checkBox_Log, resources.GetString("checkBox_Log.ToolTip"));
             this.checkBox_Log.UseVisualStyleBackColor = true;
             this.checkBox_Log.CheckedChanged += new System.EventHandler(this.checkBox_Log_CheckedChanged);
             // 
             // Log_Box
             // 
-            resources.ApplyResources(this.Log_Box, "Log_Box");
             this.Log_Box.FormattingEnabled = true;
+            resources.ApplyResources(this.Log_Box, "Log_Box");
             this.Log_Box.Name = "Log_Box";
             this.Log_Box.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.toolTip1.SetToolTip(this.Log_Box, resources.GetString("Log_Box.ToolTip"));
             // 
             // checkBox_Biome
             // 
             resources.ApplyResources(this.checkBox_Biome, "checkBox_Biome");
             this.checkBox_Biome.Name = "checkBox_Biome";
-            this.toolTip1.SetToolTip(this.checkBox_Biome, resources.GetString("checkBox_Biome.ToolTip"));
             this.checkBox_Biome.UseVisualStyleBackColor = true;
             this.checkBox_Biome.CheckedChanged += new System.EventHandler(this.checkBox_Biome_CheckedChanged);
             // 
@@ -143,20 +133,13 @@
             // 
             resources.ApplyResources(this.checkBox_Fresh, "checkBox_Fresh");
             this.checkBox_Fresh.Name = "checkBox_Fresh";
-            this.toolTip1.SetToolTip(this.checkBox_Fresh, resources.GetString("checkBox_Fresh.ToolTip"));
             this.checkBox_Fresh.UseVisualStyleBackColor = true;
             this.checkBox_Fresh.CheckedChanged += new System.EventHandler(this.checkBox_Fresh_CheckedChanged);
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 60000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // checkBox_Timer
             // 
             resources.ApplyResources(this.checkBox_Timer, "checkBox_Timer");
             this.checkBox_Timer.Name = "checkBox_Timer";
-            this.toolTip1.SetToolTip(this.checkBox_Timer, resources.GetString("checkBox_Timer.ToolTip"));
             this.checkBox_Timer.UseVisualStyleBackColor = true;
             this.checkBox_Timer.CheckedChanged += new System.EventHandler(this.checkBox_Timer_CheckedChanged);
             // 
@@ -164,17 +147,26 @@
             // 
             resources.ApplyResources(this.textBox1_time, "textBox1_time");
             this.textBox1_time.Name = "textBox1_time";
-            this.toolTip1.SetToolTip(this.textBox1_time, resources.GetString("textBox1_time.ToolTip"));
             this.textBox1_time.TextChanged += new System.EventHandler(this.textBox1_time_TextChanged);
             // 
-            // folderBrowserDialog1
+            // timer1
             // 
-            resources.ApplyResources(this.folderBrowserDialog1, "folderBrowserDialog1");
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // comboBox_Pack
+            // 
+            this.comboBox_Pack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Pack.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox_Pack, "comboBox_Pack");
+            this.comboBox_Pack.Name = "comboBox_Pack";
+            this.comboBox_Pack.SelectedIndexChanged += new System.EventHandler(this.comboBox_Pack_SelectedIndexChanged);
             // 
             // Form_ER
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboBox_Pack);
             this.Controls.Add(this.textBox1_time);
             this.Controls.Add(this.checkBox_Timer);
             this.Controls.Add(this.checkBox_Fresh);
@@ -192,7 +184,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "Form_ER";
-            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -218,6 +209,7 @@
         private System.Windows.Forms.CheckBox checkBox_Timer;
         private System.Windows.Forms.TextBox textBox1_time;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ComboBox comboBox_Pack;
     }
 }
 
