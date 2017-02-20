@@ -117,35 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button_update.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 9</value>
-  </data>
-  <data name="button_update.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 23</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="button_update.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="button_update.Text" xml:space="preserve">
-    <value>Check For updates</value>
-  </data>
-  <data name="&gt;&gt;button_update.Name" xml:space="preserve">
-    <value>button_update</value>
-  </data>
-  <data name="&gt;&gt;button_update.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_update.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;button_update.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
   <data name="label_time.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label_time.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 210</value>
   </data>
@@ -171,10 +147,10 @@
     <value>14</value>
   </data>
   <data name="comboBox_Versions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 38</value>
+    <value>3, 37</value>
   </data>
   <data name="comboBox_Versions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>142, 21</value>
   </data>
   <data name="comboBox_Versions.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -282,7 +258,7 @@
     <value>False</value>
   </data>
   <data name="button_Install.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 66</value>
+    <value>151, 38</value>
   </data>
   <data name="button_Install.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 23</value>
@@ -501,7 +477,7 @@
     <value>201, 17</value>
   </metadata>
   <data name="comboBox_Pack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 38</value>
+    <value>3, 10</value>
   </data>
   <data name="comboBox_Pack.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 21</value>
@@ -522,16 +498,16 @@
     <value>1</value>
   </data>
   <data name="button_Modpack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 12</value>
+    <value>151, 7</value>
   </data>
   <data name="button_Modpack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 25</value>
+    <value>122, 25</value>
   </data>
   <data name="button_Modpack.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="button_Modpack.Text" xml:space="preserve">
-    <value>[ ]</value>
+    <value>Add Modpack</value>
   </data>
   <data name="&gt;&gt;button_Modpack.Name" xml:space="preserve">
     <value>button_Modpack</value>

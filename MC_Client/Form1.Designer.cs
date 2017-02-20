@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_ER));
-            this.button_update = new System.Windows.Forms.Button();
             this.label_time = new System.Windows.Forms.Label();
             this.comboBox_Versions = new System.Windows.Forms.ComboBox();
             this.textBox_Path = new System.Windows.Forms.TextBox();
@@ -50,13 +49,6 @@
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.button_Modpack = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // button_update
-            // 
-            resources.ApplyResources(this.button_update, "button_update");
-            this.button_update.Name = "button_update";
-            this.button_update.UseVisualStyleBackColor = true;
-            this.button_update.Click += new System.EventHandler(this.button1_Click);
             // 
             // label_time
             // 
@@ -189,7 +181,6 @@
             this.Controls.Add(this.textBox_Path);
             this.Controls.Add(this.comboBox_Versions);
             this.Controls.Add(this.label_time);
-            this.Controls.Add(this.button_update);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "Form_ER";
@@ -200,8 +191,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button_update;
         private System.Windows.Forms.Label label_time;
         private System.Windows.Forms.ComboBox comboBox_Versions;
         private System.Windows.Forms.TextBox textBox_Path;

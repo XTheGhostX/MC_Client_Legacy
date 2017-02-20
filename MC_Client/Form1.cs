@@ -27,7 +27,9 @@ namespace MC_Client
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
         public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script, Path_Biome, Path_Pack;
-        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script, Pack_Name, Path_Packs;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script, Pack_Name, Path_Packs, raw_Mod;
+        public bool IsRaw = false, IsGit=true;
+        public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
         public int IsDev = 0;
@@ -112,69 +114,82 @@ namespace MC_Client
             if (tmp152 != null) Installed_Biome = tmp152;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CheckV()
         {
-            button_update.Enabled = false;
-            button_update.Text = "Loading";
             comboBox_Versions.Text = "";
-
-            MySqlConnection conn = new MySqlConnection(ERConnectionString);
-
-            string query = "SELECT * FROM "+ Pack_Name + ".Version";
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-            try
-            {
-                conn.Open();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                Console.Write(ex.Message);
-                MessageBox.Show(ex.Message, "ERealms connection error",
-   MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            MySqlDataReader dataReader = cmd.ExecuteReader();
             comboBox_Versions.Items.Clear();
-            if (IsDev == 1)
-            {
-                Log_Box.Items.Add("Obtaining Dev pack versions");
-                while (dataReader.Read())
+            if (IsRaw) {
+                for (int i=0;i <raw_Version.Length;i++)
                 {
-                    int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
-                    if ((Tmp456 == 1))
+                    string[] tmp307 = raw_Version[i].Split('@');
+                    if (IsDev == 1)
+                        if(Convert.ToInt32(tmp307[5]) == 1)
+                        {
+                            comboBox_Versions.Items.Add(tmp307[0]);
+                            comboBox_Versions.Text = tmp307[0];
+                        }
+
+                    else
+
+                        if(Convert.ToInt32(tmp307[5])==1 && Convert.ToInt32(tmp307[6]) == 0)
+                        {
+                            comboBox_Versions.Items.Add(tmp307[0]);
+                            comboBox_Versions.Text = tmp307[0];
+                        }
+
+                }
+            }
+            else{
+                MySqlConnection conn = new MySqlConnection(ERConnectionString);
+                string query = "SELECT * FROM " + Pack_Name + ".Version";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    Console.Write(ex.Message);
+                    MessageBox.Show(ex.Message, "ERealms connection error",
+       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (IsDev == 1)
+                {
+                    Log_Box.Items.Add("Obtaining Dev pack versions");
+                    while (dataReader.Read())
                     {
-                        comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
-                        comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                        int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
+                        if ((Tmp456 == 1))
+                        {
+                            comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
+                            comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                        }
+
                     }
-
                 }
-            }
-            else {
-        Log_Box.Items.Add("Obtaining pack versions");
-                while (dataReader.Read())
-                {
-                    int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
-                    int Tmp455 = Convert.ToInt32(dataReader["Dev"]);
+                else {
+                    Log_Box.Items.Add("Obtaining pack versions");
+                    while (dataReader.Read())
+                    {
+                        int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
+                        int Tmp455 = Convert.ToInt32(dataReader["Dev"]);
 
-                    if ((Tmp456 == 1) && (Tmp455 == 0)) {
-                        comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
-                        comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                        if ((Tmp456 == 1) && (Tmp455 == 0)) {
+                            comboBox_Versions.Items.Add(dataReader["Version_UID"].ToString());
+                            comboBox_Versions.Text = (dataReader["Version_UID"].ToString());
+                        }
+
                     }
-
                 }
+                conn.CloseAsync();
+                dataReader.Close();
             }
-
             if (comboBox_Versions.Text!=null)
             {
         Log_Box.Items.Add("Sucess please select a version");
                 button_Install.Enabled = true;
             }
-
-            conn.CloseAsync();
-            dataReader.Close();
-            button_update.Enabled = true;
-            button_update.Text = "Check For updates";
         }
 
 
@@ -228,7 +243,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Log_Box.Items.Clear();
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
-            button_update.Enabled = false;
             checkBox_Biome.Enabled = false;
             Log_Box.Items.Add("Starting installation");
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
@@ -245,9 +259,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     try
                     {
                     if (Version_Cfg.Contains("http"))
+                    {
                         webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
-                         else
-                        webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
+                        IsGit = false;
+                    }
+                    else
+                    {
+                        webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
+                        IsGit = true;
+                    }
                     }
                     catch (Exception ex)
                     {
@@ -274,8 +294,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Log_Box.Items.Add("Installing configs");
                     Directory.CreateDirectory(Path_Config);
                     ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
+                if(IsGit)
                     FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                    ER_Settings[7] = "Cfg:" + Version_Cfg;
+                else
+                    FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
+                ER_Settings[7] = "Cfg:" + Version_Cfg;
                     Installed_Config = Version_Cfg;
                 }
 
@@ -293,9 +316,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     try
                     {
                         if (Version_Biome.Contains("http"))
+                        {
+                            IsGit = false;
                             webClient.DownloadFile(new Uri(Version_Biome), Temp_BiomePath);
-                        else
-                            webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
+                        }
+                        else{
+                            IsGit = true;
+                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -307,7 +335,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Log_Box.Items.Add("Installing scripts");
                     Directory.CreateDirectory(Path_Biome);
                     ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
+                    if(IsGit)
                     FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
+                    else
+                    FileSystem.MoveDirectory((Temp + "\\MC_Biome"), Path_Biome, true);
                     ER_Settings[9] = "Biome:" + Version_Biome;
                     Installed_Biome = Version_Biome;
                 }
@@ -325,9 +356,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 try
                 {
                     if (Version_Forge.Contains("http"))
+                    {
+                        IsGit = false;
                         webClient.DownloadFile(new Uri(Version_Forge), Temp_ForgePath);
-                    else
-                        webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                    }
+                    else{
+                        IsGit = true;
+                        webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -335,9 +371,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Console.WriteLine("The process failed: {0}", ex.ToString());
                 }
                 ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
-                string tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
+                string tmp021;
+                if (IsGit)
+                {
+                    tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
+                    FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
+                }
+                else
+                {
+                    tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge" + "\\versions")[0];
+                    FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
+                }
                 ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
-                FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
                 ER_Settings[6] = "Forge:" + Version_Forge;
                 ER_Settings[10]= "ForgeName:"+ForgeName;
                 Installed_Forge = Version_Forge;
@@ -354,9 +399,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     try
                     {
                         if (Version_Script.Contains("http"))
+                        {
+                            IsGit = false;
                             webClient.DownloadFile(new Uri(Version_Script), Temp_ScriptPath);
-                        else
-                            webClient.DownloadFile(new Uri("https://github.com/"+Pack_Name+"/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                        }
+                        else{
+                            IsGit = true;
+                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -367,6 +417,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Log_Box.Items.Add("Installing scripts");
                     Directory.CreateDirectory(Path_Script);
                     ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
+                    if(IsGit)
+                    FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
+                    else
                     FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
                     ER_Settings[8] = "Script:" + Version_Script;
                     Installed_Script = Version_Script;
@@ -378,35 +431,46 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             //stuff Mods
-            MySqlConnection conn = new MySqlConnection(ERConnectionString);
-            string query = "SELECT * FROM "+ Pack_Name + ".Mods";
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-
-            try
-            {
-                conn.OpenAsync();
+            if (IsRaw) {
+                string[] tmp129= raw_Mod.Split(',');
+                for(int i=0;i< tmp129.Length;i++)
+                {
+                    Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
+                    Array.Resize(ref ModLibName, ModLibName.Length + 1);
+                    ModLibLink[i] = tmp129[i].Split('@')[1];
+                    ModLibName[i] = tmp129[i].Split('@')[0];
+                }
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                Console.Write(ex.Message);
+            else {
+                MySqlConnection conn = new MySqlConnection(ERConnectionString);
+                string query = "SELECT * FROM " + Pack_Name + ".Mods";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                try
+                {
+                    conn.OpenAsync();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    Console.Write(ex.Message);
+                }
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                Log_Box.Items.Add("Obtaining Mod links");
+
+                int Tmp451 = 0;
+                while (dataReader.Read())
+                {
+                    Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
+                    Array.Resize(ref ModLibName, ModLibName.Length + 1);
+                    ModLibName[Tmp451] = dataReader["FileName"].ToString();
+                    ModLibLink[Tmp451] = dataReader["URL"].ToString();
+                    Tmp451++;
+                }
+                dataReader.Close();
+                conn.CloseAsync();
             }
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-
-            Log_Box.Items.Add("Obtaining Mod links");
-
-            int Tmp451 = 0;
-            while (dataReader.Read())
-            {
-                Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
-                Array.Resize(ref ModLibName, ModLibName.Length + 1);
-                ModLibName[Tmp451] = dataReader["FileName"].ToString();
-                ModLibLink[Tmp451] = dataReader["URL"].ToString();
-                Tmp451++;
-            }
-
-
-            dataReader.Close();
-            conn.CloseAsync();
+            
 
 
             Log_Box.Items.Add("Installing Mods...");
@@ -515,7 +579,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             if(Version_Biome != "null")
             checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
-            button_update.Enabled = true;
 
         }
 
@@ -530,7 +593,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 IsDev = 0;
             }
             ER_Settings[1] = "IsDev:"+checkBox_Dev.Checked;
-            button_update.PerformClick();
+            CheckV();
         }
 
         private void button_Modpack_Click(object sender, EventArgs e)
@@ -563,30 +626,50 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void comboBox_Versions_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            MySqlConnection conn = new MySqlConnection(ERConnectionString);
-            string query = "SELECT * FROM "+ Pack_Name + ".Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-            try
+            if (IsRaw)
             {
-                conn.OpenAsync();
+                string[] tmp910=new string[9];
+                int i;
+                for (i = 0; i < raw_Version.Length; i++)
+                {
+                    tmp910 = raw_Version[i].Split('@');
+                    if (tmp910[0] == comboBox_Versions.Text)
+                        break;
+                }
+                Version_Script = tmp910[3];
+                Version_Biome = tmp910[2];
+                Version_Cfg = tmp910[1];
+                Version_Forge = tmp910[4];
+                SList_Mods = tmp910[8];
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
+            else
             {
-                Console.Write(ex.Message);
-            }
-            MySqlDataReader dataReader = cmd.ExecuteReader();
+                MySqlConnection conn = new MySqlConnection(ERConnectionString);
+                string query = "SELECT * FROM " + Pack_Name + ".Version WHERE Version_UID='" + comboBox_Versions.Text + "'";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
 
-            Log_Box.Items.Add("Obtaining Refrences");
-            while (dataReader.Read())
-            {
-                Version_Script = (dataReader["Script"].ToString());
-                Version_Biome = (dataReader["Biome"].ToString());
-                Version_Cfg = (dataReader["Config"].ToString());
-                Version_Forge = (dataReader["Forge"].ToString());
-                SList_Mods = (dataReader["Mods"].ToString());
+
+                try
+                {
+                    conn.OpenAsync();
+                }
+                catch (MySqlException ex)
+                {
+                    Console.Write(ex.Message);
+                }
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                Log_Box.Items.Add("Obtaining Refrences");
+                while (dataReader.Read())
+                {
+                    Version_Script = (dataReader["Script"].ToString());
+                    Version_Biome = (dataReader["Biome"].ToString());
+                    Version_Cfg = (dataReader["Config"].ToString());
+                    Version_Forge = (dataReader["Forge"].ToString());
+                    SList_Mods = (dataReader["Mods"].ToString());
+                }
+                dataReader.Close();
+                conn.CloseAsync();
             }
             Log_Box.Items.Add("Biome Version:" + Version_Biome);
             Log_Box.Items.Add("Config version:" + Version_Cfg);
@@ -594,10 +677,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Log_Box.Items.Add("Script Version:" + Version_Script);
             //Remove after testing is done
             Log_Box.Items.Add("Mod list:" + SList_Mods);
-
-
-            dataReader.Close();
-            conn.CloseAsync();
             if (Version_Biome == "null")
             {
                 checkBox_Biome.Checked = false;
@@ -614,7 +693,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
         {
-            button_update.PerformClick();
+            CheckV();
         }
 
         private void checkBox_Timer_CheckedChanged(object sender, EventArgs e)
@@ -664,35 +743,57 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             Pack_List= new string[0];
             Array.Resize(ref Pack_List, Pack_List.Length + 1);
-            Pack_List[0] = "51.255.41.80,ermlpublicread,hmDmxuhheilgKXUWTjzC,ElementalRealms";
+            Pack_List[0] = "[51.255.41.80][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]";
             if (!File.Exists(Path_Packs)) File.Create(Path_Packs); else
             Pack_List = Pack_List.Concat(File.ReadAllLines(Path_Packs)).ToArray().Where(c => c != null).ToArray();
             comboBox_Pack.Items.Clear();
-            for(int i=0;i<Pack_List.Length; i++)
-                comboBox_Pack.Items.Add(Pack_List[i].Split(',')[3]);
-            comboBox_Pack.Text=Pack_List[0].Split(',')[3];
-
-             
+            for (int i=0;i<Pack_List.Length; i++)
+                comboBox_Pack.Items.Add(Pack_List[i].Split('[', ']')[3]);
+            comboBox_Pack.Text=Pack_List[0].Split('[', ']')[3];
         }
-
 
         private void comboBox_Pack_SelectedIndexChanged(object sender, EventArgs e)
         {
             Pack_Name = comboBox_Pack.Text;
             Path_Pack = Path + "\\" + Pack_Name;
-            string[] tmp105 =new string[4];
-            for(int i = 0; i < Pack_List.Length; i++)
+            string[] tmp105 =new string[8];
+            int i;
+            for(i = 0; i < Pack_List.Length; i++)
             {
-                tmp105 = Pack_List[i].Split(',');
+                tmp105 = Pack_List[i].Split('[', ']');
                 if (tmp105[3] == Pack_Name)
                     break;
             }
-            ERConnectionString = "server="+tmp105[0]+";uid="+tmp105[1]+";" +
-                                    "pwd="+tmp105[2]+";database="+tmp105[3]+";";
+            if (tmp105[i] == "raw" || tmp105[i]=="link")
+            {
+                IsRaw = true;
+                if (tmp105[i] == "link")
+                {
+                    WebClient wc = new WebClient();
+                    string webData = wc.DownloadString(tmp105[5]);
+                    raw_Version = webData.Split('[', ']')[1].Split(',');
+                    raw_Mod = webData.Split('[', ']')[3];
+                }
+                else
+                {
+                    raw_Mod = tmp105[7];
+                    raw_Version = tmp105[5].Split(',');
+                }
+            }
+            else
+            {
+                IsRaw = false;
+                ERConnectionString = "server=" + tmp105[1] + ";uid=" + tmp105[5] + ";" +
+                        "pwd=" + tmp105[7] + ";database=" + tmp105[3] + ";";
+            }
             Path_Config = Path_Pack + "\\Config";
             Path_Biome = Path_Config + "\\TerrainControl";
             Path_Script = Path_Pack + "\\scripts";
             Path_mod = Path_Pack + "\\mods";
+            CheckV();
+        }
+        public void RawToProgram()
+        {
 
         }
     }
