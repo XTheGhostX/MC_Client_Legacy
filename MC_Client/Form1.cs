@@ -418,7 +418,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Directory.CreateDirectory(Path_Script);
                     ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
                     if(IsGit)
-                    FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Cfg), Path_Script, true);
+                    FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Script), Path_Script, true);
                     else
                     FileSystem.MoveDirectory((Temp + "\\MC_Script"), Path_Script, true);
                     ER_Settings[8] = "Script:" + Version_Script;
