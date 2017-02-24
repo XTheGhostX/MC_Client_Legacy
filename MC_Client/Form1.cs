@@ -556,13 +556,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 InsertionLine = currentLine;
                 if (MCP_Text[currentLine].Contains("\"profiles\":")) break;
             }
-           // if(isERProfile == false)
-            //{
+           if(isERProfile == false)
+            {
                 int tmp302 = MCP_Text.Length;
                 Array.Resize(ref MCP_Text, MCP_Text.Length + 14);
                 for(int currentLine =InsertionLine-1; currentLine < tmp302; ++currentLine)
                 {
-                    MCP_Text[(tmp302 + InsertionLine - currentLine)+5] = MCP_Text[tmp302 - currentLine+9];
+                    MCP_Text[(tmp302 + InsertionLine - currentLine)+5] = MCP_Text[tmp302 - currentLine];
                 }
                 MCP_Text[InsertionLine+ 1] = "    \"ERealms\": {";
                 MCP_Text[InsertionLine + 2] = "      \"name\": \"ERealms\",";
@@ -572,7 +572,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MCP_Text[InsertionLine + 6] = "    },";
 
                 Log_Box.Items.Add("Made ERealms profile");
-           // }
+            }
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
 
