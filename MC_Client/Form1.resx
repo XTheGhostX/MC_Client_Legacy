@@ -144,7 +144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_time.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="comboBox_Versions.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 37</value>
@@ -165,7 +165,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;comboBox_Versions.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="textBox_Path.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -192,7 +192,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBox_Path.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="button_Path.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -222,7 +222,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Path.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="label_admin.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -252,7 +252,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_admin.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="button_Install.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -279,7 +279,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Install.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="checkBox_Dev.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -306,7 +306,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_Dev.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="checkBox_Log.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -333,30 +333,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_Log.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <metadata name="Log_Box.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="Log_Box.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 9</value>
-  </data>
-  <data name="Log_Box.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 238</value>
-  </data>
-  <data name="Log_Box.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;Log_Box.Name" xml:space="preserve">
-    <value>Log_Box</value>
-  </data>
-  <data name="&gt;&gt;Log_Box.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Log_Box.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Log_Box.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="checkBox_Biome.AccessibleDescription" xml:space="preserve">
@@ -1067,6 +1043,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 300</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>300, 300</value>

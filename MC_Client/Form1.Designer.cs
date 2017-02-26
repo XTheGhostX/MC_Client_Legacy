@@ -38,7 +38,6 @@
             this.button_Install = new System.Windows.Forms.Button();
             this.checkBox_Dev = new System.Windows.Forms.CheckBox();
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
-            this.Log_Box = new System.Windows.Forms.ListBox();
             this.checkBox_Biome = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
@@ -100,13 +99,6 @@
             this.checkBox_Log.Name = "checkBox_Log";
             this.checkBox_Log.UseVisualStyleBackColor = true;
             this.checkBox_Log.CheckedChanged += new System.EventHandler(this.checkBox_Log_CheckedChanged);
-            // 
-            // Log_Box
-            // 
-            this.Log_Box.FormattingEnabled = true;
-            resources.ApplyResources(this.Log_Box, "Log_Box");
-            this.Log_Box.Name = "Log_Box";
-            this.Log_Box.SelectionMode = System.Windows.Forms.SelectionMode.None;
             // 
             // checkBox_Biome
             // 
@@ -172,7 +164,6 @@
             this.Controls.Add(this.checkBox_Timer);
             this.Controls.Add(this.checkBox_Fresh);
             this.Controls.Add(this.checkBox_Biome);
-            this.Controls.Add(this.Log_Box);
             this.Controls.Add(this.checkBox_Log);
             this.Controls.Add(this.checkBox_Dev);
             this.Controls.Add(this.button_Install);
@@ -181,7 +172,7 @@
             this.Controls.Add(this.textBox_Path);
             this.Controls.Add(this.comboBox_Versions);
             this.Controls.Add(this.label_time);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form_ER";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
@@ -199,7 +190,6 @@
         private System.Windows.Forms.Button button_Install;
         private System.Windows.Forms.CheckBox checkBox_Dev;
         private System.Windows.Forms.CheckBox checkBox_Log;
-        private System.Windows.Forms.ListBox Log_Box;
         private System.Windows.Forms.CheckBox checkBox_Biome;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox checkBox_Fresh;

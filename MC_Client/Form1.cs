@@ -13,6 +13,9 @@ using System.Net;
 using System.IO;
 using System.IO.Compression;
 using Microsoft.VisualBasic.FileIO;
+using System.Runtime.InteropServices;
+
+
 
 namespace MC_Client
 {
@@ -37,11 +40,11 @@ namespace MC_Client
         string[] Pack_List =new string[0];
         public string ForgeName="Forge-Name";
         public string MCF_version="1.10.2-forge";
-            public string Version_Script = "Script_V";
-            public string Version_Biome = "Biome_V";
-            public string Version_Cfg = "Config_V";
-            public string Version_Forge = "Forge_V";
-            public string SList_Mods = "Mods list";
+        public string Version_Script = "Script_V";
+        public string Version_Biome = "Biome_V";
+        public string Version_Cfg = "Config_V";
+        public string Version_Forge = "Forge_V";
+        public string SList_Mods = "Mods list";
         //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
         public string[] ER_Settings;
@@ -112,6 +115,10 @@ namespace MC_Client
             if (tmp152 != null) Installed_Script = tmp152;
             tmp152 = AfterP(ER_Settings, "Biome:");
             if (tmp152 != null) Installed_Biome = tmp152;
+
+            
+            output_c("Launcher start up successful");
+            TopMost = true;
         }
 
         private void CheckV()
@@ -156,7 +163,7 @@ namespace MC_Client
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (IsDev == 1)
                 {
-                    Log_Box.Items.Add("Obtaining Dev pack versions");
+                    output_c("Obtaining Dev pack versions");
                     while (dataReader.Read())
                     {
                         int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
@@ -169,7 +176,7 @@ namespace MC_Client
                     }
                 }
                 else {
-                    Log_Box.Items.Add("Obtaining pack versions");
+                    output_c("Obtaining pack versions");
                     while (dataReader.Read())
                     {
                         int Tmp456 = Convert.ToInt32(dataReader["Visable"]);
@@ -187,7 +194,7 @@ namespace MC_Client
             }
             if (comboBox_Versions.Text!=null)
             {
-        Log_Box.Items.Add("Sucess please select a version");
+        output_c("Sucess please select a version");
                 button_Install.Enabled = true;
             }
         }
@@ -240,11 +247,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void button_Install_Click(object sender, EventArgs e)
         {
-            Log_Box.Items.Clear();
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             checkBox_Biome.Enabled = false;
-            Log_Box.Items.Add("Starting installation");
+            output_c("Starting installation");
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
 
@@ -255,7 +261,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (Version_Cfg != Installed_Config || IsFresh)
                 {
                     string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
-                    Log_Box.Items.Add("Downloading Configs");
+                    output_c("Downloading Configs");
                     try
                     {
                     if (Version_Cfg.Contains("http"))
@@ -271,7 +277,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
                     {
-                        Log_Box.Items.Add("Download failed");
+                        output_c("Download failed");
                         Console.WriteLine("The process failed: {0}", ex.ToString());
                     }
 
@@ -291,7 +297,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Directory.Delete(filePath, true);
                         }
                     }
-                    Log_Box.Items.Add("Installing configs");
+                    output_c("Installing configs");
                     Directory.CreateDirectory(Path_Config);
                     ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
                 if(IsGit)
@@ -307,12 +313,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (checkBox_Biome.Checked == true)
                 {
                     //Need A ACTUAL copy if the biome folders
-                    Log_Box.Items.Add("Installing Biome configurations");
+                    output_c("Installing Biome configurations");
 
                 if (Version_Biome != Installed_Biome || IsFresh)
                 {
                     string Temp_BiomePath = (Temp + "\\" + Pack_Name + "_Biome.zip");
-                    Log_Box.Items.Add("Downloading Biome");
+                    output_c("Downloading Biome");
                     try
                     {
                         if (Version_Biome.Contains("http"))
@@ -327,12 +333,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
                     {
-                        Log_Box.Items.Add("Download failed");
+                        output_c("Download failed");
                         Console.WriteLine("The process failed: {0}", ex.ToString());
                     }
 
                     FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
-                    Log_Box.Items.Add("Installing scripts");
+                    output_c("Installing scripts");
                     Directory.CreateDirectory(Path_Biome);
                     ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
                     if(IsGit)
@@ -352,7 +358,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             //stuff Forge
             if (Version_Forge != Installed_Forge || IsFresh) {
                 string Temp_ForgePath = (Temp + "\\" + Pack_Name + "_Forge.zip");
-                Log_Box.Items.Add("Downloading Forge");
+                output_c("Downloading Forge");
                 try
                 {
                     if (Version_Forge.Contains("http"))
@@ -367,7 +373,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
-                    Log_Box.Items.Add("Download failed");
+                    output_c("Download failed");
                     Console.WriteLine("The process failed: {0}", ex.ToString());
                 }
                 ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
@@ -395,7 +401,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (Version_Script != Installed_Script || IsFresh)
                 {
                     string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
-                    Log_Box.Items.Add("Downloading Configs");
+                    output_c("Downloading Configs");
                     try
                     {
                         if (Version_Script.Contains("http"))
@@ -410,11 +416,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
                     {
-                        Log_Box.Items.Add("Download failed");
+                        output_c("Download failed");
                         Console.WriteLine("The process failed: {0}", ex.ToString());
                     }
                     FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-                    Log_Box.Items.Add("Installing scripts");
+                    output_c("Installing scripts");
                     Directory.CreateDirectory(Path_Script);
                     ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
                     if(IsGit)
@@ -456,7 +462,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                Log_Box.Items.Add("Obtaining Mod links");
+                output_c("Obtaining Mod links");
 
                 int Tmp451 = 0;
                 while (dataReader.Read())
@@ -473,7 +479,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             
 
 
-            Log_Box.Items.Add("Installing Mods...");
+            output_c("Installing Mods...");
 
             string[] mods = SList_Mods.Split(",".ToCharArray());
 
@@ -491,10 +497,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             try
                             {
                                 webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
+                                output_c("Downloading " + ModLibName[i]+ " successful");                        
                             }
                             catch (Exception ex)
                             {
-                                Log_Box.Items.Add("Downloading" + ModLibName[i] + " failed..." + ex);
+                                output_c("Downloading " + ModLibName[i] + " failed..." + ex);
                             }
                         }
                     }
@@ -522,10 +529,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             try
                             {
                                 webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
+                                output_c("Downloading " + ModLibName[i] + " successful");
                             }
                             catch (Exception ex)
                             {
-                                Log_Box.Items.Add("Downloading" + ModLibName[i] + " failed..." + ex);
+                                output_c("Downloading " + ModLibName[i] + " failed..." + ex);
                             }
                         }
                     }
@@ -571,7 +579,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MCP_Text[InsertionLine + 5] = "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
                 MCP_Text[InsertionLine + 6] = "    },";
 
-                Log_Box.Items.Add("Made ERealms profile");
+                output_c("Made ERealms profile");
             }
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
@@ -609,14 +617,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBox_Log.Checked == true)
-            {
-                this.Width = 450;
-            }else
-            {
-                this.Width = 300;
-            }
+        {            
             ER_Settings[2] = "Log:"+checkBox_Log.Checked;
         }
 
@@ -664,7 +665,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                Log_Box.Items.Add("Obtaining Refrences");
+                output_c("Obtaining Refrences");
                 while (dataReader.Read())
                 {
                     Version_Script = (dataReader["Script"].ToString());
@@ -676,12 +677,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dataReader.Close();
                 conn.CloseAsync();
             }
-            Log_Box.Items.Add("Biome Version:" + Version_Biome);
-            Log_Box.Items.Add("Config version:" + Version_Cfg);
-            Log_Box.Items.Add("Forge Version:" + Version_Forge);
-            Log_Box.Items.Add("Script Version:" + Version_Script);
-            //Remove after testing is done
-            Log_Box.Items.Add("Mod list:" + SList_Mods);
+            output_c("Version selected");
+            output_c("##################");
+            output_c("Biome Version:" + Version_Biome);
+            output_c("Config version:" + Version_Cfg);
+            output_c("Forge Version:" + Version_Forge);
+            output_c("Script Version:" + Version_Script);
+            output_c("##################");
             if (Version_Biome == "null")
             {
                 checkBox_Biome.Checked = false;
@@ -797,9 +799,27 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Path_mod = Path_Pack + "\\mods";
             CheckV();
         }
-        public void RawToProgram()
+        public void output_c(string text)
         {
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
+
+            if (checkBox_Log.Checked)
+            {
+                AllocConsole();
+                Console.WriteLine(text);
+                Console.Title = "NO!!!!!!!!!!!!";
+            }
 
         }
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
     }
 }
