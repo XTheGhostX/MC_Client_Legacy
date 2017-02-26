@@ -30,11 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_ER));
-            this.label_time = new System.Windows.Forms.Label();
             this.comboBox_Versions = new System.Windows.Forms.ComboBox();
             this.textBox_Path = new System.Windows.Forms.TextBox();
             this.button_Path = new System.Windows.Forms.Button();
-            this.label_admin = new System.Windows.Forms.Label();
             this.button_Install = new System.Windows.Forms.Button();
             this.checkBox_Dev = new System.Windows.Forms.CheckBox();
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
@@ -51,12 +49,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // label_time
-            // 
-            resources.ApplyResources(this.label_time, "label_time");
-            this.label_time.Name = "label_time";
-            this.label_time.Click += new System.EventHandler(this.label_time_Click);
             // 
             // comboBox_Versions
             // 
@@ -77,11 +69,6 @@
             this.button_Path.Name = "button_Path";
             this.button_Path.UseVisualStyleBackColor = true;
             this.button_Path.Click += new System.EventHandler(this.button_Path_Click);
-            // 
-            // label_admin
-            // 
-            resources.ApplyResources(this.label_admin, "label_admin");
-            this.label_admin.Name = "label_admin";
             // 
             // button_Install
             // 
@@ -189,15 +176,14 @@
             this.Controls.Add(this.checkBox_Log);
             this.Controls.Add(this.checkBox_Dev);
             this.Controls.Add(this.button_Install);
-            this.Controls.Add(this.label_admin);
             this.Controls.Add(this.button_Path);
             this.Controls.Add(this.textBox_Path);
             this.Controls.Add(this.comboBox_Versions);
-            this.Controls.Add(this.label_time);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form_ER";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form_ER_MouseClick);
             this.Resize += new System.EventHandler(this.Form_ER_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -205,11 +191,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label_time;
         private System.Windows.Forms.ComboBox comboBox_Versions;
         private System.Windows.Forms.TextBox textBox_Path;
         private System.Windows.Forms.Button button_Path;
-        private System.Windows.Forms.Label label_admin;
         private System.Windows.Forms.Button button_Install;
         private System.Windows.Forms.CheckBox checkBox_Dev;
         private System.Windows.Forms.CheckBox checkBox_Log;

@@ -69,7 +69,11 @@ namespace MC_Client
             {
                 textBox_Path.Enabled = true;
                 button_Path.Enabled = true;
-                label_admin.Visible = false;
+            }
+            else
+            {
+                toolTip1.SetToolTip(textBox_Path, "To change dir Run as admin");
+                toolTip1.SetToolTip(button_Path, "To change dir Run as admin");
             }
             toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
             toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
@@ -712,6 +716,17 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form_ER_MouseClick(object sender, MouseEventArgs e)
+        {
+            Control control = GetChildAtPoint(e.Location);
+            if (control == null) toolTip1.ShowAlways = false;else
+            {
+                string toolTipString = toolTip1.GetToolTip(control);
+                toolTip1.ShowAlways = true;
+                toolTip1.Show(toolTipString, control, control.Width / 2, control.Height / 2);
+            }
         }
 
         private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
