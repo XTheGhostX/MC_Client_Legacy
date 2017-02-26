@@ -47,6 +47,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.button_Modpack = new System.Windows.Forms.Button();
+            this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // label_time
@@ -154,6 +155,11 @@
             this.button_Modpack.UseVisualStyleBackColor = true;
             this.button_Modpack.Click += new System.EventHandler(this.button_Modpack_Click);
             // 
+            // ERnotifyIcon
+            // 
+            resources.ApplyResources(this.ERnotifyIcon, "ERnotifyIcon");
+            this.ERnotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ERnotifyIcon_MouseDoubleClick);
+            // 
             // Form_ER
             // 
             resources.ApplyResources(this, "$this");
@@ -176,6 +182,7 @@
             this.MaximizeBox = false;
             this.Name = "Form_ER";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
+            this.Resize += new System.EventHandler(this.Form_ER_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,6 +206,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ComboBox comboBox_Pack;
         private System.Windows.Forms.Button button_Modpack;
+        private System.Windows.Forms.NotifyIcon ERnotifyIcon;
     }
 }
 

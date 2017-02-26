@@ -29,8 +29,8 @@ namespace MC_Client
         public string ERConnectionString;
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
-        public string Path_Config, Path_mod, Path_Change, Path_Settings, Path_Script, Path_Biome, Path_Pack;
-        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script, Pack_Name, Path_Packs, raw_Mod;
+        public string Path_Config, Path_mod, Path_Change, Path_Settings,Path_PackV, Path_Script, Path_Biome, Path_Pack;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod;
         public bool IsRaw = false, IsGit=true;
         public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
@@ -47,7 +47,7 @@ namespace MC_Client
         public string SList_Mods = "Mods list";
         //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
-        public string[] ER_Settings;
+        public string[] ER_Settings, Pack_Settings;
 
         public Form_ER()
         {
@@ -58,10 +58,10 @@ namespace MC_Client
             }
             Temp = Path + "\\TMP";
             Path_Pack = Path;
+            Path_PackV = Path_Pack + "\\Pack.ini";
             Path_Settings =Path + "\\ERealms.ini";
             Path_Packs = Path + "\\ER_Packs.ini";
             InitializeComponent();
-            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             PackList();
 
             textBox_Path.Text=Path;
@@ -90,41 +90,40 @@ namespace MC_Client
     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
+            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
+            if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
+            if (!File.Exists(Path_PackV)) File.Create(Path_PackV).Close();
 
             ER_Settings = File.ReadAllLines(Path_Settings);
-            Array.Resize(ref ER_Settings, ER_Settings.Length + 11);
+            Pack_Settings = File.ReadAllLines(Path_PackV);
+            Array.Resize(ref ER_Settings, 10);
+            Array.Resize(ref Pack_Settings, 10);
             string tmp152;
-            tmp152 = AfterP(ER_Settings, "Biomes:");
-            if (tmp152 != null) checkBox_Biome.Checked = bool.Parse(tmp152);
-            //Could change Dev value to be bool but Database
-            tmp152 = AfterP(ER_Settings, "IsDev:");
-            if (tmp152 != null) checkBox_Dev.Checked = bool.Parse(tmp152);
-            tmp152 = AfterP(ER_Settings, "Log:");
-            if (tmp152 != null) checkBox_Log.Checked = bool.Parse(tmp152);
-            tmp152 = AfterP(ER_Settings, "UpdateChecker:");
-            if (tmp152 != null) checkBox_Timer.Checked = bool.Parse(tmp152);
-            tmp152 = AfterP(ER_Settings, "UpdateCheckerMin:");
-            if (tmp152 != null) textBox1_time.Text = tmp152;
-            tmp152 = AfterP(ER_Settings, "Cfg:");
-            if (tmp152 != null) Installed_Config = tmp152;
-            tmp152 = AfterP(ER_Settings, "Forge:");
-            if (tmp152 != null) Installed_Forge = tmp152;
-            tmp152 = AfterP(ER_Settings, "ForgeName:");
-            if (tmp152 != null) ForgeName = tmp152;
-            tmp152 = AfterP(ER_Settings, "Script:");
-            if (tmp152 != null) Installed_Script = tmp152;
-            tmp152 = AfterP(ER_Settings, "Biome:");
-            if (tmp152 != null) Installed_Biome = tmp152;
 
-            
+            if ((tmp152= AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
+            //Could change Dev value to be bool but Database
+            if ((tmp152= AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
+            if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
+            if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
+            if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "Cfg:")) != null) Installed_Config = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "Forge:")) != null) Installed_Forge = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "ForgeName:")) != null) ForgeName = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp152;
+            if ((tmp152= AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp152;
+
+
             output_c("Launcher start up successful");
-            TopMost = true;
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
         }
 
         private void CheckV()
         {
             comboBox_Versions.Text = "";
             comboBox_Versions.Items.Clear();
+            string tmp119=null;
             if (IsRaw) {
                 for (int i=0;i <raw_Version.Length;i++)
                 {
@@ -141,9 +140,9 @@ namespace MC_Client
                         if(Convert.ToInt32(tmp307[5])==1 && Convert.ToInt32(tmp307[6]) == 0)
                         {
                             comboBox_Versions.Items.Add(tmp307[0]);
-                            comboBox_Versions.Text = tmp307[0];
+                            tmp119 = tmp307[0];
                         }
-
+                    comboBox_Versions.Text = tmp119;
                 }
             }
             else{
@@ -253,6 +252,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             output_c("Starting installation");
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
+            if (!File.Exists(Path_PackV)) File.Create(Path_PackV);
 
 
             WebClient webClient = new WebClient();
@@ -304,7 +304,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
                 else
                     FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
-                ER_Settings[7] = "Cfg:" + Version_Cfg;
+                Pack_Settings[0] = "Cfg:" + Version_Cfg;
                     Installed_Config = Version_Cfg;
                 }
 
@@ -345,7 +345,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
                     else
                     FileSystem.MoveDirectory((Temp + "\\MC_Biome"), Path_Biome, true);
-                    ER_Settings[9] = "Biome:" + Version_Biome;
+                    Pack_Settings[1] = "Biome:" + Version_Biome;
                     Installed_Biome = Version_Biome;
                 }
             }
@@ -389,8 +389,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
                 }
                 ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
-                ER_Settings[6] = "Forge:" + Version_Forge;
-                ER_Settings[10]= "ForgeName:"+ForgeName;
+                Pack_Settings[2] = "Forge:" + Version_Forge;
+                Pack_Settings[3]= "ForgeName:"+ForgeName;
                 Installed_Forge = Version_Forge;
             }
 
@@ -427,7 +427,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Script), Path_Script, true);
                     else
                     FileSystem.MoveDirectory((Temp + "\\MC_Script"), Path_Script, true);
-                    ER_Settings[8] = "Script:" + Version_Script;
+                    Pack_Settings[4] = "Script:" + Version_Script;
                     Installed_Script = Version_Script;
                 }
             }
@@ -586,7 +586,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             //stuff end
-            File.WriteAllLines(Path_Settings, ER_Settings);
+            Pack_Settings[6] = "Version:" + comboBox_Versions.Text;
+            output_c("Installation finnished");
+            MessageBox.Show("Installation finnished", "Elemental Installer");
+            File.WriteAllLines(Path_PackV, Pack_Settings);
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             button_Install.Enabled = true;
             if(Version_Biome != "null")
@@ -617,8 +620,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
-        {            
+        {
+            output_c(null);            
             ER_Settings[2] = "Log:"+checkBox_Log.Checked;
+            if (!checkBox_Log.Checked) Close();
         }
 
 
@@ -679,6 +684,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             output_c("Version selected");
             output_c("##################");
+            output_c(comboBox_Pack.Text+": "+comboBox_Versions.Text);
+            output_c("##################");
             output_c("Biome Version:" + Version_Biome);
             output_c("Config version:" + Version_Cfg);
             output_c("Forge Version:" + Version_Forge);
@@ -697,10 +704,34 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void Form_ER_Resize(object sender, EventArgs e)
+        {
+            var CWindow = GetConsoleWindow();
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                ERnotifyIcon.Visible = true;
+                ShowWindow(CWindow, 0);
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                ERnotifyIcon.Visible = false;
+                ShowWindow(CWindow, 5);
+            }
+        }
+        
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
         {
             CheckV();
+            if (comboBox_Versions.Text != Installed_PackV)
+                MessageBox.Show(comboBox_Pack.Text + ": " + comboBox_Versions.Text + "\n Is the latest pack version", "ER Pack update");
         }
 
         private void checkBox_Timer_CheckedChanged(object sender, EventArgs e)
@@ -716,13 +747,23 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             //Make sure the user is not a idiot(null value, or to big to store)
             checkBox_Timer.Checked = false;
-            timer1.Interval = int.Parse(textBox1_time.Text)* 60000;
-            ER_Settings[4] = "UpdateCheckerMin:" + textBox1_time.Text;
+            if(textBox1_time.Text!="")
+            try
+            {
+                timer1.Interval = int.Parse(textBox1_time.Text) * 60000;
+                ER_Settings[4] = "UpdateCheckerMin:" + textBox1_time.Text;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void Form_ER_FormClosing(object sender, FormClosingEventArgs e)
         {
             File.WriteAllLines(Path_Settings,ER_Settings);
+            File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
         private void checkBox_Biome_CheckedChanged(object sender, EventArgs e)
@@ -793,6 +834,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ERConnectionString = "server=" + tmp105[1] + ";uid=" + tmp105[5] + ";" +
                         "pwd=" + tmp105[7] + ";database=" + tmp105[3] + ";";
             }
+            Path_PackV = Path_Pack + "\\Pack.ini";
             Path_Config = Path_Pack + "\\Config";
             Path_Biome = Path_Config + "\\TerrainControl";
             Path_Script = Path_Pack + "\\scripts";
@@ -801,14 +843,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public void output_c(string text)
         {
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
-
+            if(text==null)
+            AllocConsole();
             if (checkBox_Log.Checked)
             {
-                AllocConsole();
                 Console.WriteLine(text);
-                Console.Title = "NO!!!!!!!!!!!!";
             }
 
         }
@@ -821,5 +860,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
     }
 }
