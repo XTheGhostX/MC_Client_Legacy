@@ -587,8 +587,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             //stuff end
             Pack_Settings[6] = "Version:" + comboBox_Versions.Text;
-            output_c("Installation finnished");
-            MessageBox.Show("Installation finnished", "Elemental Installer");
+            output_c("Installation Finished");
+            MessageBox.Show("Installation Finished", "Elemental Installer");
             File.WriteAllLines(Path_PackV, Pack_Settings);
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             button_Install.Enabled = true;
