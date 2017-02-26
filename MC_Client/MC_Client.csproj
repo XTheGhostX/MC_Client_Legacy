@@ -37,6 +37,10 @@
   <PropertyGroup>
     <ApplicationIcon>ERlogo.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data">

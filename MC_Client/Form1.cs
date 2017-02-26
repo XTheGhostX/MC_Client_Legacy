@@ -722,6 +722,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void Form_ER_Load(object sender, EventArgs e)
+        {
+            if (checkBox_Timer.Checked)
+            {
+                var CWindow = GetConsoleWindow();
+                ERnotifyIcon.Visible = true;
+                ShowWindow(CWindow, 0);
+                this.WindowState = FormWindowState.Minimized;
+                this.Hide();
+            }
+        }
+
         private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
