@@ -126,13 +126,13 @@
     <value>10, 210</value>
   </data>
   <data name="label_time.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 13</value>
+    <value>126, 13</value>
   </data>
   <data name="label_time.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label_time.Text" xml:space="preserve">
-    <value>Update every x min:</value>
+    <value>Auto update every X min:</value>
   </data>
   <data name="&gt;&gt;label_time.Name" xml:space="preserve">
     <value>label_time</value>
@@ -231,7 +231,7 @@
     <value>False</value>
   </data>
   <data name="label_admin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 212</value>
+    <value>147, 212</value>
   </data>
   <data name="label_admin.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 13</value>
@@ -285,16 +285,16 @@
     <value>True</value>
   </data>
   <data name="checkBox_Dev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 115</value>
+    <value>151, 115</value>
   </data>
   <data name="checkBox_Dev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 17</value>
+    <value>89, 17</value>
   </data>
   <data name="checkBox_Dev.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="checkBox_Dev.Text" xml:space="preserve">
-    <value>Dev versions</value>
+    <value>Dev Versions</value>
   </data>
   <data name="&gt;&gt;checkBox_Dev.Name" xml:space="preserve">
     <value>checkBox_Dev</value>
@@ -312,16 +312,16 @@
     <value>True</value>
   </data>
   <data name="checkBox_Log.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 135</value>
+    <value>151, 138</value>
   </data>
   <data name="checkBox_Log.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 17</value>
+    <value>64, 17</value>
   </data>
   <data name="checkBox_Log.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="checkBox_Log.Text" xml:space="preserve">
-    <value>Log</value>
+    <value>Console</value>
   </data>
   <data name="&gt;&gt;checkBox_Log.Name" xml:space="preserve">
     <value>checkBox_Log</value>
@@ -342,16 +342,16 @@
     <value>True</value>
   </data>
   <data name="checkBox_Biome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 95</value>
+    <value>151, 92</value>
   </data>
   <data name="checkBox_Biome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 17</value>
+    <value>128, 17</value>
   </data>
   <data name="checkBox_Biome.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="checkBox_Biome.Text" xml:space="preserve">
-    <value>Custom Biomes</value>
+    <value>Custom Biomes (SSP)</value>
   </data>
   <data name="&gt;&gt;checkBox_Biome.Name" xml:space="preserve">
     <value>checkBox_Biome</value>
@@ -375,16 +375,16 @@
     <value>False</value>
   </data>
   <data name="checkBox_Fresh.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 159</value>
+    <value>151, 161</value>
   </data>
   <data name="checkBox_Fresh.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 17</value>
+    <value>83, 17</value>
   </data>
   <data name="checkBox_Fresh.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="checkBox_Fresh.Text" xml:space="preserve">
-    <value>Fresh Install</value>
+    <value>Clean Install</value>
   </data>
   <data name="&gt;&gt;checkBox_Fresh.Name" xml:space="preserve">
     <value>checkBox_Fresh</value>
@@ -402,7 +402,7 @@
     <value>True</value>
   </data>
   <data name="checkBox_Timer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 229</value>
+    <value>14, 229</value>
   </data>
   <data name="checkBox_Timer.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
@@ -423,10 +423,10 @@
     <value>3</value>
   </data>
   <data name="textBox1_time.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 226</value>
+    <value>33, 226</value>
   </data>
   <data name="textBox1_time.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 20</value>
+    <value>26, 20</value>
   </data>
   <data name="textBox1_time.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
