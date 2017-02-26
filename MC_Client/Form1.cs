@@ -262,22 +262,24 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             WebClient webClient = new WebClient();
             Directory.CreateDirectory(Temp);
             //stuff Config
+            if (Version_Cfg != "null")
+            {
                 if (Version_Cfg != Installed_Config || IsFresh)
                 {
                     string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
                     output_c("Downloading Configs");
                     try
                     {
-                    if (Version_Cfg.Contains("http"))
-                    {
-                        webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
-                        IsGit = false;
-                    }
-                    else
-                    {
-                        webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
-                        IsGit = true;
-                    }
+                        if (Version_Cfg.Contains("http"))
+                        {
+                            webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
+                            IsGit = false;
+                        }
+                        else
+                        {
+                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
+                            IsGit = true;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -304,13 +306,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     output_c("Installing configs");
                     Directory.CreateDirectory(Path_Config);
                     ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-                if(IsGit)
-                    FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                else
-                    FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
-                Pack_Settings[0] = "Cfg:" + Version_Cfg;
+                    if (IsGit)
+                        FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
+                    else
+                        FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
+                    Pack_Settings[0] = "Cfg:" + Version_Cfg;
                     Installed_Config = Version_Cfg;
                 }
+            }
+            //else FileSystem.DeleteDirectory(Path_Config, DeleteDirectoryOption.DeleteAllContents);
 
             //stuff Biome
             if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
@@ -436,8 +440,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-            //Not sure how it handles with custom directories
-            //(dataReader["Script"].ToString());
+
 
 
             //stuff Mods
