@@ -708,16 +708,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void label_time_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form_ER_MouseClick(object sender, MouseEventArgs e)
         {
             Control control = GetChildAtPoint(e.Location);
