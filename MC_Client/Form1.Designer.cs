@@ -48,12 +48,15 @@
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label_time
             // 
             resources.ApplyResources(this.label_time, "label_time");
             this.label_time.Name = "label_time";
+            this.label_time.Click += new System.EventHandler(this.label_time_Click);
             // 
             // comboBox_Versions
             // 
@@ -160,10 +163,23 @@
             resources.ApplyResources(this.ERnotifyIcon, "ERnotifyIcon");
             this.ERnotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ERnotifyIcon_MouseDoubleClick);
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // Form_ER
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button_Modpack);
             this.Controls.Add(this.comboBox_Pack);
             this.Controls.Add(this.textBox1_time);
@@ -207,6 +223,8 @@
         private System.Windows.Forms.ComboBox comboBox_Pack;
         private System.Windows.Forms.Button button_Modpack;
         private System.Windows.Forms.NotifyIcon ERnotifyIcon;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -704,6 +704,16 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void label_time_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
