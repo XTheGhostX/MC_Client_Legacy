@@ -734,6 +734,37 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        //temp close button
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        //window movement control 
+        private bool mouseDown;
+        private Point lastLocation;
+
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                this.Location = new Point(
+                    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+
+                this.Update();
+            }
+        }
+        private void panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
+        }
+
         private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
