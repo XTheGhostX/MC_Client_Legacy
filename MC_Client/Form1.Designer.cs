@@ -58,6 +58,7 @@
             this.example_stuff = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label_version = new System.Windows.Forms.Label();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
@@ -371,7 +372,7 @@
             this.label_version.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_version.AutoSize = true;
             this.label_version.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_version.Location = new System.Drawing.Point(773, 95);
+            this.label_version.Location = new System.Drawing.Point(604, 110);
             this.label_version.Name = "label_version";
             this.label_version.Size = new System.Drawing.Size(80, 25);
             this.label_version.TabIndex = 25;
@@ -446,6 +447,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox setings_button;
         private System.Windows.Forms.Label label_version;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
     }
 }
 
