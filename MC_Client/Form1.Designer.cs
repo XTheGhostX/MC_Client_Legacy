@@ -50,8 +50,9 @@
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_Close = new System.Windows.Forms.Button();
             this.temp_name = new System.Windows.Forms.Label();
+            this.button_Totray = new System.Windows.Forms.Button();
             this.example_stuff = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -260,10 +261,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.button1, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Close, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.comboBox_Pack, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.temp_name, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button_Modpack, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Totray, 6, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -271,16 +273,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1053, 60);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // button1
+            // button_Close
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(983, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(54, 23);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "close";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Close.Location = new System.Drawing.Point(983, 18);
+            this.button_Close.Name = "button_Close";
+            this.button_Close.Size = new System.Drawing.Size(54, 23);
+            this.button_Close.TabIndex = 22;
+            this.button_Close.Text = "close";
+            this.button_Close.UseVisualStyleBackColor = true;
+            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
             // 
             // temp_name
             // 
@@ -294,6 +296,17 @@
             this.temp_name.Size = new System.Drawing.Size(179, 25);
             this.temp_name.TabIndex = 15;
             this.temp_name.Text = "Elemental launcher ";
+            // 
+            // button_Totray
+            // 
+            this.button_Totray.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Totray.Location = new System.Drawing.Point(923, 18);
+            this.button_Totray.Name = "button_Totray";
+            this.button_Totray.Size = new System.Drawing.Size(54, 23);
+            this.button_Totray.TabIndex = 23;
+            this.button_Totray.Text = "Min";
+            this.button_Totray.UseVisualStyleBackColor = true;
+            this.button_Totray.Click += new System.EventHandler(this.button_Totray_Click);
             // 
             // example_stuff
             // 
@@ -330,7 +343,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
             this.Load += new System.EventHandler(this.Form_ER_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form_ER_MouseClick);
-            this.Resize += new System.EventHandler(this.Form_ER_Resize);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -364,7 +376,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label temp_name;
         private System.Windows.Forms.Label example_stuff;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Close;
+        private System.Windows.Forms.Button button_Totray;
     }
 }
 

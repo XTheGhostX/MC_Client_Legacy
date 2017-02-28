@@ -735,7 +735,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         //temp close button
-        private void button1_Click(object sender, EventArgs e)
+        private void button_Close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -765,27 +765,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             lastLocation = e.Location;
         }
 
-        private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void button_Totray_Click(object sender, EventArgs e)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            Hide();
+            ERnotifyIcon.Visible = true;
+            ShowWindow(GetConsoleWindow(), 0);
         }
 
-        private void Form_ER_Resize(object sender, EventArgs e)
+        private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var CWindow = GetConsoleWindow();
-            if (FormWindowState.Minimized == this.WindowState)
-            {
-                ERnotifyIcon.Visible = true;
-                ShowWindow(CWindow, 0);
-                this.Hide();
-            }
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                ERnotifyIcon.Visible = false;
-                ShowWindow(CWindow, 5);
-            }
+            Show();
+            ERnotifyIcon.Visible = false;
+            ShowWindow(GetConsoleWindow(), 5);
         }
+
         
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
