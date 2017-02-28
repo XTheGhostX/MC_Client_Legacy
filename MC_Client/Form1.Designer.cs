@@ -45,7 +45,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.Settings_panel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.setings_button = new System.Windows.Forms.PictureBox();
@@ -55,10 +54,12 @@
             this.temp_name = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.to_tray = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.example_stuff = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label_version = new System.Windows.Forms.Label();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.label_InstalledV = new System.Windows.Forms.Label();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
@@ -66,11 +67,13 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.to_tray)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox_Versions
             // 
             this.comboBox_Versions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Versions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_Versions.Location = new System.Drawing.Point(93, 273);
             this.comboBox_Versions.Name = "comboBox_Versions";
             this.comboBox_Versions.Size = new System.Drawing.Size(142, 21);
@@ -90,6 +93,7 @@
             // button_Path
             // 
             this.button_Path.Enabled = false;
+            this.button_Path.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Path.Location = new System.Drawing.Point(213, 488);
             this.button_Path.Name = "button_Path";
             this.button_Path.Size = new System.Drawing.Size(25, 25);
@@ -102,7 +106,8 @@
             // button_Install
             // 
             this.button_Install.Enabled = false;
-            this.button_Install.Location = new System.Drawing.Point(703, 509);
+            this.button_Install.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Install.Location = new System.Drawing.Point(894, 509);
             this.button_Install.Name = "button_Install";
             this.button_Install.Size = new System.Drawing.Size(140, 62);
             this.button_Install.TabIndex = 6;
@@ -114,9 +119,10 @@
             // 
             this.checkBox_Dev.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Dev.AutoSize = true;
+            this.checkBox_Dev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Dev.Location = new System.Drawing.Point(66, 313);
             this.checkBox_Dev.Name = "checkBox_Dev";
-            this.checkBox_Dev.Size = new System.Drawing.Size(141, 17);
+            this.checkBox_Dev.Size = new System.Drawing.Size(138, 17);
             this.checkBox_Dev.TabIndex = 7;
             this.checkBox_Dev.Text = "Enable Dev Pack Builds";
             this.checkBox_Dev.UseVisualStyleBackColor = true;
@@ -126,9 +132,10 @@
             // 
             this.checkBox_Log.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Log.AutoSize = true;
+            this.checkBox_Log.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Log.Location = new System.Drawing.Point(66, 336);
             this.checkBox_Log.Name = "checkBox_Log";
-            this.checkBox_Log.Size = new System.Drawing.Size(112, 17);
+            this.checkBox_Log.Size = new System.Drawing.Size(109, 17);
             this.checkBox_Log.TabIndex = 8;
             this.checkBox_Log.Text = "Launcher Console";
             this.checkBox_Log.UseVisualStyleBackColor = true;
@@ -139,9 +146,10 @@
             this.checkBox_Biome.AccessibleDescription = "";
             this.checkBox_Biome.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Biome.AutoSize = true;
+            this.checkBox_Biome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Biome.Location = new System.Drawing.Point(66, 290);
             this.checkBox_Biome.Name = "checkBox_Biome";
-            this.checkBox_Biome.Size = new System.Drawing.Size(121, 17);
+            this.checkBox_Biome.Size = new System.Drawing.Size(118, 17);
             this.checkBox_Biome.TabIndex = 10;
             this.checkBox_Biome.Text = "Custom Biomes (SP)";
             this.checkBox_Biome.UseVisualStyleBackColor = true;
@@ -159,9 +167,10 @@
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Fresh.AutoSize = true;
             this.checkBox_Fresh.Enabled = false;
+            this.checkBox_Fresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Fresh.Location = new System.Drawing.Point(66, 359);
             this.checkBox_Fresh.Name = "checkBox_Fresh";
-            this.checkBox_Fresh.Size = new System.Drawing.Size(83, 17);
+            this.checkBox_Fresh.Size = new System.Drawing.Size(80, 17);
             this.checkBox_Fresh.TabIndex = 11;
             this.checkBox_Fresh.Text = "Clean Install";
             this.checkBox_Fresh.UseVisualStyleBackColor = true;
@@ -170,9 +179,10 @@
             // checkBox_Timer
             // 
             this.checkBox_Timer.AutoSize = true;
+            this.checkBox_Timer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Timer.Location = new System.Drawing.Point(102, 451);
             this.checkBox_Timer.Name = "checkBox_Timer";
-            this.checkBox_Timer.Size = new System.Drawing.Size(89, 17);
+            this.checkBox_Timer.Size = new System.Drawing.Size(86, 17);
             this.checkBox_Timer.TabIndex = 12;
             this.checkBox_Timer.Text = "Auto Update:";
             this.checkBox_Timer.UseVisualStyleBackColor = true;
@@ -196,6 +206,7 @@
             // button_Modpack
             // 
             this.button_Modpack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Modpack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Modpack.Location = new System.Drawing.Point(443, 17);
             this.button_Modpack.Name = "button_Modpack";
             this.button_Modpack.Size = new System.Drawing.Size(154, 25);
@@ -207,17 +218,7 @@
             // ERnotifyIcon
             // 
             this.ERnotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("ERnotifyIcon.Icon")));
-            this.ERnotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ERnotifyIcon_MouseDoubleClick);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(27, 273);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "Version:";
+            this.ERnotifyIcon.Click += new System.EventHandler(this.ERnotifyIcon_Click);
             // 
             // Settings_panel
             // 
@@ -267,6 +268,7 @@
             // 
             this.comboBox_Pack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox_Pack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Pack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_Pack.FormattingEnabled = true;
             this.comboBox_Pack.Location = new System.Drawing.Point(263, 19);
             this.comboBox_Pack.Name = "comboBox_Pack";
@@ -289,8 +291,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 9;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
@@ -303,6 +305,7 @@
             this.tableLayoutPanel1.Controls.Add(this.button_Modpack, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.to_tray, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -320,7 +323,7 @@
             this.temp_name.BackColor = System.Drawing.Color.Transparent;
             this.temp_name.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.temp_name.ForeColor = System.Drawing.Color.SeaShell;
-            this.temp_name.Location = new System.Drawing.Point(63, 17);
+            this.temp_name.Location = new System.Drawing.Point(73, 17);
             this.temp_name.Name = "temp_name";
             this.temp_name.Size = new System.Drawing.Size(179, 25);
             this.temp_name.TabIndex = 15;
@@ -348,6 +351,17 @@
             this.to_tray.TabStop = false;
             this.to_tray.Click += new System.EventHandler(this.to_tray_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::MC_Client.Properties.Resources.ERlogo;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.MaximumSize = new System.Drawing.Size(64, 64);
+            this.pictureBox2.MinimumSize = new System.Drawing.Size(64, 64);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.TabIndex = 26;
+            this.pictureBox2.TabStop = false;
+            // 
             // example_stuff
             // 
             this.example_stuff.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -363,8 +377,10 @@
             // 
             this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.progressBar1.Location = new System.Drawing.Point(0, 577);
+            this.progressBar1.Maximum = 1200;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(840, 23);
+            this.progressBar1.Size = new System.Drawing.Size(1034, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 24;
             // 
             // label_version
@@ -372,11 +388,22 @@
             this.label_version.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_version.AutoSize = true;
             this.label_version.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_version.Location = new System.Drawing.Point(604, 110);
+            this.label_version.Location = new System.Drawing.Point(5, 270);
             this.label_version.Name = "label_version";
             this.label_version.Size = new System.Drawing.Size(80, 25);
             this.label_version.TabIndex = 25;
             this.label_version.Text = "Version:";
+            // 
+            // label_InstalledV
+            // 
+            this.label_InstalledV.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label_InstalledV.AutoSize = true;
+            this.label_InstalledV.Font = new System.Drawing.Font("Segoe UI Emoji", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_InstalledV.Location = new System.Drawing.Point(12, 295);
+            this.label_InstalledV.Name = "label_InstalledV";
+            this.label_InstalledV.Size = new System.Drawing.Size(111, 19);
+            this.label_InstalledV.TabIndex = 26;
+            this.label_InstalledV.Text = "Installed version:";
             // 
             // Form_ER
             // 
@@ -385,12 +412,12 @@
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1100, 600);
+            this.Controls.Add(this.label_InstalledV);
             this.Controls.Add(this.label_version);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.example_stuff);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Settings_panel);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.button_Install);
             this.Controls.Add(this.comboBox_Versions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -413,6 +440,7 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.to_tray)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -434,7 +462,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button_Modpack;
         private System.Windows.Forms.NotifyIcon ERnotifyIcon;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel Settings_panel;
         private System.Windows.Forms.ComboBox comboBox_Pack;
         private System.Windows.Forms.Panel panel2;
@@ -448,6 +475,8 @@
         private System.Windows.Forms.PictureBox setings_button;
         private System.Windows.Forms.Label label_version;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.Label label_InstalledV;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

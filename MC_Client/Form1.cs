@@ -116,11 +116,34 @@ namespace MC_Client
             if ((tmp152= AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp152;
             if ((tmp152= AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp152;
             if ((tmp152= AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp152;
-
+            label_InstalledV.Text = "Installed version: "+Installed_PackV;
 
             output_c("Launcher start up successful");
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
+            //System colors
+            panel2.BackColor = SystemColors.WindowFrame;
+            BackColor = SystemColors.ActiveBorder;
+            Settings_panel.BackColor = SystemColors.Control;
+            comboBox_Pack.BackColor =SystemColors.ScrollBar;
+            comboBox_Versions.BackColor =SystemColors.ScrollBar;
+            progressBar1.BackColor = SystemColors.WindowFrame;
+            //text colors
+            temp_name.ForeColor = SystemColors.WindowText;
+            comboBox_Pack.ForeColor= SystemColors.WindowText;
+            button_Modpack.ForeColor= SystemColors.WindowText;
+            label_InstalledV.ForeColor= SystemColors.WindowText;
+            label_version.ForeColor= SystemColors.WindowText;
+            button_Install.ForeColor= SystemColors.WindowText;
+            checkBox_Biome.ForeColor= SystemColors.WindowText;
+            checkBox_Dev.ForeColor=SystemColors.WindowText;
+            checkBox_Fresh.ForeColor= SystemColors.WindowText;
+            checkBox_Log.ForeColor= SystemColors.WindowText;
+            comboBox_Versions.ForeColor= SystemColors.WindowText;
+            checkBox_Timer.ForeColor= SystemColors.WindowText;
+            textBox1_time.ForeColor= SystemColors.WindowText;
+            textBox_Path.ForeColor= SystemColors.WindowText;
+            button_Path.ForeColor= SystemColors.WindowText;
         }
 
         private void CheckV()
@@ -250,6 +273,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void button_Install_Click(object sender, EventArgs e)
         {
+            progressBar1.Value = 0;
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             checkBox_Biome.Enabled = false;
@@ -314,6 +338,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Installed_Config = Version_Cfg;
                 }
             }
+            progressBar1.Value += 100;
             //else FileSystem.DeleteDirectory(Path_Config, DeleteDirectoryOption.DeleteAllContents);
 
             //stuff Biome
@@ -359,8 +384,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
                 else
                 if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+            progressBar1.Value += 100;
 
-            
 
 
             //stuff Forge
@@ -386,6 +411,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
                 string tmp021;
+                progressBar1.Value += 100;
                 if (IsGit)
                 {
                     tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
@@ -401,6 +427,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Pack_Settings[3]= "ForgeName:"+ForgeName;
                 Installed_Forge = Version_Forge;
             }
+            else
+                progressBar1.Value += 100;
+            progressBar1.Value += 100;
 
             //stuff Scripts
             if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
@@ -440,7 +469,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-
+            progressBar1.Value += 100;
 
 
             //stuff Mods
@@ -489,7 +518,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             output_c("Installing Mods...");
 
             string[] mods = SList_Mods.Split(",".ToCharArray());
-
             if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
             if (IsFresh)
             {
@@ -497,6 +525,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Directory.CreateDirectory(Path_mod);
                 for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
                 {
+                    int modTBar = 680 / mods.Length;
                     for (int i = 0; i <= ModLibName.Length - 1; ++i)
                     {
                         if (ModLibName[i] == mods[modNum])
@@ -511,6 +540,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 output_c("Downloading " + ModLibName[i] + " failed..." + ex);
                             }
                         }
+                        progressBar1.Value += modTBar;
                     }
                 }
             }
@@ -527,6 +557,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                int modTBar = 680 / mods.Length;
                 for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
                 {
                     for (int i = 0; i <= ModLibName.Length - 1; ++i)
@@ -542,6 +573,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             {
                                 output_c("Downloading " + ModLibName[i] + " failed..." + ex);
                             }
+                            progressBar1.Value += modTBar;
                         }
                     }
                 }
@@ -593,7 +625,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             //stuff end
-            Pack_Settings[6] = "Version:" + comboBox_Versions.Text;
+            progressBar1.Value = 1200;
+            Installed_PackV = comboBox_Versions.Text;
+            label_InstalledV.Text = "Installed version: " + Installed_PackV;
+            Pack_Settings[6] = "Version:" + Installed_PackV;
             output_c("Installation Finished");
             MessageBox.Show("Installation Finished", "Elemental Installer");
             File.WriteAllLines(Path_PackV, Pack_Settings);
@@ -801,12 +836,23 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (Settings_panel.Location.X == 840)
             {
                 Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+                button_Install.Location = new Point(894, 510);
+                progressBar1.Size = new Size(1034, 23);
             }
             else
             {
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+                button_Install.Location = new Point(700, 510);
+                progressBar1.Size = new Size(840, 23);
             }          
                 
+        }
+
+        private void ERnotifyIcon_Click(object sender, EventArgs e)
+        {
+            ERnotifyIcon.Visible = false;
+            ShowWindow(GetConsoleWindow(), 5);
+            Show();
         }
 
 
@@ -817,14 +863,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             ERnotifyIcon.Visible = true;
             ShowWindow(GetConsoleWindow(), 0);
         }
-
-        private void ERnotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Show();
-            ERnotifyIcon.Visible = false;
-            ShowWindow(GetConsoleWindow(), 5);
-        }
-
         
         //stuff timer
         private void timer1_Tick(object sender, EventArgs e)
@@ -863,6 +901,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         private void Form_ER_FormClosing(object sender, FormClosingEventArgs e)
         {
             File.WriteAllLines(Path_Settings,ER_Settings);
+            if(File.Exists(Path_PackV))
             File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
@@ -939,6 +978,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Path_Biome = Path_Config + "\\TerrainControl";
             Path_Script = Path_Pack + "\\scripts";
             Path_mod = Path_Pack + "\\mods";
+            string tmp153;
+            if (File.Exists(Path_PackV))
+            {
+                Pack_Settings = File.ReadAllLines(Path_PackV);
+                if ((tmp153 = AfterP(Pack_Settings, "Cfg:")) != null) Installed_Config = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "Forge:")) != null) Installed_Forge = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "ForgeName:")) != null) ForgeName = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp153;
+                label_InstalledV.Text = "Installed version: " + Installed_PackV;
+            }
+            else
+                label_InstalledV.Text = "No version installed";
             CheckV();
         }
         public void output_c(string text)
