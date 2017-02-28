@@ -46,17 +46,25 @@
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.label2 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.Settings_panel = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.setings_button = new System.Windows.Forms.PictureBox();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button_Close = new System.Windows.Forms.Button();
             this.temp_name = new System.Windows.Forms.Label();
-            this.button_Totray = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.to_tray = new System.Windows.Forms.PictureBox();
             this.example_stuff = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label_version = new System.Windows.Forms.Label();
+            this.Settings_panel.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.to_tray)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox_Versions
@@ -93,7 +101,7 @@
             // button_Install
             // 
             this.button_Install.Enabled = false;
-            this.button_Install.Location = new System.Drawing.Point(259, 251);
+            this.button_Install.Location = new System.Drawing.Point(703, 509);
             this.button_Install.Name = "button_Install";
             this.button_Install.Size = new System.Drawing.Size(140, 62);
             this.button_Install.TabIndex = 6;
@@ -105,7 +113,7 @@
             // 
             this.checkBox_Dev.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Dev.AutoSize = true;
-            this.checkBox_Dev.Location = new System.Drawing.Point(33, 74);
+            this.checkBox_Dev.Location = new System.Drawing.Point(66, 313);
             this.checkBox_Dev.Name = "checkBox_Dev";
             this.checkBox_Dev.Size = new System.Drawing.Size(141, 17);
             this.checkBox_Dev.TabIndex = 7;
@@ -117,7 +125,7 @@
             // 
             this.checkBox_Log.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Log.AutoSize = true;
-            this.checkBox_Log.Location = new System.Drawing.Point(33, 97);
+            this.checkBox_Log.Location = new System.Drawing.Point(66, 336);
             this.checkBox_Log.Name = "checkBox_Log";
             this.checkBox_Log.Size = new System.Drawing.Size(112, 17);
             this.checkBox_Log.TabIndex = 8;
@@ -130,7 +138,7 @@
             this.checkBox_Biome.AccessibleDescription = "";
             this.checkBox_Biome.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Biome.AutoSize = true;
-            this.checkBox_Biome.Location = new System.Drawing.Point(33, 51);
+            this.checkBox_Biome.Location = new System.Drawing.Point(66, 290);
             this.checkBox_Biome.Name = "checkBox_Biome";
             this.checkBox_Biome.Size = new System.Drawing.Size(121, 17);
             this.checkBox_Biome.TabIndex = 10;
@@ -150,7 +158,7 @@
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Fresh.AutoSize = true;
             this.checkBox_Fresh.Enabled = false;
-            this.checkBox_Fresh.Location = new System.Drawing.Point(33, 120);
+            this.checkBox_Fresh.Location = new System.Drawing.Point(66, 359);
             this.checkBox_Fresh.Name = "checkBox_Fresh";
             this.checkBox_Fresh.Size = new System.Drawing.Size(83, 17);
             this.checkBox_Fresh.TabIndex = 11;
@@ -210,21 +218,49 @@
             this.label2.TabIndex = 17;
             this.label2.Text = "Version:";
             // 
-            // panel1
+            // Settings_panel
             // 
-            this.panel1.BackColor = System.Drawing.Color.Orchid;
-            this.panel1.Controls.Add(this.checkBox_Dev);
-            this.panel1.Controls.Add(this.checkBox_Log);
-            this.panel1.Controls.Add(this.checkBox_Fresh);
-            this.panel1.Controls.Add(this.checkBox_Biome);
-            this.panel1.Controls.Add(this.textBox1_time);
-            this.panel1.Controls.Add(this.textBox_Path);
-            this.panel1.Controls.Add(this.button_Path);
-            this.panel1.Controls.Add(this.checkBox_Timer);
-            this.panel1.Location = new System.Drawing.Point(850, 80);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(250, 520);
-            this.panel1.TabIndex = 18;
+            this.Settings_panel.BackColor = System.Drawing.Color.Orchid;
+            this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
+            this.Settings_panel.Controls.Add(this.checkBox_Dev);
+            this.Settings_panel.Controls.Add(this.checkBox_Log);
+            this.Settings_panel.Controls.Add(this.checkBox_Fresh);
+            this.Settings_panel.Controls.Add(this.checkBox_Biome);
+            this.Settings_panel.Controls.Add(this.textBox1_time);
+            this.Settings_panel.Controls.Add(this.textBox_Path);
+            this.Settings_panel.Controls.Add(this.button_Path);
+            this.Settings_panel.Controls.Add(this.checkBox_Timer);
+            this.Settings_panel.Location = new System.Drawing.Point(1040, 80);
+            this.Settings_panel.Name = "Settings_panel";
+            this.Settings_panel.Size = new System.Drawing.Size(260, 520);
+            this.Settings_panel.TabIndex = 18;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.setings_button, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(189, 254);
+            this.tableLayoutPanel2.TabIndex = 14;
+            // 
+            // setings_button
+            // 
+            this.setings_button.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.setings_button.Image = ((System.Drawing.Image)(resources.GetObject("setings_button.Image")));
+            this.setings_button.Location = new System.Drawing.Point(3, 5);
+            this.setings_button.Name = "setings_button";
+            this.setings_button.Size = new System.Drawing.Size(50, 50);
+            this.setings_button.TabIndex = 0;
+            this.setings_button.TabStop = false;
+            this.setings_button.Click += new System.EventHandler(this.setings_button_Click);
             // 
             // comboBox_Pack
             // 
@@ -261,28 +297,20 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.button_Close, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.comboBox_Pack, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.temp_name, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button_Modpack, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button_Totray, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.to_tray, 6, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1053, 60);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // button_Close
-            // 
-            this.button_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Close.Location = new System.Drawing.Point(983, 18);
-            this.button_Close.Name = "button_Close";
-            this.button_Close.Size = new System.Drawing.Size(54, 23);
-            this.button_Close.TabIndex = 22;
-            this.button_Close.Text = "close";
-            this.button_Close.UseVisualStyleBackColor = true;
-            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
+            this.tableLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseDown);
+            this.tableLayoutPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseMove);
+            this.tableLayoutPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseUp);
             // 
             // temp_name
             // 
@@ -297,27 +325,57 @@
             this.temp_name.TabIndex = 15;
             this.temp_name.Text = "Elemental launcher ";
             // 
-            // button_Totray
+            // pictureBox1
             // 
-            this.button_Totray.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Totray.Location = new System.Drawing.Point(923, 18);
-            this.button_Totray.Name = "button_Totray";
-            this.button_Totray.Size = new System.Drawing.Size(54, 23);
-            this.button_Totray.TabIndex = 23;
-            this.button_Totray.Text = "Min";
-            this.button_Totray.UseVisualStyleBackColor = true;
-            this.button_Totray.Click += new System.EventHandler(this.button_Totray_Click);
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(983, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.TabIndex = 24;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // to_tray
+            // 
+            this.to_tray.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.to_tray.Image = ((System.Drawing.Image)(resources.GetObject("to_tray.Image")));
+            this.to_tray.Location = new System.Drawing.Point(923, 5);
+            this.to_tray.Name = "to_tray";
+            this.to_tray.Size = new System.Drawing.Size(50, 50);
+            this.to_tray.TabIndex = 25;
+            this.to_tray.TabStop = false;
+            this.to_tray.Click += new System.EventHandler(this.to_tray_Click);
             // 
             // example_stuff
             // 
             this.example_stuff.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.example_stuff.AutoSize = true;
             this.example_stuff.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.example_stuff.Location = new System.Drawing.Point(611, 247);
+            this.example_stuff.Location = new System.Drawing.Point(572, 238);
             this.example_stuff.Name = "example_stuff";
             this.example_stuff.Size = new System.Drawing.Size(91, 25);
             this.example_stuff.TabIndex = 21;
             this.example_stuff.Text = "launcher ";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.progressBar1.Location = new System.Drawing.Point(0, 577);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(840, 23);
+            this.progressBar1.TabIndex = 24;
+            // 
+            // label_version
+            // 
+            this.label_version.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label_version.AutoSize = true;
+            this.label_version.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_version.Location = new System.Drawing.Point(773, 95);
+            this.label_version.Name = "label_version";
+            this.label_version.Size = new System.Drawing.Size(80, 25);
+            this.label_version.TabIndex = 25;
+            this.label_version.Text = "Version:";
             // 
             // Form_ER
             // 
@@ -326,9 +384,11 @@
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1100, 600);
+            this.Controls.Add(this.label_version);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.example_stuff);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.Settings_panel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button_Install);
             this.Controls.Add(this.comboBox_Versions);
@@ -343,11 +403,15 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_ER_FormClosing);
             this.Load += new System.EventHandler(this.Form_ER_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form_ER_MouseClick);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.Settings_panel.ResumeLayout(false);
+            this.Settings_panel.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.setings_button)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.to_tray)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -370,14 +434,18 @@
         private System.Windows.Forms.Button button_Modpack;
         private System.Windows.Forms.NotifyIcon ERnotifyIcon;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel Settings_panel;
         private System.Windows.Forms.ComboBox comboBox_Pack;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label temp_name;
         private System.Windows.Forms.Label example_stuff;
-        private System.Windows.Forms.Button button_Close;
-        private System.Windows.Forms.Button button_Totray;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox to_tray;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.PictureBox setings_button;
+        private System.Windows.Forms.Label label_version;
     }
 }
 

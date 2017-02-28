@@ -734,8 +734,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        //temp close button
-        private void button_Close_Click(object sender, EventArgs e)
+        //close button code
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -743,6 +743,19 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         //window movement control 
         private bool mouseDown;
         private Point lastLocation;
+
+        private void tableLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
+        }
+
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
+        }
+
 
         private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
@@ -754,17 +767,50 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Update();
             }
         }
+
+        private void tableLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                this.Location = new Point(
+                    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+
+                this.Update();
+            }
+        }
+
         private void panel2_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
         }
 
-        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        private void tableLayoutPanel1_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
-            lastLocation = e.Location;
+            mouseDown = false;
         }
 
+        private void to_tray_Click(object sender, EventArgs e)
+        {
+            Hide();
+            ERnotifyIcon.Visible = true;
+            ShowWindow(GetConsoleWindow(), 0);
+        }
+
+        private void setings_button_Click(object sender, EventArgs e)
+        {
+            if (Settings_panel.Location.X == 840)
+            {
+                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+            }
+            else
+            {
+                Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+            }          
+                
+        }
+
+
+        //end of window move code 
         private void button_Totray_Click(object sender, EventArgs e)
         {
             Hide();
