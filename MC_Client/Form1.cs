@@ -123,8 +123,8 @@ namespace MC_Client
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
             //System colors
             panel2.BackColor = SystemColors.WindowFrame;
-            BackColor = SystemColors.ActiveBorder;
-            Settings_panel.BackColor = SystemColors.Control;
+            BackColor = SystemColors.Control;
+            Settings_panel.BackColor = SystemColors.ActiveBorder;
             comboBox_Pack.BackColor =SystemColors.ScrollBar;
             comboBox_Versions.BackColor =SystemColors.ScrollBar;
             progressBar1.BackColor = SystemColors.WindowFrame;
