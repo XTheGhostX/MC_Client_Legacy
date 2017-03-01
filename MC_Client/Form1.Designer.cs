@@ -54,12 +54,12 @@
             this.temp_name = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.to_tray = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.example_stuff = new System.Windows.Forms.Label();
+            this.pictureBox_ERlogo = new System.Windows.Forms.PictureBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label_version = new System.Windows.Forms.Label();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
+            this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
@@ -67,14 +67,15 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.to_tray)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ERlogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox_Versions
             // 
             this.comboBox_Versions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Versions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox_Versions.Location = new System.Drawing.Point(93, 273);
+            this.comboBox_Versions.Location = new System.Drawing.Point(93, 342);
             this.comboBox_Versions.Name = "comboBox_Versions";
             this.comboBox_Versions.Size = new System.Drawing.Size(142, 21);
             this.comboBox_Versions.TabIndex = 2;
@@ -105,6 +106,7 @@
             // 
             // button_Install
             // 
+            this.button_Install.BackColor = System.Drawing.Color.Transparent;
             this.button_Install.Enabled = false;
             this.button_Install.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Install.Location = new System.Drawing.Point(894, 509);
@@ -112,7 +114,7 @@
             this.button_Install.Size = new System.Drawing.Size(140, 62);
             this.button_Install.TabIndex = 6;
             this.button_Install.Text = "Install/Update";
-            this.button_Install.UseVisualStyleBackColor = true;
+            this.button_Install.UseVisualStyleBackColor = false;
             this.button_Install.Click += new System.EventHandler(this.button_Install_Click);
             // 
             // checkBox_Dev
@@ -222,7 +224,7 @@
             // 
             // Settings_panel
             // 
-            this.Settings_panel.BackColor = System.Drawing.Color.Orchid;
+            this.Settings_panel.BackColor = System.Drawing.Color.DodgerBlue;
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
             this.Settings_panel.Controls.Add(this.checkBox_Dev);
             this.Settings_panel.Controls.Add(this.checkBox_Log);
@@ -305,7 +307,7 @@
             this.tableLayoutPanel1.Controls.Add(this.button_Modpack, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.to_tray, 6, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox_ERlogo, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -351,27 +353,16 @@
             this.to_tray.TabStop = false;
             this.to_tray.Click += new System.EventHandler(this.to_tray_Click);
             // 
-            // pictureBox2
+            // pictureBox_ERlogo
             // 
-            this.pictureBox2.Image = global::MC_Client.Properties.Resources.ERlogo;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.MaximumSize = new System.Drawing.Size(64, 64);
-            this.pictureBox2.MinimumSize = new System.Drawing.Size(64, 64);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 26;
-            this.pictureBox2.TabStop = false;
-            // 
-            // example_stuff
-            // 
-            this.example_stuff.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.example_stuff.AutoSize = true;
-            this.example_stuff.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.example_stuff.Location = new System.Drawing.Point(572, 238);
-            this.example_stuff.Name = "example_stuff";
-            this.example_stuff.Size = new System.Drawing.Size(91, 25);
-            this.example_stuff.TabIndex = 21;
-            this.example_stuff.Text = "launcher ";
+            this.pictureBox_ERlogo.Image = global::MC_Client.Properties.Resources.ERlogo;
+            this.pictureBox_ERlogo.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_ERlogo.MaximumSize = new System.Drawing.Size(64, 64);
+            this.pictureBox_ERlogo.MinimumSize = new System.Drawing.Size(64, 64);
+            this.pictureBox_ERlogo.Name = "pictureBox_ERlogo";
+            this.pictureBox_ERlogo.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox_ERlogo.TabIndex = 26;
+            this.pictureBox_ERlogo.TabStop = false;
             // 
             // progressBar1
             // 
@@ -387,8 +378,9 @@
             // 
             this.label_version.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_version.AutoSize = true;
+            this.label_version.BackColor = System.Drawing.Color.Transparent;
             this.label_version.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_version.Location = new System.Drawing.Point(5, 270);
+            this.label_version.Location = new System.Drawing.Point(5, 339);
             this.label_version.Name = "label_version";
             this.label_version.Size = new System.Drawing.Size(80, 25);
             this.label_version.TabIndex = 25;
@@ -398,12 +390,21 @@
             // 
             this.label_InstalledV.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_InstalledV.AutoSize = true;
+            this.label_InstalledV.BackColor = System.Drawing.Color.Transparent;
             this.label_InstalledV.Font = new System.Drawing.Font("Segoe UI Emoji", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_InstalledV.Location = new System.Drawing.Point(12, 295);
+            this.label_InstalledV.Location = new System.Drawing.Point(12, 364);
             this.label_InstalledV.Name = "label_InstalledV";
             this.label_InstalledV.Size = new System.Drawing.Size(111, 19);
             this.label_InstalledV.TabIndex = 26;
             this.label_InstalledV.Text = "Installed version:";
+            // 
+            // pictureBox_PackLogo
+            // 
+            this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
+            this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
+            this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
+            this.pictureBox_PackLogo.TabIndex = 27;
+            this.pictureBox_PackLogo.TabStop = false;
             // 
             // Form_ER
             // 
@@ -412,10 +413,10 @@
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1100, 600);
+            this.Controls.Add(this.pictureBox_PackLogo);
             this.Controls.Add(this.label_InstalledV);
             this.Controls.Add(this.label_version);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.example_stuff);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Settings_panel);
             this.Controls.Add(this.button_Install);
@@ -440,7 +441,8 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.to_tray)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ERlogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,7 +469,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label temp_name;
-        private System.Windows.Forms.Label example_stuff;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox to_tray;
         private System.Windows.Forms.ProgressBar progressBar1;
@@ -476,7 +477,8 @@
         private System.Windows.Forms.Label label_version;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.Label label_InstalledV;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox_ERlogo;
+        private System.Windows.Forms.PictureBox pictureBox_PackLogo;
     }
 }
 

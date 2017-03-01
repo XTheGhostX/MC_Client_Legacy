@@ -121,6 +121,7 @@ namespace MC_Client
             output_c("Launcher start up successful");
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
+            /*----Does not look good
             //System colors
             panel2.BackColor = SystemColors.WindowFrame;
             BackColor = SystemColors.Control;
@@ -144,6 +145,9 @@ namespace MC_Client
             textBox1_time.ForeColor= SystemColors.WindowText;
             textBox_Path.ForeColor= SystemColors.WindowText;
             button_Path.ForeColor= SystemColors.WindowText;
+            */
+            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
+            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
         }
 
         private void CheckV()
@@ -530,15 +534,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     {
                         if (ModLibName[i] == mods[modNum])
                         {
-                            try
-                            {
-                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
-                                output_c("Downloading " + ModLibName[i]+ " successful");                        
-                            }
-                            catch (Exception ex)
-                            {
-                                output_c("Downloading " + ModLibName[i] + " failed..." + ex);
-                            }
+                            DownloadM(ModLibLink[i], ModLibName[i]);
+
                         }
                     }
                     progressBar1.Value += modTBar;
@@ -566,22 +563,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     {
                         if (ModLibName[i] == mods[modNum])
                         {
-                            try
-                            {
-                                webClient.DownloadFile(new Uri(ModLibLink[i]), Path_mod + "\\" + ModLibName[i]);
-                                output_c("Downloading " + ModLibName[i] + " successful");
-                            }
-                            catch (Exception ex)
-                            {
-                                output_c("Downloading " + ModLibName[i] + " failed..." + ex);
-                            }
+                            DownloadM(ModLibLink[i], ModLibName[i]);
                             progressBar1.Value += modTBar;
                         }
                     }
                 }
             }
         
-
             //stuff MC launcher profile
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
 
@@ -624,7 +612,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
-
+            //stuff Badge
 
             //stuff end
             progressBar1.Value = 1200;
@@ -746,6 +734,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
                 checkBox_Biome.Enabled = true;
             }
+            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
+            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
         }
 
         private void Form_ER_MouseClick(object sender, MouseEventArgs e)
@@ -1006,6 +996,23 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
+
+        private void DownloadM(string ModLibLink,string ModLibName)
+        {
+            try
+            {
+                using (WebClient webClient =new WebClient()) {
+                    webClient.DownloadFile(new Uri(ModLibLink), Path_mod + "\\" + ModLibName);
+                    output_c("Downloading " + ModLibName + " successful");
+                }
+            }
+            catch (Exception ex)
+            {
+                output_c("Downloading " + ModLibName + " failed..." + ex);
+            }
+        }
+
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
