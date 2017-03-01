@@ -557,7 +557,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
-                int modTBar = 680 / mods.Length;
+                int modTBar = 0;
+                if (mods.Length!=0)
+                    modTBar = 680 / mods.Length;
                 for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
                 {
                     for (int i = 0; i <= ModLibName.Length - 1; ++i)
