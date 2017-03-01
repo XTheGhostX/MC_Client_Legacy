@@ -932,7 +932,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             Pack_List= new string[0];
             Array.Resize(ref Pack_List, Pack_List.Length + 1);
-            Pack_List[0] = "[51.255.41.80][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]";
+            Pack_List[0] = "[db.elementalrealms.net][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]";
             if (!File.Exists(Path_Packs)) File.Create(Path_Packs); else
             Pack_List = Pack_List.Concat(File.ReadAllLines(Path_Packs)).ToArray().Where(c => c != null).ToArray();
             comboBox_Pack.Items.Clear();
