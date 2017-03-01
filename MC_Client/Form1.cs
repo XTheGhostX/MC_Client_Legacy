@@ -540,8 +540,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 output_c("Downloading " + ModLibName[i] + " failed..." + ex);
                             }
                         }
-                        progressBar1.Value += modTBar;
                     }
+                    progressBar1.Value += modTBar;
                 }
             }
             else
