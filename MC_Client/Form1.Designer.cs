@@ -355,6 +355,7 @@
             // 
             // pictureBox_ERlogo
             // 
+            this.pictureBox_ERlogo.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ERlogo.Image = global::MC_Client.Properties.Resources.ERlogo;
             this.pictureBox_ERlogo.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_ERlogo.MaximumSize = new System.Drawing.Size(64, 64);
@@ -400,6 +401,7 @@
             // 
             // pictureBox_PackLogo
             // 
+            this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
             this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
             this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
