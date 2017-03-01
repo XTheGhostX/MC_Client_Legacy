@@ -85,7 +85,7 @@ namespace MC_Client
             {
                 checkBox_Fresh.Checked = true;
                 if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
-                File.Create(Path_Settings);
+                File.Create(Path_Settings).Close();
             }
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!File.Exists(MCProfile_Path))
