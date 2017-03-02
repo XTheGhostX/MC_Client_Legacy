@@ -830,12 +830,16 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
                 button_Install.Location = new Point(894, 510);
                 progressBar1.Size = new Size(1034, 23);
+                textBox1_time.Visible = false;
+                textBox_Path.Visible = false;
             }
             else
             {
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
                 button_Install.Location = new Point(700, 510);
                 progressBar1.Size = new Size(840, 23);
+                textBox1_time.Visible = true;
+                textBox_Path.Visible = true;
             }          
                 
         }

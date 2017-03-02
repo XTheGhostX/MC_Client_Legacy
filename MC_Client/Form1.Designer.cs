@@ -89,6 +89,7 @@
             this.textBox_Path.Size = new System.Drawing.Size(198, 20);
             this.textBox_Path.TabIndex = 3;
             this.textBox_Path.Text = "%appdata%\\.minecraft\\ElementalRealms";
+            this.textBox_Path.Visible = false;
             this.textBox_Path.TextChanged += new System.EventHandler(this.textBox_Path_TextChanged);
             // 
             // button_Path
@@ -198,6 +199,7 @@
             this.textBox1_time.TabIndex = 13;
             this.textBox1_time.Text = "30";
             this.textBox1_time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1_time.Visible = false;
             this.textBox1_time.TextChanged += new System.EventHandler(this.textBox1_time_TextChanged);
             // 
             // timer1
