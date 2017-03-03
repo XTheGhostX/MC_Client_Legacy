@@ -30,7 +30,7 @@ namespace MC_Client
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
         public string Path_Config, Path_mod, Path_Change, Path_Settings,Path_PackV, Path_Script, Path_Biome, Path_Pack;
-        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod, Installed_Badge;
         public bool IsRaw = false, IsGit=true;
         public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
@@ -44,6 +44,7 @@ namespace MC_Client
         public string Version_Biome = "Biome_V";
         public string Version_Cfg = "Config_V";
         public string Version_Forge = "Forge_V";
+        public string Version_Badge = "Badge_V";
         public string SList_Mods = "Mods list";
         //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
@@ -116,6 +117,7 @@ namespace MC_Client
             if ((tmp152= AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp152;
             if ((tmp152= AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp152;
             if ((tmp152= AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp152;
+            if ((tmp152 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp152;
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
 
             output_c("Launcher start up successful");
@@ -442,7 +444,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (Version_Script != Installed_Script || IsFresh)
                 {
                     string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
-                    output_c("Downloading Configs");
+                    output_c("Downloading Script");
                     try
                     {
                         if (Version_Script.Contains("http"))
@@ -613,15 +615,48 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
             //stuff Badge
-
+            if (Version_Badge != "null")
+            {
+                if (Version_Badge != Installed_Badge || IsFresh)
+                {
+                    string Temp_BadgePath = (Temp + "\\" + Pack_Name + "_Badge.zip");
+                    output_c("Downloading Badge");
+                    try
+                    {
+                        if (Version_Badge.Contains("http"))
+                        {
+                            IsGit = false;
+                            webClient.DownloadFile(new Uri(Version_Badge), Temp_BadgePath);
+                        }
+                        else
+                        {
+                            IsGit = true;
+                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Badge/archive/" + Version_Badge + ".zip"), Temp_BadgePath);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        output_c("Download failed"+ ex.ToString());
+                    }
+                    output_c("Installing badge");
+                    ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
+                    if (IsGit)
+                        FileSystem.MoveDirectory((Temp + "\\MC_Badge-" + Version_Badge), Path_Pack, true);
+                    else
+                        FileSystem.MoveDirectory((Temp + "\\MC_Badge"), Path_Pack, true);
+                    Pack_Settings[5] = "Badge:" + Version_Badge;
+                    Installed_Badge = Version_Badge;
+                }
+            }
+            
             //stuff end
             progressBar1.Value = 1200;
             Installed_PackV = comboBox_Versions.Text;
             label_InstalledV.Text = "Installed version: " + Installed_PackV;
             Pack_Settings[6] = "Version:" + Installed_PackV;
             output_c("Installation Finished");
-            MessageBox.Show("Installation Finished", "Elemental Installer");
             File.WriteAllLines(Path_PackV, Pack_Settings);
+            MessageBox.Show("Installation Finished", "Elemental Installer");
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             button_Install.Enabled = true;
             if(Version_Biome != "null")
@@ -679,6 +714,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     if (tmp910[0] == comboBox_Versions.Text)
                         break;
                 }
+                Version_Badge = tmp910[7];
                 Version_Script = tmp910[3];
                 Version_Biome = tmp910[2];
                 Version_Cfg = tmp910[1];
@@ -705,6 +741,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 output_c("Obtaining Refrences");
                 while (dataReader.Read())
                 {
+                    Version_Badge = (dataReader["Badge"].ToString());
                     Version_Script = (dataReader["Script"].ToString());
                     Version_Biome = (dataReader["Biome"].ToString());
                     Version_Cfg = (dataReader["Config"].ToString());
@@ -722,6 +759,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             output_c("Config version:" + Version_Cfg);
             output_c("Forge Version:" + Version_Forge);
             output_c("Script Version:" + Version_Script);
+            output_c("Badge Version:" + Version_Badge);
             output_c("##################");
             if (Version_Biome == "null")
             {
@@ -734,8 +772,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
                 checkBox_Biome.Enabled = true;
             }
-            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
-            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
+            RefreshBadge();
         }
 
         private void Form_ER_MouseClick(object sender, MouseEventArgs e)
@@ -984,11 +1021,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if ((tmp153 = AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp153;
                 if ((tmp153 = AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp153;
                 if ((tmp153 = AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp153;
+                if ((tmp153 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp153;
                 label_InstalledV.Text = "Installed version: " + Installed_PackV;
             }
             else
                 label_InstalledV.Text = "No version installed";
             CheckV();
+            RefreshBadge();
         }
         public void output_c(string text)
         {
@@ -1015,7 +1054,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 output_c("Downloading " + ModLibName + " failed..." + ex);
             }
         }
-
+        private void RefreshBadge()
+        {
+            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
+            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
+        }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
