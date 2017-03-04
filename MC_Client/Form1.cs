@@ -62,6 +62,7 @@ namespace MC_Client
             Path_PackV = Path_Pack + "\\Pack.ini";
             Path_Settings =Path + "\\ERealms.ini";
             Path_Packs = Path + "\\ER_Packs.ini";
+            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
             PackList();
 
@@ -95,7 +96,6 @@ namespace MC_Client
     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
-            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
             if (!File.Exists(Path_PackV)) File.Create(Path_PackV).Close();
 
