@@ -79,11 +79,7 @@ namespace MC_Client
             }
             toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
             toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
-            if (File.Exists(Path_Settings))
-            {
-                checkBox_Fresh.Enabled = true;
-            }
-            else
+            if (!File.Exists(Path_Settings))
             {
                 checkBox_Fresh.Checked = true;
                 if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);

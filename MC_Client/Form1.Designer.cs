@@ -169,7 +169,6 @@
             // 
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Fresh.AutoSize = true;
-            this.checkBox_Fresh.Enabled = false;
             this.checkBox_Fresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_Fresh.Location = new System.Drawing.Point(66, 359);
             this.checkBox_Fresh.Name = "checkBox_Fresh";
