@@ -574,10 +574,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             bool  isERProfile = false;
                 for (int currentLine = 3; currentLine <= MCP_Text.Length -1; ++currentLine)
                 {
-                if (MCP_Text[currentLine].Contains(Pack_Name))
-                {
-                    isERProfile = true;
-                }
+                if (MCP_Text[currentLine].Contains(Pack_Name))isERProfile = true;
                 if (MCP_Text[currentLine].Contains("\"selectedProfile\""))
                     {
                         MCP_Text[currentLine] = "  \"selectedProfile\": \""+Pack_Name+"\",";
@@ -589,23 +586,34 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             for(int currentLine=InsertionLine;currentLine <= MCP_Text.Length - 1; ++currentLine)
             {
                 InsertionLine = currentLine;
+                if(MCP_Text[currentLine].Contains("\"profiles\": {}"))
+                {
+                    MCP_Text[InsertionLine] = "    \"profiles\": {";
+                    List<string> tmp910 = MCP_Text.ToList();
+                    tmp910.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
+                    tmp910.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
+                    tmp910.Insert(InsertionLine + 3,"      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
+                    tmp910.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
+                    tmp910.Insert(InsertionLine + 5,"      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                    tmp910.Insert(InsertionLine + 6, "    }");
+                    tmp910.Insert(InsertionLine + 7, "  },");
+                    MCP_Text = tmp910.ToArray();
+                    output_c("Made ERealms profile");
+                    isERProfile = true;
+                    break;
+                }else
                 if (MCP_Text[currentLine].Contains("\"profiles\":")) break;
             }
-           if(isERProfile == false)
+           if(!isERProfile)
             {
-                int tmp302 = MCP_Text.Length;
-                Array.Resize(ref MCP_Text, MCP_Text.Length + 14);
-                for(int currentLine =InsertionLine-1; currentLine < tmp302; ++currentLine)
-                {
-                    MCP_Text[(tmp302 + InsertionLine - currentLine)+5] = MCP_Text[tmp302 - currentLine];
-                }
-                MCP_Text[InsertionLine+ 1] = "    \"ERealms\": {";
-                MCP_Text[InsertionLine + 2] = "      \"name\": \"ERealms\",";
-                MCP_Text[InsertionLine + 3] = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",";
-                MCP_Text[InsertionLine + 4] = "      \"lastVersionId\": \""+ForgeName+"\",";
-                MCP_Text[InsertionLine + 5] = "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
-                MCP_Text[InsertionLine + 6] = "    },";
-
+                List<string> tmp010 = MCP_Text.ToList();
+                tmp010.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
+                tmp010.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
+                tmp010.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
+                tmp010.Insert(InsertionLine + 4, "      \"lastVersionId\": \""+ForgeName+"\",");
+                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                tmp010.Insert(InsertionLine + 6, "    },");
+                MCP_Text = tmp010.ToArray();
                 output_c("Made ERealms profile");
             }
             File.WriteAllLines(MCProfile_Path,MCP_Text);
