@@ -46,6 +46,7 @@ namespace MC_Client
         public string Version_Forge = "Forge_V";
         public string Version_Badge = "Badge_V";
         public string SList_Mods = "Mods list";
+        public int PackRAM = 3;
         //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
         public string[] ER_Settings, Pack_Settings;
@@ -580,7 +581,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                         MCP_Text[currentLine] = "  \"selectedProfile\": \""+Pack_Name+"\",";
                     }
                 }
-            if (IsFresh == true) isERProfile = false;
             //Finnish isERProfile
             int InsertionLine = 0;
             for(int currentLine=InsertionLine;currentLine <= MCP_Text.Length - 1; ++currentLine)
@@ -594,7 +594,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     tmp910.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
                     tmp910.Insert(InsertionLine + 3,"      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
                     tmp910.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
-                    tmp910.Insert(InsertionLine + 5,"      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                    tmp910.Insert(InsertionLine + 5,"      \"javaArgs\": \" -Xmx"+PackRAM+"G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
                     tmp910.Insert(InsertionLine + 6, "    }");
                     tmp910.Insert(InsertionLine + 7, "  },");
                     MCP_Text = tmp910.ToArray();
@@ -611,10 +611,26 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tmp010.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
                 tmp010.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
                 tmp010.Insert(InsertionLine + 4, "      \"lastVersionId\": \""+ForgeName+"\",");
-                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx"+PackRAM+"G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
                 tmp010.Insert(InsertionLine + 6, "    },");
                 MCP_Text = tmp010.ToArray();
                 output_c("Made ERealms profile");
+            }
+            else
+            {
+                for (int currentLine = 3; currentLine <= MCP_Text.Length - 1; ++currentLine)
+                {
+                    if (MCP_Text[currentLine].Contains("\""+Pack_Name+"\": {"))
+                    {
+                        MCP_Text[currentLine+2] = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",";
+                        MCP_Text[currentLine + 3] = "      \"lastVersionId\": \"" + ForgeName + "\",";
+                        if (MCP_Text[currentLine + 5].Contains("},"))
+                            MCP_Text[currentLine + 4] = "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
+                        else
+                            MCP_Text[currentLine + 4] = "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\",";
+                        break;
+                    }
+                }
             }
             File.WriteAllLines(MCProfile_Path,MCP_Text);
 
