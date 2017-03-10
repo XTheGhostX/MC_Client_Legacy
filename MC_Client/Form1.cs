@@ -547,7 +547,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 {
                     int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
                     if (modsIndex == -1)
+                    {
                         File.Delete(CurrentMods[modNum]);
+                        output_c("Deleated: " + CurrentMods[modNum]);
+                    }
                     else 
                     mods[modsIndex] = null;
 
