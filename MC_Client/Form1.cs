@@ -549,7 +549,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     if (modsIndex == -1)
                     {
                         File.Delete(CurrentMods[modNum]);
-                        output_c("Deleated: " + CurrentMods[modNum]);
+                        output_c("Deleated: " + CurrentMods[modNum].Remove(0,Path_mod.Length+1));
                     }
                     else 
                     mods[modsIndex] = null;
