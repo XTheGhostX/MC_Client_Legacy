@@ -14,6 +14,7 @@ using System.IO;
 using System.IO.Compression;
 using Microsoft.VisualBasic.FileIO;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic.Devices;
 
 
 
@@ -115,6 +116,7 @@ namespace MC_Client
             if ((tmp152= AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp152;
             if ((tmp152= AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp152;
             if ((tmp152 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp152;
+            if ((tmp152 = AfterP(Pack_Settings, "RAM:")) != null) comboBox_RAM.Text = tmp152;
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
 
             output_c("Launcher start up successful");
@@ -145,6 +147,11 @@ namespace MC_Client
             textBox_Path.ForeColor= SystemColors.WindowText;
             button_Path.ForeColor= SystemColors.WindowText;
             */
+            int TotalRAM = int.Parse(((ulong.Parse((new ComputerInfo()).TotalPhysicalMemory.ToString()))/1073741824).ToString());
+            for(int i = 4; i <= TotalRAM; i++)
+            {
+                comboBox_RAM.Items.Add(i);
+            }
             if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
             if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
         }
@@ -909,6 +916,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             ERnotifyIcon.Visible = false;
             ShowWindow(GetConsoleWindow(), 5);
             Show();
+        }
+
+        private void comboBox_RAM_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PackRAM = int.Parse(comboBox_RAM.Text);
+            Pack_Settings[7] = "RAM:" + PackRAM;
+            File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
 
