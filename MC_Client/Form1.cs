@@ -102,21 +102,18 @@ namespace MC_Client
             Array.Resize(ref ER_Settings, 10);
             Array.Resize(ref Pack_Settings, 10);
             string tmp152;
-
+            int TotalRAM = int.Parse(((ulong.Parse((new ComputerInfo()).TotalPhysicalMemory.ToString())) / 1073741824).ToString());
+            for (int i = 4; i <= TotalRAM; i++)
+            {
+                comboBox_RAM.Items.Add(i);
+            }
+            ReloadPackSet();
             if ((tmp152= AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
             //Could change Dev value to be bool but Database
             if ((tmp152= AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "Cfg:")) != null) Installed_Config = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "Forge:")) != null) Installed_Forge = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "ForgeName:")) != null) ForgeName = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp152;
-            if ((tmp152= AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp152;
-            if ((tmp152 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp152;
-            if ((tmp152 = AfterP(Pack_Settings, "RAM:")) != null) comboBox_RAM.Text = tmp152;
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
 
             output_c("Launcher start up successful");
@@ -147,15 +144,22 @@ namespace MC_Client
             textBox_Path.ForeColor= SystemColors.WindowText;
             button_Path.ForeColor= SystemColors.WindowText;
             */
-            int TotalRAM = int.Parse(((ulong.Parse((new ComputerInfo()).TotalPhysicalMemory.ToString()))/1073741824).ToString());
-            for(int i = 4; i <= TotalRAM; i++)
-            {
-                comboBox_RAM.Items.Add(i);
-            }
             if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
             if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
         }
-
+        public void ReloadPackSet()
+        {
+            string tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Cfg:")) != null) Installed_Config = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Forge:")) != null) Installed_Forge = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "ForgeName:")) != null) ForgeName = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "RAM:")) != null) comboBox_RAM.Text = tmp153;
+            if ((tmp153 = AfterP(Pack_Settings, "OpMods:")) != null) checkBox_OpMods.Checked = bool.Parse(tmp153);
+        }
         private void CheckV()
         {
             comboBox_Versions.Text = "";
@@ -670,15 +674,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     output_c("Installing badge");
                     ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
+                    //stuff Client mods
+                    string tmpBadgeExPath="";
                     if (IsGit)
-                        FileSystem.MoveDirectory((Temp + "\\MC_Badge-" + Version_Badge), Path_Pack, true);
+                        tmpBadgeExPath=Temp + "\\MC_Badge-" + Version_Badge;
                     else
-                        FileSystem.MoveDirectory((Temp + "\\MC_Badge"), Path_Pack, true);
+                        tmpBadgeExPath = Temp + "\\MC_Badge";
+                    if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) Directory.Delete(tmpBadgeExPath + "\\" + "mods");
+                    FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
                     Pack_Settings[5] = "Badge:" + Version_Badge;
                     Installed_Badge = Version_Badge;
                 }
             }
-            
+            //ClassCacheTweaker Support
+            if (File.Exists(Path_Pack + "\\" + "classCache.dat")) File.Delete(Path_Pack + "\\" + "classCache.dat");
             //stuff end
             progressBar1.Value = 1200;
             Installed_PackV = comboBox_Versions.Text;
@@ -802,6 +811,13 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
                 checkBox_Biome.Enabled = true;
             }
+            if (Version_Badge == "null")
+            {
+                checkBox_OpMods.Checked = false;
+                checkBox_OpMods.Enabled = false;
+            }
+            else
+                checkBox_OpMods.Enabled = true;
             RefreshBadge();
         }
 
@@ -922,6 +938,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             PackRAM = int.Parse(comboBox_RAM.Text);
             Pack_Settings[7] = "RAM:" + PackRAM;
+            File.WriteAllLines(Path_PackV, Pack_Settings);
+        }
+
+        private void checkBox_OpMods_CheckedChanged(object sender, EventArgs e)
+        {
+            Pack_Settings[8] = "OpMods:" + checkBox_OpMods.Checked.ToString();
             File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
@@ -1048,17 +1070,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Path_Biome = Path_Config + "\\TerrainControl";
             Path_Script = Path_Pack + "\\scripts";
             Path_mod = Path_Pack + "\\mods";
-            string tmp153;
             if (File.Exists(Path_PackV))
             {
                 Pack_Settings = File.ReadAllLines(Path_PackV);
-                if ((tmp153 = AfterP(Pack_Settings, "Cfg:")) != null) Installed_Config = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "Forge:")) != null) Installed_Forge = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "ForgeName:")) != null) ForgeName = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "Script:")) != null) Installed_Script = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "Biome:")) != null) Installed_Biome = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp153;
-                if ((tmp153 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp153;
+                ReloadPackSet();
                 label_InstalledV.Text = "Installed version: " + Installed_PackV;
             }
             else

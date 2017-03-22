@@ -46,6 +46,7 @@
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Settings_panel = new System.Windows.Forms.Panel();
+            this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.setings_button = new System.Windows.Forms.PictureBox();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
@@ -60,7 +61,7 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
-            this.comboBox_RAM = new System.Windows.Forms.ComboBox();
+            this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
@@ -227,6 +228,7 @@
             // Settings_panel
             // 
             this.Settings_panel.BackColor = System.Drawing.Color.DodgerBlue;
+            this.Settings_panel.Controls.Add(this.checkBox_OpMods);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
             this.Settings_panel.Controls.Add(this.checkBox_Dev);
@@ -241,6 +243,19 @@
             this.Settings_panel.Name = "Settings_panel";
             this.Settings_panel.Size = new System.Drawing.Size(260, 520);
             this.Settings_panel.TabIndex = 18;
+            // 
+            // comboBox_RAM
+            // 
+            this.comboBox_RAM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_RAM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_RAM.FormattingEnabled = true;
+            this.comboBox_RAM.Items.AddRange(new object[] {
+            "3"});
+            this.comboBox_RAM.Location = new System.Drawing.Point(33, 424);
+            this.comboBox_RAM.Name = "comboBox_RAM";
+            this.comboBox_RAM.Size = new System.Drawing.Size(63, 21);
+            this.comboBox_RAM.TabIndex = 15;
+            this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -411,18 +426,19 @@
             this.pictureBox_PackLogo.TabIndex = 27;
             this.pictureBox_PackLogo.TabStop = false;
             // 
-            // comboBox_RAM
+            // checkBox_OpMods
             // 
-            this.comboBox_RAM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_RAM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox_RAM.FormattingEnabled = true;
-            this.comboBox_RAM.Items.AddRange(new object[] {
-            "3"});
-            this.comboBox_RAM.Location = new System.Drawing.Point(33, 424);
-            this.comboBox_RAM.Name = "comboBox_RAM";
-            this.comboBox_RAM.Size = new System.Drawing.Size(63, 21);
-            this.comboBox_RAM.TabIndex = 15;
-            this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
+            this.checkBox_OpMods.AccessibleDescription = "";
+            this.checkBox_OpMods.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox_OpMods.AutoSize = true;
+            this.checkBox_OpMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_OpMods.Location = new System.Drawing.Point(66, 267);
+            this.checkBox_OpMods.Name = "checkBox_OpMods";
+            this.checkBox_OpMods.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_OpMods.TabIndex = 16;
+            this.checkBox_OpMods.Text = "Optional Mods";
+            this.checkBox_OpMods.UseVisualStyleBackColor = true;
+            this.checkBox_OpMods.CheckedChanged += new System.EventHandler(this.checkBox_OpMods_CheckedChanged);
             // 
             // Form_ER
             // 
@@ -498,6 +514,7 @@
         private System.Windows.Forms.PictureBox pictureBox_ERlogo;
         private System.Windows.Forms.PictureBox pictureBox_PackLogo;
         private System.Windows.Forms.ComboBox comboBox_RAM;
+        private System.Windows.Forms.CheckBox checkBox_OpMods;
     }
 }
 
