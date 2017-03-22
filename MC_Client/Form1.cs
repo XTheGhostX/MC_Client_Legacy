@@ -680,7 +680,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                         tmpBadgeExPath=Temp + "\\MC_Badge-" + Version_Badge;
                     else
                         tmpBadgeExPath = Temp + "\\MC_Badge";
-                    if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) Directory.Delete(tmpBadgeExPath + "\\" + "mods");
+                    if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) FileSystem.DeleteDirectory(tmpBadgeExPath + "\\" + "mods", DeleteDirectoryOption.DeleteAllContents);
                     FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
                     Pack_Settings[5] = "Badge:" + Version_Badge;
                     Installed_Badge = Version_Badge;
