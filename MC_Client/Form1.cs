@@ -684,6 +684,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
                     Pack_Settings[5] = "Badge:" + Version_Badge;
                     Installed_Badge = Version_Badge;
+                    RefreshBadge();
                 }
             }
             //ClassCacheTweaker Support
