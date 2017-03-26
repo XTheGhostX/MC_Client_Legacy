@@ -46,6 +46,7 @@
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Settings_panel = new System.Windows.Forms.Panel();
+            this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.setings_button = new System.Windows.Forms.PictureBox();
@@ -61,7 +62,6 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
-            this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
@@ -244,6 +244,20 @@
             this.Settings_panel.Size = new System.Drawing.Size(260, 520);
             this.Settings_panel.TabIndex = 18;
             // 
+            // checkBox_OpMods
+            // 
+            this.checkBox_OpMods.AccessibleDescription = "";
+            this.checkBox_OpMods.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox_OpMods.AutoSize = true;
+            this.checkBox_OpMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_OpMods.Location = new System.Drawing.Point(66, 267);
+            this.checkBox_OpMods.Name = "checkBox_OpMods";
+            this.checkBox_OpMods.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_OpMods.TabIndex = 16;
+            this.checkBox_OpMods.Text = "Optional Mods";
+            this.checkBox_OpMods.UseVisualStyleBackColor = true;
+            this.checkBox_OpMods.CheckedChanged += new System.EventHandler(this.checkBox_OpMods_CheckedChanged);
+            // 
             // comboBox_RAM
             // 
             this.comboBox_RAM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -255,6 +269,7 @@
             this.comboBox_RAM.Name = "comboBox_RAM";
             this.comboBox_RAM.Size = new System.Drawing.Size(63, 21);
             this.comboBox_RAM.TabIndex = 15;
+            this.comboBox_RAM.Visible = false;
             this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
@@ -425,20 +440,6 @@
             this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
             this.pictureBox_PackLogo.TabIndex = 27;
             this.pictureBox_PackLogo.TabStop = false;
-            // 
-            // checkBox_OpMods
-            // 
-            this.checkBox_OpMods.AccessibleDescription = "";
-            this.checkBox_OpMods.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox_OpMods.AutoSize = true;
-            this.checkBox_OpMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_OpMods.Location = new System.Drawing.Point(66, 267);
-            this.checkBox_OpMods.Name = "checkBox_OpMods";
-            this.checkBox_OpMods.Size = new System.Drawing.Size(91, 17);
-            this.checkBox_OpMods.TabIndex = 16;
-            this.checkBox_OpMods.Text = "Optional Mods";
-            this.checkBox_OpMods.UseVisualStyleBackColor = true;
-            this.checkBox_OpMods.CheckedChanged += new System.EventHandler(this.checkBox_OpMods_CheckedChanged);
             // 
             // Form_ER
             // 

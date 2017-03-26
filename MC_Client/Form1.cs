@@ -916,6 +916,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressBar1.Size = new Size(1034, 23);
                 textBox1_time.Visible = false;
                 textBox_Path.Visible = false;
+                comboBox_RAM.Visible = false;
             }
             else
             {
@@ -924,6 +925,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressBar1.Size = new Size(840, 23);
                 textBox1_time.Visible = true;
                 textBox_Path.Visible = true;
+                comboBox_RAM.Visible = true;
             }          
                 
         }
