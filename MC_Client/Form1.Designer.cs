@@ -109,7 +109,7 @@
             // 
             // button_Install
             // 
-            this.button_Install.BackColor = System.Drawing.Color.Transparent;
+            this.button_Install.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(185)))));
             this.button_Install.Enabled = false;
             this.button_Install.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Install.Location = new System.Drawing.Point(894, 509);
@@ -119,6 +119,8 @@
             this.button_Install.Text = "Install/Update";
             this.button_Install.UseVisualStyleBackColor = false;
             this.button_Install.Click += new System.EventHandler(this.button_Install_Click);
+            this.button_Install.MouseEnter += new System.EventHandler(this.button_Install_MouseEnter);
+            this.button_Install.MouseLeave += new System.EventHandler(this.button_Install_MouseLeave);
             // 
             // checkBox_Dev
             // 

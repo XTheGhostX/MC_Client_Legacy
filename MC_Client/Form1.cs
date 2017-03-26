@@ -950,6 +950,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
+        private void button_Install_MouseEnter(object sender, EventArgs e)
+        {
+            button_Install.UseVisualStyleBackColor = false;
+            button_Install.BackColor = Color.CadetBlue;
+        }
+
+        private void button_Install_MouseLeave(object sender, EventArgs e)
+        {
+            button_Install.BackColor = Color.FromArgb(80, 39, 174, 185);
+            button_Install.UseVisualStyleBackColor = true;
+        }
+
 
         //end of window move code 
         private void button_Totray_Click(object sender, EventArgs e)
