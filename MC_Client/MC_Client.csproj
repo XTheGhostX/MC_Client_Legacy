@@ -104,7 +104,6 @@
   <ItemGroup>
     <Content Include="ERlogo.ico" />
     <Content Include="FodyWeavers.xml" />
-    <None Include="Resources\ERlogo.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

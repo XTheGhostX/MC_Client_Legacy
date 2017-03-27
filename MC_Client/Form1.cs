@@ -847,12 +847,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        //close button code
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         //window movement control 
         private bool mouseDown;
         private Point lastLocation;
@@ -902,36 +896,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             mouseDown = false;
         }
 
-        private void to_tray_Click(object sender, EventArgs e)
-        {
-            Hide();
-            ERnotifyIcon.Visible = true;
-            ShowWindow(GetConsoleWindow(), 0);
-        }
-
-        private void setings_button_Click(object sender, EventArgs e)
-        {
-            if (Settings_panel.Location.X == 840)
-            {
-                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
-                button_Install.Location = new Point(940, 10);
-                progressBar1.Size = new Size(1040, 23);
-                textBox1_time.Visible = false;
-                textBox_Path.Visible = false;
-                comboBox_RAM.Visible = false;
-            }
-            else
-            {
-                Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
-                button_Install.Location = new Point(740, 10);
-                progressBar1.Size = new Size(840, 23);
-                textBox1_time.Visible = true;
-                textBox_Path.Visible = true;
-                comboBox_RAM.Visible = true;
-            }          
-                
-        }
-
         private void ERnotifyIcon_Click(object sender, EventArgs e)
         {
             ERnotifyIcon.Visible = false;
@@ -962,6 +926,40 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             button_Install.BackColor = Color.FromArgb(80, 39, 174, 185);
             button_Install.UseVisualStyleBackColor = true;
+        }
+
+        private void button_SetMenu_Click(object sender, EventArgs e)
+        {
+            if (Settings_panel.Location.X == 840)
+            {
+                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+                button_Install.Location = new Point(940, 10);
+                progressBar1.Size = new Size(1040, 23);
+                textBox1_time.Visible = false;
+                textBox_Path.Visible = false;
+                comboBox_RAM.Visible = false;
+            }
+            else
+            {
+                Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+                button_Install.Location = new Point(740, 10);
+                progressBar1.Size = new Size(840, 23);
+                textBox1_time.Visible = true;
+                textBox_Path.Visible = true;
+                comboBox_RAM.Visible = true;
+            }
+        }
+
+        private void button_Close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button_ToTray_Click_1(object sender, EventArgs e)
+        {
+            Hide();
+            ERnotifyIcon.Visible = true;
+            ShowWindow(GetConsoleWindow(), 0);
         }
 
 

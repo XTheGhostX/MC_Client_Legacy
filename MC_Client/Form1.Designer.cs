@@ -49,30 +49,27 @@
             this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.setings_button = new System.Windows.Forms.PictureBox();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.temp_name = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.to_tray = new System.Windows.Forms.PictureBox();
             this.pictureBox_ERlogo = new System.Windows.Forms.PictureBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label_version = new System.Windows.Forms.Label();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
-            this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_SetMenu = new System.Windows.Forms.Button();
+            this.button_Close = new System.Windows.Forms.Button();
+            this.button_ToTray = new System.Windows.Forms.Button();
+            this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.setings_button)).BeginInit();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.to_tray)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ERlogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox_Versions
@@ -281,7 +278,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.setings_button, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button_SetMenu, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
@@ -289,17 +286,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(189, 254);
             this.tableLayoutPanel2.TabIndex = 14;
-            // 
-            // setings_button
-            // 
-            this.setings_button.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.setings_button.Image = ((System.Drawing.Image)(resources.GetObject("setings_button.Image")));
-            this.setings_button.Location = new System.Drawing.Point(3, 5);
-            this.setings_button.Name = "setings_button";
-            this.setings_button.Size = new System.Drawing.Size(50, 50);
-            this.setings_button.TabIndex = 0;
-            this.setings_button.TabStop = false;
-            this.setings_button.Click += new System.EventHandler(this.setings_button_Click);
             // 
             // comboBox_Pack
             // 
@@ -333,21 +319,21 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 199F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tableLayoutPanel1.Controls.Add(this.comboBox_Pack, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_ToTray, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Close, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.temp_name, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button_Modpack, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this.to_tray, 6, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox_ERlogo, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1053, 60);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1087, 60);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseDown);
             this.tableLayoutPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseMove);
@@ -366,32 +352,10 @@
             this.temp_name.TabIndex = 15;
             this.temp_name.Text = "Elemental launcher ";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(983, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.TabIndex = 24;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // to_tray
-            // 
-            this.to_tray.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.to_tray.Image = ((System.Drawing.Image)(resources.GetObject("to_tray.Image")));
-            this.to_tray.Location = new System.Drawing.Point(923, 5);
-            this.to_tray.Name = "to_tray";
-            this.to_tray.Size = new System.Drawing.Size(50, 50);
-            this.to_tray.TabIndex = 25;
-            this.to_tray.TabStop = false;
-            this.to_tray.Click += new System.EventHandler(this.to_tray_Click);
-            // 
             // pictureBox_ERlogo
             // 
             this.pictureBox_ERlogo.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ERlogo.Image = global::MC_Client.Properties.Resources.ERlogo;
+            this.pictureBox_ERlogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_ERlogo.Image")));
             this.pictureBox_ERlogo.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_ERlogo.MaximumSize = new System.Drawing.Size(64, 64);
             this.pictureBox_ERlogo.MinimumSize = new System.Drawing.Size(64, 64);
@@ -437,15 +401,6 @@
             this.label_InstalledV.TabIndex = 26;
             this.label_InstalledV.Text = "Installed version:";
             // 
-            // pictureBox_PackLogo
-            // 
-            this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
-            this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
-            this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
-            this.pictureBox_PackLogo.TabIndex = 27;
-            this.pictureBox_PackLogo.TabStop = false;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
@@ -457,6 +412,57 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1100, 50);
             this.panel1.TabIndex = 28;
+            // 
+            // button_SetMenu
+            // 
+            this.button_SetMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_SetMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.button_SetMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_SetMenu.BackgroundImage")));
+            this.button_SetMenu.FlatAppearance.BorderSize = 0;
+            this.button_SetMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SetMenu.Location = new System.Drawing.Point(5, 5);
+            this.button_SetMenu.Name = "button_SetMenu";
+            this.button_SetMenu.Size = new System.Drawing.Size(50, 50);
+            this.button_SetMenu.TabIndex = 30;
+            this.button_SetMenu.UseVisualStyleBackColor = false;
+            this.button_SetMenu.Click += new System.EventHandler(this.button_SetMenu_Click);
+            // 
+            // button_Close
+            // 
+            this.button_Close.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_Close.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Close.BackgroundImage")));
+            this.button_Close.FlatAppearance.BorderSize = 0;
+            this.button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Close.Location = new System.Drawing.Point(1022, 5);
+            this.button_Close.Name = "button_Close";
+            this.button_Close.Size = new System.Drawing.Size(50, 50);
+            this.button_Close.TabIndex = 29;
+            this.button_Close.UseVisualStyleBackColor = false;
+            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
+            // 
+            // button_ToTray
+            // 
+            this.button_ToTray.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_ToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_ToTray.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_ToTray.BackgroundImage")));
+            this.button_ToTray.FlatAppearance.BorderSize = 0;
+            this.button_ToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_ToTray.Location = new System.Drawing.Point(963, 5);
+            this.button_ToTray.Name = "button_ToTray";
+            this.button_ToTray.Size = new System.Drawing.Size(50, 50);
+            this.button_ToTray.TabIndex = 27;
+            this.button_ToTray.UseVisualStyleBackColor = false;
+            this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click_1);
+            // 
+            // pictureBox_PackLogo
+            // 
+            this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
+            this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
+            this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
+            this.pictureBox_PackLogo.TabIndex = 27;
+            this.pictureBox_PackLogo.TabStop = false;
             // 
             // Form_ER
             // 
@@ -484,16 +490,13 @@
             this.Settings_panel.ResumeLayout(false);
             this.Settings_panel.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.setings_button)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.to_tray)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ERlogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -519,11 +522,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label temp_name;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox to_tray;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.PictureBox setings_button;
         private System.Windows.Forms.Label label_version;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.Label label_InstalledV;
@@ -532,6 +532,9 @@
         private System.Windows.Forms.ComboBox comboBox_RAM;
         private System.Windows.Forms.CheckBox checkBox_OpMods;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button_ToTray;
+        private System.Windows.Forms.Button button_Close;
+        private System.Windows.Forms.Button button_SetMenu;
     }
 }
 
