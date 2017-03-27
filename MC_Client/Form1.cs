@@ -287,6 +287,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void button_Install_Click(object sender, EventArgs e)
         {
+            progressBar1.Visible = true;
             progressBar1.Value = 0;
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
@@ -702,6 +703,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             if(Version_Biome != "null")
             checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
+            progressBar1.Visible = false;
 
         }
 
@@ -912,8 +914,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (Settings_panel.Location.X == 840)
             {
                 Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
-                button_Install.Location = new Point(894, 510);
-                progressBar1.Size = new Size(1034, 23);
+                button_Install.Location = new Point(940, 10);
+                progressBar1.Size = new Size(1040, 23);
                 textBox1_time.Visible = false;
                 textBox_Path.Visible = false;
                 comboBox_RAM.Visible = false;
@@ -921,7 +923,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
-                button_Install.Location = new Point(700, 510);
+                button_Install.Location = new Point(740, 10);
                 progressBar1.Size = new Size(840, 23);
                 textBox1_time.Visible = true;
                 textBox_Path.Visible = true;
