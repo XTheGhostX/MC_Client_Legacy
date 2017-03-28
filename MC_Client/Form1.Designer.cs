@@ -49,9 +49,12 @@
             this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_SetMenu = new System.Windows.Forms.Button();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_ToTray = new System.Windows.Forms.Button();
+            this.button_Close = new System.Windows.Forms.Button();
             this.temp_name = new System.Windows.Forms.Label();
             this.pictureBox_ERlogo = new System.Windows.Forms.PictureBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -59,9 +62,6 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button_SetMenu = new System.Windows.Forms.Button();
-            this.button_Close = new System.Windows.Forms.Button();
-            this.button_ToTray = new System.Windows.Forms.Button();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
             this.Settings_panel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -287,6 +287,20 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(189, 254);
             this.tableLayoutPanel2.TabIndex = 14;
             // 
+            // button_SetMenu
+            // 
+            this.button_SetMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_SetMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.button_SetMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_SetMenu.BackgroundImage")));
+            this.button_SetMenu.FlatAppearance.BorderSize = 0;
+            this.button_SetMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SetMenu.Location = new System.Drawing.Point(5, 5);
+            this.button_SetMenu.Name = "button_SetMenu";
+            this.button_SetMenu.Size = new System.Drawing.Size(50, 50);
+            this.button_SetMenu.TabIndex = 30;
+            this.button_SetMenu.UseVisualStyleBackColor = false;
+            this.button_SetMenu.Click += new System.EventHandler(this.button_SetMenu_Click);
+            // 
             // comboBox_Pack
             // 
             this.comboBox_Pack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -322,7 +336,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 199F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 9F));
             this.tableLayoutPanel1.Controls.Add(this.comboBox_Pack, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.button_ToTray, 6, 0);
             this.tableLayoutPanel1.Controls.Add(this.button_Close, 7, 0);
@@ -338,6 +352,34 @@
             this.tableLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseDown);
             this.tableLayoutPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseMove);
             this.tableLayoutPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseUp);
+            // 
+            // button_ToTray
+            // 
+            this.button_ToTray.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_ToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_ToTray.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_ToTray.BackgroundImage")));
+            this.button_ToTray.FlatAppearance.BorderSize = 0;
+            this.button_ToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_ToTray.Location = new System.Drawing.Point(963, 5);
+            this.button_ToTray.Name = "button_ToTray";
+            this.button_ToTray.Size = new System.Drawing.Size(50, 50);
+            this.button_ToTray.TabIndex = 27;
+            this.button_ToTray.UseVisualStyleBackColor = false;
+            this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click_1);
+            // 
+            // button_Close
+            // 
+            this.button_Close.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_Close.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Close.BackgroundImage")));
+            this.button_Close.FlatAppearance.BorderSize = 0;
+            this.button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Close.Location = new System.Drawing.Point(1022, 5);
+            this.button_Close.Name = "button_Close";
+            this.button_Close.Size = new System.Drawing.Size(50, 50);
+            this.button_Close.TabIndex = 29;
+            this.button_Close.UseVisualStyleBackColor = false;
+            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
             // 
             // temp_name
             // 
@@ -412,48 +454,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1100, 50);
             this.panel1.TabIndex = 28;
-            // 
-            // button_SetMenu
-            // 
-            this.button_SetMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_SetMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
-            this.button_SetMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_SetMenu.BackgroundImage")));
-            this.button_SetMenu.FlatAppearance.BorderSize = 0;
-            this.button_SetMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SetMenu.Location = new System.Drawing.Point(5, 5);
-            this.button_SetMenu.Name = "button_SetMenu";
-            this.button_SetMenu.Size = new System.Drawing.Size(50, 50);
-            this.button_SetMenu.TabIndex = 30;
-            this.button_SetMenu.UseVisualStyleBackColor = false;
-            this.button_SetMenu.Click += new System.EventHandler(this.button_SetMenu_Click);
-            // 
-            // button_Close
-            // 
-            this.button_Close.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
-            this.button_Close.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Close.BackgroundImage")));
-            this.button_Close.FlatAppearance.BorderSize = 0;
-            this.button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Close.Location = new System.Drawing.Point(1022, 5);
-            this.button_Close.Name = "button_Close";
-            this.button_Close.Size = new System.Drawing.Size(50, 50);
-            this.button_Close.TabIndex = 29;
-            this.button_Close.UseVisualStyleBackColor = false;
-            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
-            // 
-            // button_ToTray
-            // 
-            this.button_ToTray.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_ToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
-            this.button_ToTray.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_ToTray.BackgroundImage")));
-            this.button_ToTray.FlatAppearance.BorderSize = 0;
-            this.button_ToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_ToTray.Location = new System.Drawing.Point(963, 5);
-            this.button_ToTray.Name = "button_ToTray";
-            this.button_ToTray.Size = new System.Drawing.Size(50, 50);
-            this.button_ToTray.TabIndex = 27;
-            this.button_ToTray.UseVisualStyleBackColor = false;
-            this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click_1);
             // 
             // pictureBox_PackLogo
             // 

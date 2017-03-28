@@ -144,8 +144,7 @@ namespace MC_Client
             textBox_Path.ForeColor= SystemColors.WindowText;
             button_Path.ForeColor= SystemColors.WindowText;
             */
-            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
-            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
+            RefreshBadge();
         }
         public void ReloadPackSet()
         {
@@ -284,6 +283,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
+
 
         private void button_Install_Click(object sender, EventArgs e)
         {
@@ -682,6 +682,17 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         tmpBadgeExPath = Temp + "\\MC_Badge";
                     if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) FileSystem.DeleteDirectory(tmpBadgeExPath + "\\" + "mods", DeleteDirectoryOption.DeleteAllContents);
+                    if (!Directory.Exists(Path_Pack + "\\resources")) Directory.CreateDirectory(Path_Pack + "\\resources");
+                    if (!File.Exists(Path_Pack + "\\resources\\Background" + Version_Badge + ".png")){
+                        if (File.Exists(tmpBadgeExPath + "\\Background.png"))
+                            File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\resources\\Background" + Version_Badge + ".png");}
+                        else
+                            File.Delete(tmpBadgeExPath + "\\Background.png");
+                    if (!File.Exists(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png")){
+                        if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
+                            File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\resources\\Icon" + Version_Badge + ".png");}
+                        else
+                            File.Delete(tmpBadgeExPath + "\\Icon.png");
                     FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
                     Pack_Settings[5] = "Badge:" + Version_Badge;
                     Installed_Badge = Version_Badge;
@@ -704,7 +715,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
             progressBar1.Visible = false;
-
+            checkBox_Fresh.Checked = false;
         }
 
         private void checkBox_Dev_CheckedChanged(object sender, EventArgs e)
@@ -1123,8 +1134,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void RefreshBadge()
         {
-            if (File.Exists(Path_Pack + "\\Background.png")) BackgroundImage = new Bitmap(Path_Pack + "\\Background.png");
-            if (File.Exists(Path_Pack + "\\Icon.png")) pictureBox_PackLogo.Image = new Bitmap(Path_Pack + "\\Icon.png");
+            if (File.Exists(Path_Pack + "\\resources\\Background"+Version_Badge+".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\resources\\Background" + Version_Badge + ".png");
+            if (File.Exists(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png");
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
