@@ -1134,8 +1134,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void RefreshBadge()
         {
-            if (File.Exists(Path_Pack + "\\resources\\Background"+Version_Badge+".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\resources\\Background" + Version_Badge + ".png");
+            if (File.Exists(Path_Pack + "\\resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\resources\\Background" + Version_Badge + ".png");
+            else BackgroundImage = null;
             if (File.Exists(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png");
+            else pictureBox_PackLogo.Image = null;
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
