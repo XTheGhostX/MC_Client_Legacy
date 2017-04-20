@@ -59,10 +59,35 @@ namespace MC_Client
             {
                 Path = tmp999;
             }
+            if (File.Exists(AppData + "\\.minecraft\\ER_PathChange.tmp"))
+            {
+                if (HasAdminPrivliges)
+                {
+                    Path_Change = File.ReadAllText(AppData + "\\.minecraft\\ER_PathChange.tmp");
+                    MessageBox.Show("The Elemental Realms directory is about to update,please be patient this can take a wile and the launcher will not respond while it is updating and MAKE SURE MINECRAFT IS NOT OPEN");
+                    if (Path != Path_Change)
+                    {
+                        string text = File.ReadAllText(MCProfile_Path);
+                        text = text.Replace(Path.Replace(@"\", @"\\"), Path_Change.Replace(@"\", @"\\"));
+                        File.WriteAllText(MCProfile_Path, text);
+                        Directory.CreateDirectory(Path);
+                        FileSystem.MoveDirectory(Path, Path_Change, true);
+                        File.Delete(AppData + "\\.minecraft\\ER_PathChange.tmp");
+                    }
+                    Environment.SetEnvironmentVariable("ERealms", Path_Change, EnvironmentVariableTarget.User);
+                    Path = Path_Change;
+                }
+                else
+                {
+                    MessageBox.Show("Please reopen the launcher as a Admin in order to finnish updating the Directory");
+                    this.Close();
+                    return;
+                }
+            }
             Temp = Path + "\\TMP";
             Path_Pack = Path;
             Path_PackV = Path_Pack + "\\Pack.ini";
-            Path_Settings =Path + "\\ERealms.ini";
+            Path_Settings = Path + "\\ERealms.ini";
             Path_Packs = Path + "\\ER_Packs.ini";
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
@@ -71,7 +96,6 @@ namespace MC_Client
             textBox_Path.Text=Path;
             if (HasAdminPrivliges)
             {
-                textBox_Path.Enabled = true;
                 button_Path.Enabled = true;
             }
             else
@@ -193,7 +217,7 @@ namespace MC_Client
                 {
                     conn.Open();
                 }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
+                catch (MySqlException ex)
                 {
                     Console.Write(ex.Message);
                     MessageBox.Show(ex.Message, "ERealms connection error",
@@ -239,49 +263,26 @@ namespace MC_Client
         }
 
 
-        private void textBox_Path_TextChanged(object sender, EventArgs e)
-        {
-            textBox_Path.Enabled = false;
-            button_Path.Enabled = false;
-            //Maybe promp the user if they are absolutley sure
-            Path_Change = textBox_Path.Text;
-            if(Path != Path_Change){ 
-            string text = File.ReadAllText(MCProfile_Path);
-            text = text.Replace(Path.Replace(@"\", @"\\"), Path_Change.Replace(@"\", @"\\"));
-            File.WriteAllText(MCProfile_Path, text);
-
-                Directory.CreateDirectory(Path);
-            FileSystem.MoveDirectory(Path, Path_Change, true);
-        }
-            Path = Path_Change;
-            System.Environment.SetEnvironmentVariable("ERealms", Path_Change, EnvironmentVariableTarget.User);
-
-            if (HasAdminPrivliges)
-            {
-                textBox_Path.Enabled = true;
-                button_Path.Enabled = true;
-            }
-        }
-
         private void button_Path_Click(object sender, EventArgs e)
         {
             DialogResult tmp310 = folderBrowserDialog1.ShowDialog();
             if (tmp310 == DialogResult.OK)
             {
-                textBox_Path.Enabled = false;
                 button_Path.Enabled = false;
                 if (!string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
                 {
                    textBox_Path.Text= folderBrowserDialog1.SelectedPath;
-
+                    Path_Change = textBox_Path.Text;
+                    if (!File.Exists(AppData + "\\.minecraft\\ER_PathChange.tmp")) File.Create(AppData + "\\.minecraft\\ER_PathChange.tmp").Close();
+                    File.WriteAllText(AppData + "\\.minecraft\\ER_PathChange.tmp", folderBrowserDialog1.SelectedPath);
+                    this.Close();
+                    return;
                 }
                 else
                     MessageBox.Show("Please select a valid install destination", "ERealms user error",
 MessageBoxButtons.OK, MessageBoxIcon.Error);
-                textBox_Path.Enabled = true;
-                button_Path.Enabled = true;
             }
-
+            if (HasAdminPrivliges)button_Path.Enabled = true;
         }
 
 

@@ -91,7 +91,6 @@
             this.textBox_Path.TabIndex = 3;
             this.textBox_Path.Text = "%appdata%\\.minecraft\\ElementalRealms";
             this.textBox_Path.Visible = false;
-            this.textBox_Path.TextChanged += new System.EventHandler(this.textBox_Path_TextChanged);
             // 
             // button_Path
             // 
