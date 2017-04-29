@@ -683,15 +683,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         tmpBadgeExPath = Temp + "\\MC_Badge";
                     if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) FileSystem.DeleteDirectory(tmpBadgeExPath + "\\" + "mods", DeleteDirectoryOption.DeleteAllContents);
-                    if (!Directory.Exists(Path_Pack + "\\resources")) Directory.CreateDirectory(Path_Pack + "\\resources");
-                    if (!File.Exists(Path_Pack + "\\resources\\Background" + Version_Badge + ".png")){
+                    if (!Directory.Exists(Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Path_Pack + "\\ER_resources");
+                    if (!File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")){
                         if (File.Exists(tmpBadgeExPath + "\\Background.png"))
-                            File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\resources\\Background" + Version_Badge + ".png");}
+                            File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");}
                         else
                             File.Delete(tmpBadgeExPath + "\\Background.png");
-                    if (!File.Exists(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png")){
+                    if (!File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png")){
                         if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
-                            File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\resources\\Icon" + Version_Badge + ".png");}
+                            File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");}
                         else
                             File.Delete(tmpBadgeExPath + "\\Icon.png");
                     FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
@@ -1135,9 +1135,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void RefreshBadge()
         {
-            if (File.Exists(Path_Pack + "\\resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\resources\\Background" + Version_Badge + ".png");
+            if (File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
             else BackgroundImage = null;
-            if (File.Exists(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\resources\\Icon" + Version_Badge + ".png");
+            if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
             else pictureBox_PackLogo.Image = null;
         }
 
