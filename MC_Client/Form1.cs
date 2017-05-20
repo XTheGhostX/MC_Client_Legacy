@@ -942,23 +942,59 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void button_SetMenu_Click(object sender, EventArgs e)
         {
+            Settings_panel.BringToFront();
+            Button_panel.BringToFront();
             if (Settings_panel.Location.X == 840)
             {
-                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
-                button_Install.Location = new Point(940, 10);
-                progressBar1.Size = new Size(1040, 23);
-                textBox1_time.Visible = false;
-                textBox_Path.Visible = false;
-                comboBox_RAM.Visible = false;
+                OptionsPanelSwitch();
             }
             else
             {
+               if(Button_panel.Location.X!=842) OptionsPanelSwitch();
+                Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+                OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
+                checkBox_Timer.Visible = true;
+                textBox_Path.Visible = true;
+                label_RAM.Visible = true;
+            }
+        }
+
+        private void button_OpenOptionalM_Click(object sender, EventArgs e)
+        {
+            OptionalM_Panel.BringToFront();
+            Button_panel.BringToFront();
+            if (OptionalM_Panel.Location.X == 840)
+            {
+                OptionsPanelSwitch();
+            }
+            else
+            {
+                if (Button_panel.Location.X != 842) OptionsPanelSwitch();
+                OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
+                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+            }
+        }
+
+        private void OptionsPanelSwitch()
+        {
+            if (Button_panel.Location.X == 842)
+            {
+                Button_panel.Location = new Point(1042, Button_panel.Location.Y);
+                OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
+                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+                button_Install.Location = new Point(940, 10);
+                progressBar1.Size = new Size(1040, 23);
+                checkBox_Timer.Visible = false;
+                textBox_Path.Visible = false;
+                label_RAM.Visible = false;
+            }
+            else
+            {
+                Button_panel.Location = new Point(842, Button_panel.Location.Y);
+                OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
                 button_Install.Location = new Point(740, 10);
                 progressBar1.Size = new Size(840, 23);
-                textBox1_time.Visible = true;
-                textBox_Path.Visible = true;
-                comboBox_RAM.Visible = true;
             }
         }
 

@@ -792,6 +792,27 @@
   <metadata name="pageSetupDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>490, 17</value>
   </metadata>
+  <data name="button_OpenOptionalM.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xNkRpr/UAAANiSURBVGhD3di7
+        i1RnHMbx9RI10Xg3SpA0afwDtJBA2rR22omFgiJCVBDSSEAwXYKFIEogIgliE6wFQWxERQvBgKKIiBgR
+        L5iLJLr5PgNvfHf2Oee8Nxb0gY/r/HbmnN9vzmXe2YnJycn3gi2+i2yxpRD3u5ZssQUX97xWbLFWX9zz
+        W7DFGilxr6tli6Vy4l5fwxZLlMRtp5Qt5qqJ214JW8wxkLmYjVmjRx1x281li6kGsgTncB4XsB6dcdvP
+        YYspErIUT6Enyx70xu0nlS0OScwChEHeYBcG4/aXwhb7ZORDPEcYZC+S4vY7xBa7ZGYOXiAMsh/Jcfvv
+        Y4tOQTTIH9CL5RtkxfXRxRbHVeRvhEG+VSE3rh/HFmOV+RdhkEMq5Mb15NhiUBl9EIYh5AiK4nobZ4vS
+        IPPwD8Ig36M4rseYL7aJbr9hEN21TqAqrtdg6oP+6C6k0yWsnYKuLEK4a2mQo6hO3G/s7X/68zH0yfwd
+        dPfRrfRr7MQ2bMEmfIUvsRFf4E+EQX7FZ/gUq7ECWsZo2xp6IT6CjqRWBfOh03Na4gH+73/0z3C0ALwO
+        PXmImn6N+I4lf0FH6CX0QfkMWsI8wWP8joe4j7u4hd2wR710kGW4gbixmbAPnSkZRKfBWdzEbdzDAzyC
+        3lGtqfRO610XfRC+QtyUjpAufv0UHbWYjuS4wYXmlEESh9G5vBg6r3WElmMlVuETrMFafI510HWiYbVx
+        NXURuo42Yyt2QEv7AziIw/gBx3ASZ7ABnQm9Txlk9KBtdF3dQRik+vYbJ+571Pu0Qrvo6OlUDIMcR5OM
+        9zzq2xbbREfkN2iD0uSIuH7FFqVBdE1dQxjkR1TF9RnYYlAZnVrxZ0/VIK6/mC3GKqJBriIM8hOK4voa
+        Z4vjCqNBriAMoltq79+3XFw/ji06BdE1Eg9yClp4Jsf10cUWu2RGC8HLiAfRyjkpbv99bLFPRjRIfI38
+        Av0JdTBuv0NscUhitBy/hDDIzxgcxO0vhS2mSIi+W8Sn1mnY7xchbj+pbDHVQNS0FoJa/Ml2fAAbt/0c
+        tphjIGpcA4m+8dm47eayxVylcdsqZYslcuO2UcMWS6XGvbaWLdYYintNC7ZYqyvuua3YYi0X97yWbLGF
+        OO73rdliKzM1hNjiu2dy4j+IfJ/MFfvNhwAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAQAEBAAAAAAIABoBAAARgAAACAgAAAAACAAqBAAAK4EAAAwMAAAAAAgAKglAABWFQAAQEAAAAAA

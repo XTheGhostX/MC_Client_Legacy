@@ -63,13 +63,17 @@
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
+            this.label_RAM = new System.Windows.Forms.Label();
+            this.Button_panel = new System.Windows.Forms.Panel();
+            this.button_OpenOptionalM = new System.Windows.Forms.Button();
+            this.OptionalM_Panel = new System.Windows.Forms.Panel();
             this.Settings_panel.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ERlogo)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).BeginInit();
+            this.Button_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox_Versions
@@ -182,7 +186,7 @@
             // 
             this.checkBox_Timer.AutoSize = true;
             this.checkBox_Timer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_Timer.Location = new System.Drawing.Point(102, 451);
+            this.checkBox_Timer.Location = new System.Drawing.Point(33, 451);
             this.checkBox_Timer.Name = "checkBox_Timer";
             this.checkBox_Timer.Size = new System.Drawing.Size(86, 17);
             this.checkBox_Timer.TabIndex = 12;
@@ -192,13 +196,12 @@
             // 
             // textBox1_time
             // 
-            this.textBox1_time.Location = new System.Drawing.Point(33, 448);
+            this.textBox1_time.Location = new System.Drawing.Point(141, 450);
             this.textBox1_time.Name = "textBox1_time";
             this.textBox1_time.Size = new System.Drawing.Size(63, 20);
             this.textBox1_time.TabIndex = 13;
             this.textBox1_time.Text = "30";
             this.textBox1_time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1_time.Visible = false;
             this.textBox1_time.TextChanged += new System.EventHandler(this.textBox1_time_TextChanged);
             // 
             // timer1
@@ -226,6 +229,7 @@
             // Settings_panel
             // 
             this.Settings_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.Settings_panel.Controls.Add(this.label_RAM);
             this.Settings_panel.Controls.Add(this.checkBox_OpMods);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
@@ -263,11 +267,10 @@
             this.comboBox_RAM.FormattingEnabled = true;
             this.comboBox_RAM.Items.AddRange(new object[] {
             "3"});
-            this.comboBox_RAM.Location = new System.Drawing.Point(33, 424);
+            this.comboBox_RAM.Location = new System.Drawing.Point(141, 423);
             this.comboBox_RAM.Name = "comboBox_RAM";
             this.comboBox_RAM.Size = new System.Drawing.Size(63, 21);
             this.comboBox_RAM.TabIndex = 15;
-            this.comboBox_RAM.Visible = false;
             this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
@@ -277,7 +280,6 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.button_SetMenu, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
@@ -293,7 +295,7 @@
             this.button_SetMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_SetMenu.BackgroundImage")));
             this.button_SetMenu.FlatAppearance.BorderSize = 0;
             this.button_SetMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SetMenu.Location = new System.Drawing.Point(5, 5);
+            this.button_SetMenu.Location = new System.Drawing.Point(4, 15);
             this.button_SetMenu.Name = "button_SetMenu";
             this.button_SetMenu.Size = new System.Drawing.Size(50, 50);
             this.button_SetMenu.TabIndex = 30;
@@ -463,6 +465,46 @@
             this.pictureBox_PackLogo.TabIndex = 27;
             this.pictureBox_PackLogo.TabStop = false;
             // 
+            // label_RAM
+            // 
+            this.label_RAM.AutoSize = true;
+            this.label_RAM.Location = new System.Drawing.Point(49, 426);
+            this.label_RAM.Name = "label_RAM";
+            this.label_RAM.Size = new System.Drawing.Size(60, 13);
+            this.label_RAM.TabIndex = 17;
+            this.label_RAM.Text = "Pack Ram:";
+            // 
+            // Button_panel
+            // 
+            this.Button_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.Button_panel.Controls.Add(this.button_OpenOptionalM);
+            this.Button_panel.Controls.Add(this.button_SetMenu);
+            this.Button_panel.Location = new System.Drawing.Point(1042, 80);
+            this.Button_panel.Name = "Button_panel";
+            this.Button_panel.Size = new System.Drawing.Size(57, 183);
+            this.Button_panel.TabIndex = 29;
+            // 
+            // button_OpenOptionalM
+            // 
+            this.button_OpenOptionalM.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_OpenOptionalM.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_OpenOptionalM.BackgroundImage")));
+            this.button_OpenOptionalM.FlatAppearance.BorderSize = 0;
+            this.button_OpenOptionalM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_OpenOptionalM.Location = new System.Drawing.Point(4, 80);
+            this.button_OpenOptionalM.Name = "button_OpenOptionalM";
+            this.button_OpenOptionalM.Size = new System.Drawing.Size(50, 50);
+            this.button_OpenOptionalM.TabIndex = 31;
+            this.button_OpenOptionalM.UseVisualStyleBackColor = false;
+            this.button_OpenOptionalM.Click += new System.EventHandler(this.button_OpenOptionalM_Click);
+            // 
+            // OptionalM_Panel
+            // 
+            this.OptionalM_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.OptionalM_Panel.Location = new System.Drawing.Point(1040, 80);
+            this.OptionalM_Panel.Name = "OptionalM_Panel";
+            this.OptionalM_Panel.Size = new System.Drawing.Size(260, 520);
+            this.OptionalM_Panel.TabIndex = 30;
+            // 
             // Form_ER
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -470,6 +512,8 @@
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1100, 600);
+            this.Controls.Add(this.Button_panel);
+            this.Controls.Add(this.OptionalM_Panel);
             this.Controls.Add(this.pictureBox_PackLogo);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Settings_panel);
@@ -488,7 +532,6 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form_ER_MouseClick);
             this.Settings_panel.ResumeLayout(false);
             this.Settings_panel.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -496,6 +539,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).EndInit();
+            this.Button_panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -534,6 +578,10 @@
         private System.Windows.Forms.Button button_ToTray;
         private System.Windows.Forms.Button button_Close;
         private System.Windows.Forms.Button button_SetMenu;
+        private System.Windows.Forms.Label label_RAM;
+        private System.Windows.Forms.Panel Button_panel;
+        private System.Windows.Forms.Button button_OpenOptionalM;
+        private System.Windows.Forms.Panel OptionalM_Panel;
     }
 }
 
