@@ -516,6 +516,7 @@
             this.CheckedList_OptionalMods.Name = "CheckedList_OptionalMods";
             this.CheckedList_OptionalMods.Size = new System.Drawing.Size(181, 392);
             this.CheckedList_OptionalMods.TabIndex = 0;
+            this.CheckedList_OptionalMods.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedList_OptionalMods_ItemCheck);
             // 
             // Form_ER
             // 

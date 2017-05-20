@@ -32,7 +32,7 @@ namespace MC_Client
         public string Temp;
         public string Path_Config, Path_mod, Path_Change, Path_Settings,Path_PackV, Path_Script, Path_Biome, Path_Pack;
         public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod, Installed_Badge;
-        public bool IsRaw = false, IsGit=true;
+        public bool IsRaw = false, IsGit=true, UserSelectedMod=false;
         public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
@@ -827,19 +827,37 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
                 checkBox_Biome.Enabled = true;
             }
+            
             if (List_Client == "null")
             {
                 checkBox_OpMods.Checked = false;
                 checkBox_OpMods.Enabled = false;
                 CheckedList_OptionalMods.Enabled = false;
+                button_OpenOptionalM.Visible = false;
                 CheckedList_OptionalMods.Items.Clear();
             }
             else
             {
                 CheckedList_OptionalMods.Enabled = true;
+                button_OpenOptionalM.Visible = true;
+                CheckedList_OptionalMods.Items.Clear();
                 CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
                 checkBox_OpMods.Enabled = true;
+                //DEV Load checked mods/ Custom ones
+                UserSelectedMod = false;
+                string[] LoadOptionalMods= File.ReadAllText(Path_Pack + "\\OptionalMods.list").Split(',');
+                for (int modNum = 0; modNum <= LoadOptionalMods.Length - 1; ++modNum)
+                {
+                    for(int i= 0; i<= CheckedList_OptionalMods.Items.Count -1; i++)
+                    {
+                        if (LoadOptionalMods[modNum] == CheckedList_OptionalMods.Items.OfType<string>().ToArray()[i])
+                        {
+                            CheckedList_OptionalMods.SetItemChecked(i,true);
+                        }
+                    }
+                }
             }
+            UserSelectedMod = true;
             RefreshBadge();
         }
 
@@ -1015,6 +1033,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Hide();
             ERnotifyIcon.Visible = true;
             ShowWindow(GetConsoleWindow(), 0);
+        }
+
+        private void CheckedList_OptionalMods_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (UserSelectedMod)
+            {
+                this.BeginInvoke((MethodInvoker)(() => File.WriteAllText(Path_Pack + "\\OptionalMods.list", string.Join(",", CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()))));
+                output_c("Updated optional mods");
+            }
         }
 
 
