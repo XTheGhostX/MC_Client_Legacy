@@ -46,6 +46,7 @@
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Settings_panel = new System.Windows.Forms.Panel();
+            this.label_RAM = new System.Windows.Forms.Label();
             this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -63,10 +64,10 @@
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
-            this.label_RAM = new System.Windows.Forms.Label();
             this.Button_panel = new System.Windows.Forms.Panel();
             this.button_OpenOptionalM = new System.Windows.Forms.Button();
             this.OptionalM_Panel = new System.Windows.Forms.Panel();
+            this.CheckedList_OptionalMods = new System.Windows.Forms.CheckedListBox();
             this.Settings_panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -74,6 +75,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).BeginInit();
             this.Button_panel.SuspendLayout();
+            this.OptionalM_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox_Versions
@@ -245,6 +247,15 @@
             this.Settings_panel.Name = "Settings_panel";
             this.Settings_panel.Size = new System.Drawing.Size(260, 520);
             this.Settings_panel.TabIndex = 18;
+            // 
+            // label_RAM
+            // 
+            this.label_RAM.AutoSize = true;
+            this.label_RAM.Location = new System.Drawing.Point(49, 426);
+            this.label_RAM.Name = "label_RAM";
+            this.label_RAM.Size = new System.Drawing.Size(60, 13);
+            this.label_RAM.TabIndex = 17;
+            this.label_RAM.Text = "Pack Ram:";
             // 
             // checkBox_OpMods
             // 
@@ -465,15 +476,6 @@
             this.pictureBox_PackLogo.TabIndex = 27;
             this.pictureBox_PackLogo.TabStop = false;
             // 
-            // label_RAM
-            // 
-            this.label_RAM.AutoSize = true;
-            this.label_RAM.Location = new System.Drawing.Point(49, 426);
-            this.label_RAM.Name = "label_RAM";
-            this.label_RAM.Size = new System.Drawing.Size(60, 13);
-            this.label_RAM.TabIndex = 17;
-            this.label_RAM.Text = "Pack Ram:";
-            // 
             // Button_panel
             // 
             this.Button_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
@@ -500,10 +502,20 @@
             // OptionalM_Panel
             // 
             this.OptionalM_Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.OptionalM_Panel.Controls.Add(this.CheckedList_OptionalMods);
             this.OptionalM_Panel.Location = new System.Drawing.Point(1040, 80);
             this.OptionalM_Panel.Name = "OptionalM_Panel";
             this.OptionalM_Panel.Size = new System.Drawing.Size(260, 520);
             this.OptionalM_Panel.TabIndex = 30;
+            // 
+            // CheckedList_OptionalMods
+            // 
+            this.CheckedList_OptionalMods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.CheckedList_OptionalMods.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CheckedList_OptionalMods.Location = new System.Drawing.Point(60, 79);
+            this.CheckedList_OptionalMods.Name = "CheckedList_OptionalMods";
+            this.CheckedList_OptionalMods.Size = new System.Drawing.Size(181, 392);
+            this.CheckedList_OptionalMods.TabIndex = 0;
             // 
             // Form_ER
             // 
@@ -540,6 +552,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PackLogo)).EndInit();
             this.Button_panel.ResumeLayout(false);
+            this.OptionalM_Panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -582,6 +595,7 @@
         private System.Windows.Forms.Panel Button_panel;
         private System.Windows.Forms.Button button_OpenOptionalM;
         private System.Windows.Forms.Panel OptionalM_Panel;
+        private System.Windows.Forms.CheckedListBox CheckedList_OptionalMods;
     }
 }
 

@@ -46,7 +46,8 @@ namespace MC_Client
         public string Version_Cfg = "Config_V";
         public string Version_Forge = "Forge_V";
         public string Version_Badge = "Badge_V";
-        public string SList_Mods = "Mods list";
+        public string List_Client = "Client Mod List";
+        public string SList_Mods = "Mods List";
         public int PackRAM = 3;
         //if one of you want to just do .add(Value(in config saving)) instead of ER_Settings[Line]=Value
         //You can change it so it uses a list instead of a array
@@ -532,8 +533,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
             output_c("Installing Mods...");
-
-            string[] mods = SList_Mods.Split(",".ToCharArray());
+            //stuff Mods+ Client mods
+            string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
             if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
             if (IsFresh)
             {
@@ -676,13 +677,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     output_c("Installing badge");
                     ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
-                    //stuff Client mods
                     string tmpBadgeExPath="";
                     if (IsGit)
                         tmpBadgeExPath=Temp + "\\MC_Badge-" + Version_Badge;
                     else
                         tmpBadgeExPath = Temp + "\\MC_Badge";
-                    if (!checkBox_OpMods.Checked && Directory.Exists(tmpBadgeExPath + "\\" + "mods")) FileSystem.DeleteDirectory(tmpBadgeExPath + "\\" + "mods", DeleteDirectoryOption.DeleteAllContents);
                     if (!Directory.Exists(Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Path_Pack + "\\ER_resources");
                     if (!File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")){
                         if (File.Exists(tmpBadgeExPath + "\\Background.png"))
@@ -774,6 +773,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Version_Cfg = tmp910[1];
                 Version_Forge = tmp910[4];
                 SList_Mods = tmp910[8];
+                List_Client = tmp910[9];
             }
             else
             {
@@ -801,6 +801,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Version_Cfg = (dataReader["Config"].ToString());
                     Version_Forge = (dataReader["Forge"].ToString());
                     SList_Mods = (dataReader["Mods"].ToString());
+                    List_Client = (dataReader["Client"].ToString());
                 }
                 dataReader.Close();
                 conn.CloseAsync();
@@ -826,13 +827,19 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
                 checkBox_Biome.Enabled = true;
             }
-            if (Version_Badge == "null")
+            if (List_Client == "null")
             {
                 checkBox_OpMods.Checked = false;
                 checkBox_OpMods.Enabled = false;
+                CheckedList_OptionalMods.Enabled = false;
+                CheckedList_OptionalMods.Items.Clear();
             }
             else
+            {
+                CheckedList_OptionalMods.Enabled = true;
+                CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
                 checkBox_OpMods.Enabled = true;
+            }
             RefreshBadge();
         }
 
