@@ -841,14 +841,17 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
                 //DEV Load checked mods/ Custom ones
                 UserSelectedMod = false;
-                string[] LoadOptionalMods= File.ReadAllText(Path_Pack + "\\OptionalMods.list").Split(',');
-                for (int modNum = 0; modNum <= LoadOptionalMods.Length - 1; ++modNum)
+                if (File.Exists(Path_Pack + "\\OptionalMods.list"))
                 {
-                    for(int i= 0; i<= CheckedList_OptionalMods.Items.Count -1; i++)
+                    string[] LoadOptionalMods = File.ReadAllText(Path_Pack + "\\OptionalMods.list").Split(',');
+                    for (int modNum = 0; modNum <= LoadOptionalMods.Length - 1; ++modNum)
                     {
-                        if (LoadOptionalMods[modNum] == CheckedList_OptionalMods.Items.OfType<string>().ToArray()[i])
+                        for (int i = 0; i <= CheckedList_OptionalMods.Items.Count - 1; i++)
                         {
-                            CheckedList_OptionalMods.SetItemChecked(i,true);
+                            if (LoadOptionalMods[modNum] == CheckedList_OptionalMods.Items.OfType<string>().ToArray()[i])
+                            {
+                                CheckedList_OptionalMods.SetItemChecked(i, true);
+                            }
                         }
                     }
                 }
