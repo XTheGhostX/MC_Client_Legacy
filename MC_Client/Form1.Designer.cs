@@ -47,7 +47,6 @@
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Settings_panel = new System.Windows.Forms.Panel();
             this.label_RAM = new System.Windows.Forms.Label();
-            this.checkBox_OpMods = new System.Windows.Forms.CheckBox();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button_SetMenu = new System.Windows.Forms.Button();
@@ -232,7 +231,6 @@
             // 
             this.Settings_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
             this.Settings_panel.Controls.Add(this.label_RAM);
-            this.Settings_panel.Controls.Add(this.checkBox_OpMods);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
             this.Settings_panel.Controls.Add(this.checkBox_Dev);
@@ -256,20 +254,6 @@
             this.label_RAM.Size = new System.Drawing.Size(60, 13);
             this.label_RAM.TabIndex = 17;
             this.label_RAM.Text = "Pack Ram:";
-            // 
-            // checkBox_OpMods
-            // 
-            this.checkBox_OpMods.AccessibleDescription = "";
-            this.checkBox_OpMods.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox_OpMods.AutoSize = true;
-            this.checkBox_OpMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_OpMods.Location = new System.Drawing.Point(66, 267);
-            this.checkBox_OpMods.Name = "checkBox_OpMods";
-            this.checkBox_OpMods.Size = new System.Drawing.Size(91, 17);
-            this.checkBox_OpMods.TabIndex = 16;
-            this.checkBox_OpMods.Text = "Optional Mods";
-            this.checkBox_OpMods.UseVisualStyleBackColor = true;
-            this.checkBox_OpMods.CheckedChanged += new System.EventHandler(this.checkBox_OpMods_CheckedChanged);
             // 
             // comboBox_RAM
             // 
@@ -587,7 +571,6 @@
         private System.Windows.Forms.PictureBox pictureBox_ERlogo;
         private System.Windows.Forms.PictureBox pictureBox_PackLogo;
         private System.Windows.Forms.ComboBox comboBox_RAM;
-        private System.Windows.Forms.CheckBox checkBox_OpMods;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button_ToTray;
         private System.Windows.Forms.Button button_Close;

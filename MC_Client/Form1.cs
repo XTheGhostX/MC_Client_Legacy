@@ -182,7 +182,6 @@ namespace MC_Client
             if ((tmp153 = AfterP(Pack_Settings, "Version:")) != null) Installed_PackV = tmp153;
             if ((tmp153 = AfterP(Pack_Settings, "Badge:")) != null) Installed_Badge = tmp153;
             if ((tmp153 = AfterP(Pack_Settings, "RAM:")) != null) comboBox_RAM.Text = tmp153;
-            if ((tmp153 = AfterP(Pack_Settings, "OpMods:")) != null) checkBox_OpMods.Checked = bool.Parse(tmp153);
         }
         private void CheckV()
         {
@@ -830,8 +829,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             
             if (List_Client == "null")
             {
-                checkBox_OpMods.Checked = false;
-                checkBox_OpMods.Enabled = false;
                 CheckedList_OptionalMods.Enabled = false;
                 button_OpenOptionalM.Visible = false;
                 CheckedList_OptionalMods.Items.Clear();
@@ -842,7 +839,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 button_OpenOptionalM.Visible = true;
                 CheckedList_OptionalMods.Items.Clear();
                 CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
-                checkBox_OpMods.Enabled = true;
                 //DEV Load checked mods/ Custom ones
                 UserSelectedMod = false;
                 string[] LoadOptionalMods= File.ReadAllText(Path_Pack + "\\OptionalMods.list").Split(',');
@@ -944,12 +940,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             PackRAM = int.Parse(comboBox_RAM.Text);
             Pack_Settings[7] = "RAM:" + PackRAM;
-            File.WriteAllLines(Path_PackV, Pack_Settings);
-        }
-
-        private void checkBox_OpMods_CheckedChanged(object sender, EventArgs e)
-        {
-            Pack_Settings[8] = "OpMods:" + checkBox_OpMods.Checked.ToString();
             File.WriteAllLines(Path_PackV, Pack_Settings);
         }
 
