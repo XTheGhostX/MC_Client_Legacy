@@ -995,24 +995,43 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void OptionsPanelSwitch()
         {
+            int PanelSpeed = 4;// 200 or how ever mutch it is moving by divided by PanelSpeed must equal a round number!
             if (Button_panel.Location.X == 842)
             {
-                Button_panel.Location = new Point(1042, Button_panel.Location.Y);
-                OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
-                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
-                button_Install.Location = new Point(940, 10);
-                progressBar1.Size = new Size(1040, 23);
+                while (Button_panel.Location.X != 1042)//200 times
+                {
+                    Button_panel.Location = new Point(Button_panel.Location.X + PanelSpeed, Button_panel.Location.Y);
+                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X + PanelSpeed, OptionalM_Panel.Location.Y);
+                    Settings_panel.Location = new Point(Settings_panel.Location.X + PanelSpeed, Settings_panel.Location.Y);
+                    button_Install.Location = new Point(button_Install.Location.X + PanelSpeed, button_Install.Location.Y);
+                    progressBar1.Size = new Size(progressBar1.Size.Width + PanelSpeed, progressBar1.Size.Height);
+                    Refresh();
+                }
+                //Button_panel.Location = new Point(1042, Button_panel.Location.Y);
+                //OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
+                //Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+                //button_Install.Location = new Point(940, button_Install.Location.Y);
+                //progressBar1.Size = new Size(1040, progressBar1.Size.Height);
                 checkBox_Timer.Visible = false;
                 textBox_Path.Visible = false;
                 label_RAM.Visible = false;
             }
             else
             {
-                Button_panel.Location = new Point(842, Button_panel.Location.Y);
-                OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
-                Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
-                button_Install.Location = new Point(740, 10);
-                progressBar1.Size = new Size(840, 23);
+                while (Button_panel.Location.X > 842)//200 times
+                {
+                    Button_panel.Location = new Point(Button_panel.Location.X- PanelSpeed, Button_panel.Location.Y);
+                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- PanelSpeed, OptionalM_Panel.Location.Y);
+                    Settings_panel.Location = new Point(Settings_panel.Location.X - PanelSpeed, Settings_panel.Location.Y);
+                    button_Install.Location = new Point(button_Install.Location.X - PanelSpeed, button_Install.Location.Y);
+                    progressBar1.Size = new Size(progressBar1.Size.Width- PanelSpeed, progressBar1.Size.Height);
+                    Refresh();
+                }
+                //Button_panel.Location = new Point(842, Button_panel.Location.Y);
+                //OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
+                //Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+                //button_Install.Location = new Point(740, button_Install.Location.Y);
+                //progressBar1.Size = new Size(840, progressBar1.Size.Height);
             }
         }
 
