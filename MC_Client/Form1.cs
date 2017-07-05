@@ -40,7 +40,6 @@ namespace MC_Client
         public bool IsFresh;
         string[] Pack_List =new string[0];
         public string ForgeName="Forge-Name";
-        public string MCF_version="1.10.2-forge";
         public string Version_Script = "Script_V";
         public string Version_Biome = "Biome_V";
         public string Version_Cfg = "Config_V";
@@ -438,7 +437,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge" + "\\versions")[0];
                     FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
                 }
-                ForgeName = tmp021.Remove(0, tmp021.LastIndexOf(MCF_version));
+                ForgeName = tmp021.Split('\\').LastOrDefault();
                 Pack_Settings[2] = "Forge:" + Version_Forge;
                 Pack_Settings[3]= "ForgeName:"+ForgeName;
                 Installed_Forge = Version_Forge;
