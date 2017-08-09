@@ -11,12 +11,12 @@ namespace MC_Client
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        public static Form_ER erForm = new Form_ER();
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_ER());
+            Application.Run(erForm);
         }
     }
 }

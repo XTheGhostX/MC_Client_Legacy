@@ -24,9 +24,9 @@ namespace MC_Client
     {
         //Add feedback that the program is installing (Change mouse cursor or something IDK)
         //Add method of writing and reading custom install
+        static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public string Path = AppData + "\\.minecraft\\ElementalRealms";
         public bool HasAdminPrivliges = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator); 
-        public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public string Path = AppData+"\\.minecraft\\ElementalRealms";
         public string ERConnectionString;
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
@@ -138,8 +138,9 @@ namespace MC_Client
             if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
+            if ((tmp152 = AfterP(ER_Settings, "AsyncDownload:")) != null) checkBox_AsyncDownload.Checked = bool.Parse(tmp152);
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
-
+            
             output_c("Launcher start up successful");
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
@@ -285,212 +286,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 
-        private void button_Install_Click(object sender, EventArgs e)
+        private async void button_Install_Click(object sender, EventArgs e)
         {
             progressBar1.Visible = true;
             progressBar1.Value = 0;
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             checkBox_Biome.Enabled = false;
-            output_c("Starting installation");
-            if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
-            if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
-            if (!File.Exists(Path_PackV)) File.Create(Path_PackV);
-
-
-            WebClient webClient = new WebClient();
-            Directory.CreateDirectory(Temp);
-            //stuff Config
-            if (Version_Cfg != "null")
-            {
-                if (Version_Cfg != Installed_Config || IsFresh)
-                {
-                    string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
-                    output_c("Downloading Configs");
-                    try
-                    {
-                        if (Version_Cfg.Contains("http"))
-                        {
-                            webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
-                            IsGit = false;
-                        }
-                        else
-                        {
-                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
-                            IsGit = true;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        output_c("Download failed");
-                        Console.WriteLine("The process failed: {0}", ex.ToString());
-                    }
-
-                    Directory.CreateDirectory(Path_Config);
-
-                    string[] Tmp122 = Directory.GetFiles(Path_Config);
-                    foreach (string filePath in Tmp122)
-                    {
-                        File.Delete(filePath);
-                    }
-                    string[] Tmp582 = Directory.GetDirectories(Path_Config);
-                    foreach (string filePath in Tmp582)
-                    {
-                        var name = new FileInfo(filePath).Name.ToLower();
-                        if (name != "terraincontrol")
-                        {
-                            Directory.Delete(filePath, true);
-                        }
-                    }
-                    output_c("Installing configs");
-                    Directory.CreateDirectory(Path_Config);
-                    ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-                    if (IsGit)
-                        FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                    else
-                        FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
-                    Pack_Settings[0] = "Cfg:" + Version_Cfg;
-                    Installed_Config = Version_Cfg;
-                }
-            }
-            progressBar1.Value += 100;
-            //else FileSystem.DeleteDirectory(Path_Config, DeleteDirectoryOption.DeleteAllContents);
-
-            //stuff Biome
-            if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
-                if (checkBox_Biome.Checked == true)
-                {
-                    //Need A ACTUAL copy if the biome folders
-                    output_c("Installing Biome configurations");
-
-                if (Version_Biome != Installed_Biome || IsFresh)
-                {
-                    string Temp_BiomePath = (Temp + "\\" + Pack_Name + "_Biome.zip");
-                    output_c("Downloading Biome");
-                    try
-                    {
-                        if (Version_Biome.Contains("http"))
-                        {
-                            IsGit = false;
-                            webClient.DownloadFile(new Uri(Version_Biome), Temp_BiomePath);
-                        }
-                        else{
-                            IsGit = true;
-                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        output_c("Download failed");
-                        Console.WriteLine("The process failed: {0}", ex.ToString());
-                    }
-
-                    FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
-                    output_c("Installing scripts");
-                    Directory.CreateDirectory(Path_Biome);
-                    ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
-                    if(IsGit)
-                    FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
-                    else
-                    FileSystem.MoveDirectory((Temp + "\\MC_Biome"), Path_Biome, true);
-                    Pack_Settings[1] = "Biome:" + Version_Biome;
-                    Installed_Biome = Version_Biome;
-                }
-            }
-                else
-                if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
-            progressBar1.Value += 100;
-
-
-
-            //stuff Forge
-            if (Version_Forge != Installed_Forge || IsFresh) {
-                string Temp_ForgePath = (Temp + "\\" + Pack_Name + "_Forge.zip");
-                output_c("Downloading Forge");
-                try
-                {
-                    if (Version_Forge.Contains("http"))
-                    {
-                        IsGit = false;
-                        webClient.DownloadFile(new Uri(Version_Forge), Temp_ForgePath);
-                    }
-                    else{
-                        IsGit = true;
-                        webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    output_c("Download failed");
-                    Console.WriteLine("The process failed: {0}", ex.ToString());
-                }
-                ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
-                string tmp021;
-                progressBar1.Value += 100;
-                if (IsGit)
-                {
-                    tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
-                    FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
-                }
-                else
-                {
-                    tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge" + "\\versions")[0];
-                    FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
-                }
-                ForgeName = tmp021.Split('\\').LastOrDefault();
-                Pack_Settings[2] = "Forge:" + Version_Forge;
-                Pack_Settings[3]= "ForgeName:"+ForgeName;
-                Installed_Forge = Version_Forge;
-            }
-            else
-                progressBar1.Value += 100;
-            progressBar1.Value += 100;
-
-            //stuff Scripts
-            if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
-            if (Version_Script != "null")
-            {
-                if (Version_Script != Installed_Script || IsFresh)
-                {
-                    string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
-                    output_c("Downloading Script");
-                    try
-                    {
-                        if (Version_Script.Contains("http"))
-                        {
-                            IsGit = false;
-                            webClient.DownloadFile(new Uri(Version_Script), Temp_ScriptPath);
-                        }
-                        else{
-                            IsGit = true;
-                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        output_c("Download failed");
-                        Console.WriteLine("The process failed: {0}", ex.ToString());
-                    }
-                    FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-                    output_c("Installing scripts");
-                    Directory.CreateDirectory(Path_Script);
-                    ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
-                    if(IsGit)
-                    FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Script), Path_Script, true);
-                    else
-                    FileSystem.MoveDirectory((Temp + "\\MC_Script"), Path_Script, true);
-                    Pack_Settings[4] = "Script:" + Version_Script;
-                    Installed_Script = Version_Script;
-                }
-            }
-            else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-            progressBar1.Value += 100;
-
+            checkBox_AsyncDownload.Enabled = false;
 
             //stuff Mods
-            if (IsRaw) {
-                string[] tmp129= raw_Mod.Split(',');
-                for(int i=0;i< tmp129.Length;i++)
+            if (IsRaw)
+            {
+                string[] tmp129 = raw_Mod.Split(',');
+                for (int i = 0; i < tmp129.Length; i++)
                 {
                     Array.Resize(ref ModLibLink, ModLibLink.Length + 1);
                     Array.Resize(ref ModLibName, ModLibName.Length + 1);
@@ -498,14 +307,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ModLibName[i] = tmp129[i].Split('@')[0];
                 }
             }
-            else {
+            else
+            {
                 MySqlConnection conn = new MySqlConnection(ERConnectionString);
                 string query = "SELECT * FROM " + Pack_Name + ".Mods";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
 
                 try
                 {
-                    conn.OpenAsync();
+                    await conn.OpenAsync();
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
                 {
@@ -525,108 +335,500 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tmp451++;
                 }
                 dataReader.Close();
-                conn.CloseAsync();
+                await conn.CloseAsync();
             }
-            
 
-
-            output_c("Installing Mods...");
-            //stuff Mods+ Client mods
-            string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
-            if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
-            if (IsFresh)
+            if (checkBox_AsyncDownload.Checked)
             {
-                FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
-                Directory.CreateDirectory(Path_mod);
-                for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
-                {
-                    int modTBar = 680 / mods.Length;
-                    for (int i = 0; i <= ModLibName.Length - 1; ++i)
-                    {
-                        if (ModLibName[i] == mods[modNum])
-                        {
-                            DownloadM(ModLibLink[i], ModLibName[i]);
+                output_c("Starting Async installation");
+                if (Directory.Exists(Temp))
+                    FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
+                if (!Directory.Exists(Path_Pack))
+                    Directory.CreateDirectory(Path_Pack);
+                if (!File.Exists(Path_PackV))
+                    File.Create(Path_PackV);
 
+                Directory.CreateDirectory(Temp);
+                output_c("Installing Mods...");
+                //Client mods
+                string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
+
+                progressBar1.Maximum = 0;
+                if ((Version_Biome != Installed_Biome || IsFresh) && checkBox_Biome.Checked)        progressBar1.Maximum += 20;
+                if (Version_Forge != Installed_Forge || IsFresh)                                    progressBar1.Maximum += 20;
+                if ((Version_Script != Installed_Script || IsFresh) && Version_Script != "null")    progressBar1.Maximum += 20;
+                if ((Version_Badge != Installed_Badge || IsFresh) && Version_Badge != "null")       progressBar1.Maximum += 20;
+                if ((Version_Cfg != Installed_Config || IsFresh) && Version_Cfg != "null")          progressBar1.Maximum += 20;
+
+                //stuff Mods
+                if (!Directory.Exists(Path_mod))
+                    Directory.CreateDirectory(Path_mod);
+
+                Task[] ModTasks;
+                Task[] OtherTasks = new Task[5];
+
+                if (IsFresh)
+                {
+                    FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
+                    Directory.CreateDirectory(Path_mod);
+                    ModTasks = new Task[mods.Length];
+                    progressBar1.Maximum += mods.Length;
+                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    {
+                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        {
+                            if (ModLibName[i] == mods[modNum])
+                            {
+                                ModTasks[modNum] =
+                                 new AsyncMod().DownloadMod(ModLibLink[i], ModLibName[i]);
+                            }
                         }
                     }
-                    progressBar1.Value += modTBar;
                 }
+                else
+                {
+                    string[] CurrentMods = Directory.GetFiles(Path_mod);
+                    for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
+                    {
+                        int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
+                        if (modsIndex == -1)
+                        {
+                            File.Delete(CurrentMods[modNum]);
+                            output_c("Deleated: " + CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
+                        }
+                        else
+                            mods[modsIndex] = null;
+
+                    }
+                    mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                    progressBar1.Maximum += mods.Length;
+                    ModTasks = new Task[mods.Length];
+                    if (mods.Length == 0)
+                    {
+                        output_c("No mods to install");
+                    }else
+                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    {
+                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        {
+                            if (ModLibName[i] == mods[modNum])
+                            {
+                                ModTasks[modNum]=
+                                 new AsyncMod().DownloadMod(ModLibLink[i], ModLibName[i]);
+                            }
+                        }
+                    }
+                }
+
+                //stuff Config
+                if (Version_Cfg != "null")
+                {
+                    if (Version_Cfg != Installed_Config || IsFresh)
+                    {
+                        OtherTasks[0] =
+                            new AsyncMod().DownloadConfig();
+                    }
+                }
+                //stuff Biome
+                if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
+                if (checkBox_Biome.Checked == true)
+                {
+                    if (Version_Biome != Installed_Biome || IsFresh)
+                    {
+                        OtherTasks[1] =
+                            new AsyncMod().DownloadBiome();
+                    }
+                }
+                else
+                if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+
+
+                //stuff Forge
+                if (Version_Forge != Installed_Forge || IsFresh)
+                {
+                    OtherTasks[2] =
+                        new AsyncMod().DownloadForge();
+                }
+
+                //stuff Scripts
+                if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
+                if (Version_Script != "null")
+                {
+                    if (Version_Script != Installed_Script || IsFresh)
+                    {
+                        OtherTasks[3] =
+                            new AsyncMod().DownloadScripts();
+                    }
+                }
+                else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
+
+                //stuff Badge
+                if (Version_Badge != "null")
+                {
+                    if (Version_Badge != Installed_Badge || IsFresh)
+                    {
+                        OtherTasks[4] =
+                            new AsyncMod().DownloadBadge();
+                    }
+                }
+                await Task.WhenAll(ModTasks);
+                //await Task.WhenAll(ModTasks.Concat((OtherTasks)));
+
             }
             else
             {
-                string[] CurrentMods = Directory.GetFiles(Path_mod);
-                for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
-                {
-                    int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
-                    if (modsIndex == -1)
-                    {
-                        File.Delete(CurrentMods[modNum]);
-                        output_c("Deleated: " + CurrentMods[modNum].Remove(0,Path_mod.Length+1));
-                    }
-                    else 
-                    mods[modsIndex] = null;
+                progressBar1.Maximum = 1200;
+                output_c("Starting installation");
+                if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
+                if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
+                if (!File.Exists(Path_PackV)) File.Create(Path_PackV);
 
-                }
-                mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
-                int modTBar = 0;
-                if (mods.Length!=0)
-                    modTBar = 680 / mods.Length;
-                for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+
+                WebClient webClient = new WebClient();
+                Directory.CreateDirectory(Temp);
+                //stuff Config
+                if (Version_Cfg != "null")
                 {
-                    for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                    if (Version_Cfg != Installed_Config || IsFresh)
                     {
-                        if (ModLibName[i] == mods[modNum])
+                        string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
+                        output_c("Downloading Configs");
+                        try
                         {
-                            DownloadM(ModLibLink[i], ModLibName[i]);
-                            progressBar1.Value += modTBar;
+                            if (Version_Cfg.Contains("http"))
+                            {
+                                webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
+                                IsGit = false;
+                            }
+                            else
+                            {
+                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
+                                IsGit = true;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            output_c("Download failed");
+                            Console.WriteLine("The process failed: {0}", ex.ToString());
+                        }
+
+                        Directory.CreateDirectory(Path_Config);
+
+                        string[] Tmp122 = Directory.GetFiles(Path_Config);
+                        foreach (string filePath in Tmp122)
+                        {
+                            File.Delete(filePath);
+                        }
+                        string[] Tmp582 = Directory.GetDirectories(Path_Config);
+                        foreach (string filePath in Tmp582)
+                        {
+                            var name = new FileInfo(filePath).Name.ToLower();
+                            if (name != "terraincontrol")
+                            {
+                                Directory.Delete(filePath, true);
+                            }
+                        }
+                        output_c("Installing configs");
+                        Directory.CreateDirectory(Path_Config);
+                        ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
+                        if (IsGit)
+                            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
+                        else
+                            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
+                        Pack_Settings[0] = "Cfg:" + Version_Cfg;
+                        Installed_Config = Version_Cfg;
+                    }
+                }
+                progressBar1.Value += 100;
+                //else FileSystem.DeleteDirectory(Path_Config, DeleteDirectoryOption.DeleteAllContents);
+
+                //stuff Biome
+                if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
+                if (checkBox_Biome.Checked == true)
+                {
+                    //Need A ACTUAL copy if the biome folders
+                    output_c("Installing Biome configurations");
+
+                    if (Version_Biome != Installed_Biome || IsFresh)
+                    {
+                        string Temp_BiomePath = (Temp + "\\" + Pack_Name + "_Biome.zip");
+                        output_c("Downloading Biome");
+                        try
+                        {
+                            if (Version_Biome.Contains("http"))
+                            {
+                                IsGit = false;
+                                webClient.DownloadFile(new Uri(Version_Biome), Temp_BiomePath);
+                            }
+                            else
+                            {
+                                IsGit = true;
+                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            output_c("Download failed");
+                            Console.WriteLine("The process failed: {0}", ex.ToString());
+                        }
+
+                        FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+                        output_c("Installing scripts");
+                        Directory.CreateDirectory(Path_Biome);
+                        ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
+                        if (IsGit)
+                            FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
+                        else
+                            FileSystem.MoveDirectory((Temp + "\\MC_Biome"), Path_Biome, true);
+                        Pack_Settings[1] = "Biome:" + Version_Biome;
+                        Installed_Biome = Version_Biome;
+                    }
+                }
+                else
+                if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
+                progressBar1.Value += 100;
+
+
+
+                //stuff Forge
+                if (Version_Forge != Installed_Forge || IsFresh)
+                {
+                    string Temp_ForgePath = (Temp + "\\" + Pack_Name + "_Forge.zip");
+                    output_c("Downloading Forge");
+                    try
+                    {
+                        if (Version_Forge.Contains("http"))
+                        {
+                            IsGit = false;
+                            webClient.DownloadFile(new Uri(Version_Forge), Temp_ForgePath);
+                        }
+                        else
+                        {
+                            IsGit = true;
+                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        output_c("Download failed");
+                        Console.WriteLine("The process failed: {0}", ex.ToString());
+                    }
+                    ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
+                    string tmp021;
+                    progressBar1.Value += 100;
+                    if (IsGit)
+                    {
+                        tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
+                        FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
+                    }
+                    else
+                    {
+                        tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge" + "\\versions")[0];
+                        FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
+                    }
+                    ForgeName = tmp021.Split('\\').LastOrDefault();
+                    Pack_Settings[2] = "Forge:" + Version_Forge;
+                    Pack_Settings[3] = "ForgeName:" + ForgeName;
+                    Installed_Forge = Version_Forge;
+                }
+                else
+                    progressBar1.Value += 100;
+                progressBar1.Value += 100;
+
+                //stuff Scripts
+                if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
+                if (Version_Script != "null")
+                {
+                    if (Version_Script != Installed_Script || IsFresh)
+                    {
+                        string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
+                        output_c("Downloading Script");
+                        try
+                        {
+                            if (Version_Script.Contains("http"))
+                            {
+                                IsGit = false;
+                                webClient.DownloadFile(new Uri(Version_Script), Temp_ScriptPath);
+                            }
+                            else
+                            {
+                                IsGit = true;
+                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            output_c("Download failed");
+                            Console.WriteLine("The process failed: {0}", ex.ToString());
+                        }
+                        FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
+                        output_c("Installing scripts");
+                        Directory.CreateDirectory(Path_Script);
+                        ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
+                        if (IsGit)
+                            FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Script), Path_Script, true);
+                        else
+                            FileSystem.MoveDirectory((Temp + "\\MC_Script"), Path_Script, true);
+                        Pack_Settings[4] = "Script:" + Version_Script;
+                        Installed_Script = Version_Script;
+                    }
+                }
+                else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
+                progressBar1.Value += 100;
+
+                //stuff Badge
+                if (Version_Badge != "null")
+                {
+                    if (Version_Badge != Installed_Badge || IsFresh)
+                    {
+                        string Temp_BadgePath = (Temp + "\\" + Pack_Name + "_Badge.zip");
+                        output_c("Downloading Badge");
+                        try
+                        {
+                            if (Version_Badge.Contains("http"))
+                            {
+                                IsGit = false;
+                                webClient.DownloadFile(new Uri(Version_Badge), Temp_BadgePath);
+                            }
+                            else
+                            {
+                                IsGit = true;
+                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Badge/archive/" + Version_Badge + ".zip"), Temp_BadgePath);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            output_c("Download failed" + ex.ToString());
+                        }
+                        output_c("Installing badge");
+                        ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
+                        string tmpBadgeExPath = "";
+                        if (IsGit)
+                            tmpBadgeExPath = Temp + "\\MC_Badge-" + Version_Badge;
+                        else
+                            tmpBadgeExPath = Temp + "\\MC_Badge";
+                        if (!Directory.Exists(Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Path_Pack + "\\ER_resources");
+                        if (!File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png"))
+                        {
+                            if (File.Exists(tmpBadgeExPath + "\\Background.png"))
+                                File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
+                        }
+                        else
+                            File.Delete(tmpBadgeExPath + "\\Background.png");
+                        if (!File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png"))
+                        {
+                            if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
+                                File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
+                        }
+                        else
+                            File.Delete(tmpBadgeExPath + "\\Icon.png");
+                        FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
+                        Pack_Settings[5] = "Badge:" + Version_Badge;
+                        Installed_Badge = Version_Badge;
+                        RefreshBadge();
+                    }
+                }
+
+                output_c("Installing Mods...");
+                //Client mods
+                string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
+                //stuff Mods
+                if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
+                if (IsFresh)
+                {
+                    FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
+                    Directory.CreateDirectory(Path_mod);
+                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    {
+                        int modTBar = 680 / mods.Length;
+                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        {
+                            if (ModLibName[i] == mods[modNum])
+                            {
+                                DownloadM(ModLibLink[i], ModLibName[i]);
+
+                            }
+                        }
+                        progressBar1.Value += modTBar;
+                    }
+                }
+                else
+                {
+                    string[] CurrentMods = Directory.GetFiles(Path_mod);
+                    for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
+                    {
+                        int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
+                        if (modsIndex == -1)
+                        {
+                            File.Delete(CurrentMods[modNum]);
+                            output_c("Deleated: " + CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
+                        }
+                        else
+                            mods[modsIndex] = null;
+
+                    }
+                    mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                    int modTBar = 0;
+                    if (mods.Length != 0)
+                        modTBar = 680 / mods.Length;
+                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    {
+                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        {
+                            if (ModLibName[i] == mods[modNum])
+                            {
+                                DownloadM(ModLibLink[i], ModLibName[i]);
+                                progressBar1.Value += modTBar;
+                            }
                         }
                     }
                 }
+                progressBar1.Value = progressBar1.Maximum;
             }
-        
             //stuff MC launcher profile
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
 
-            bool  isERProfile = false;
-                for (int currentLine = 3; currentLine <= MCP_Text.Length -1; ++currentLine)
-                {
-                if (MCP_Text[currentLine].Contains(Pack_Name))isERProfile = true;
+            bool isERProfile = false;
+            for (int currentLine = 3; currentLine <= MCP_Text.Length - 1; ++currentLine)
+            {
+                if (MCP_Text[currentLine].Contains(Pack_Name)) isERProfile = true;
                 if (MCP_Text[currentLine].Contains("\"selectedProfile\""))
-                    {
-                        MCP_Text[currentLine] = "  \"selectedProfile\": \""+Pack_Name+"\",";
-                    }
+                {
+                    MCP_Text[currentLine] = "  \"selectedProfile\": \"" + Pack_Name + "\",";
                 }
+            }
             //Finnish isERProfile
             int InsertionLine = 0;
-            for(int currentLine=InsertionLine;currentLine <= MCP_Text.Length - 1; ++currentLine)
+            for (int currentLine = InsertionLine; currentLine <= MCP_Text.Length - 1; ++currentLine)
             {
                 InsertionLine = currentLine;
-                if(MCP_Text[currentLine].Contains("\"profiles\": {}"))
+                if (MCP_Text[currentLine].Contains("\"profiles\": {}"))
                 {
                     MCP_Text[InsertionLine] = "    \"profiles\": {";
                     List<string> tmp910 = MCP_Text.ToList();
                     tmp910.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
                     tmp910.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
-                    tmp910.Insert(InsertionLine + 3,"      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
+                    tmp910.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
                     tmp910.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
-                    tmp910.Insert(InsertionLine + 5,"      \"javaArgs\": \" -Xmx"+PackRAM+"G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                    tmp910.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
                     tmp910.Insert(InsertionLine + 6, "    }");
                     tmp910.Insert(InsertionLine + 7, "  },");
                     MCP_Text = tmp910.ToArray();
                     output_c("Made ERealms profile");
                     isERProfile = true;
                     break;
-                }else
+                }
+                else
                 if (MCP_Text[currentLine].Contains("\"profiles\":")) break;
             }
-           if(!isERProfile)
+            if (!isERProfile)
             {
                 List<string> tmp010 = MCP_Text.ToList();
                 tmp010.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
                 tmp010.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
                 tmp010.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
-                tmp010.Insert(InsertionLine + 4, "      \"lastVersionId\": \""+ForgeName+"\",");
-                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx"+PackRAM+"G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
+                tmp010.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
+                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
                 tmp010.Insert(InsertionLine + 6, "    },");
                 MCP_Text = tmp010.ToArray();
                 output_c("Made ERealms profile");
@@ -635,9 +837,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 for (int currentLine = 3; currentLine <= MCP_Text.Length - 1; ++currentLine)
                 {
-                    if (MCP_Text[currentLine].Contains("\""+Pack_Name+"\": {"))
+                    if (MCP_Text[currentLine].Contains("\"" + Pack_Name + "\": {"))
                     {
-                        MCP_Text[currentLine+2] = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",";
+                        MCP_Text[currentLine + 2] = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",";
                         MCP_Text[currentLine + 3] = "      \"lastVersionId\": \"" + ForgeName + "\",";
                         if (MCP_Text[currentLine + 5].Contains("},"))
                             MCP_Text[currentLine + 4] = "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
@@ -647,75 +849,34 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-            File.WriteAllLines(MCProfile_Path,MCP_Text);
+            File.WriteAllLines(MCProfile_Path, MCP_Text);
 
-            //stuff Badge
-            if (Version_Badge != "null")
-            {
-                if (Version_Badge != Installed_Badge || IsFresh)
-                {
-                    string Temp_BadgePath = (Temp + "\\" + Pack_Name + "_Badge.zip");
-                    output_c("Downloading Badge");
-                    try
-                    {
-                        if (Version_Badge.Contains("http"))
-                        {
-                            IsGit = false;
-                            webClient.DownloadFile(new Uri(Version_Badge), Temp_BadgePath);
-                        }
-                        else
-                        {
-                            IsGit = true;
-                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Badge/archive/" + Version_Badge + ".zip"), Temp_BadgePath);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        output_c("Download failed"+ ex.ToString());
-                    }
-                    output_c("Installing badge");
-                    ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
-                    string tmpBadgeExPath="";
-                    if (IsGit)
-                        tmpBadgeExPath=Temp + "\\MC_Badge-" + Version_Badge;
-                    else
-                        tmpBadgeExPath = Temp + "\\MC_Badge";
-                    if (!Directory.Exists(Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Path_Pack + "\\ER_resources");
-                    if (!File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")){
-                        if (File.Exists(tmpBadgeExPath + "\\Background.png"))
-                            File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");}
-                        else
-                            File.Delete(tmpBadgeExPath + "\\Background.png");
-                    if (!File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png")){
-                        if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
-                            File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");}
-                        else
-                            File.Delete(tmpBadgeExPath + "\\Icon.png");
-                    FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
-                    Pack_Settings[5] = "Badge:" + Version_Badge;
-                    Installed_Badge = Version_Badge;
-                    RefreshBadge();
-                }
-            }
             //ClassCacheTweaker Support
             if (File.Exists(Path_Pack + "\\" + "classCache.dat")) File.Delete(Path_Pack + "\\" + "classCache.dat");
             //stuff end
-            progressBar1.Value = 1200;
             Installed_PackV = comboBox_Versions.Text;
             label_InstalledV.Text = "Installed version: " + Installed_PackV;
             Pack_Settings[6] = "Version:" + Installed_PackV;
             output_c("Installation Finished");
             File.WriteAllLines(Path_PackV, Pack_Settings);
-            MessageBox.Show("Installation Finished", "Elemental Installer");
             FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
+
             button_Install.Enabled = true;
-            if(Version_Biome != "null")
-            checkBox_Biome.Enabled = true;
+            if (Version_Biome != "null")
+                checkBox_Biome.Enabled = true;
             comboBox_Versions.Enabled = true;
             progressBar1.Visible = false;
             checkBox_Fresh.Checked = false;
+            checkBox_AsyncDownload.Enabled = true;
+            if (checkBox_AsyncDownload.Checked)
+                MessageBox.Show("Installation Finished \n You may have to wait another few seconds depending on your hard drive speeds", "Elemental Installer");
+            else
+                MessageBox.Show("Installation Finished", "Elemental Installer");
         }
+        private void EndInstall()
+        {
 
+        }
         private void checkBox_Dev_CheckedChanged(object sender, EventArgs e)
         {
             if(checkBox_Dev.Checked == true)
@@ -1046,6 +1207,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             ShowWindow(GetConsoleWindow(), 0);
         }
 
+        private void checkBox_AsyncDownload_CheckedChanged(object sender, EventArgs e)
+        {
+            ER_Settings[6] = "AsyncDownload:" + checkBox_AsyncDownload.Checked;
+        }
+
         private void CheckedList_OptionalMods_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (UserSelectedMod)
@@ -1214,12 +1380,17 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 output_c("Downloading " + ModLibName + " failed..." + ex);
             }
         }
-        private void RefreshBadge()
+        public void RefreshBadge()
         {
             if (File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
             else BackgroundImage = null;
             if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
             else pictureBox_PackLogo.Image = null;
+        }
+
+        public void AsyncDone(int Value)
+        {
+            progressBar1.Increment(Value);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
