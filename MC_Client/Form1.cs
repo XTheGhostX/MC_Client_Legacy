@@ -471,8 +471,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             new AsyncMod().DownloadBadge();
                     }
                 }
-                await Task.WhenAll(ModTasks);
-                //await Task.WhenAll(ModTasks.Concat((OtherTasks)));
+                await Task.WhenAll(ModTasks.Concat((OtherTasks.Where(t => t != null).ToArray())));
 
             }
             else
@@ -868,10 +867,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             progressBar1.Visible = false;
             checkBox_Fresh.Checked = false;
             checkBox_AsyncDownload.Enabled = true;
-            if (checkBox_AsyncDownload.Checked)
-                MessageBox.Show("Installation Finished \n You may have to wait another few seconds depending on your hard drive speeds", "Elemental Installer");
-            else
-                MessageBox.Show("Installation Finished", "Elemental Installer");
+            MessageBox.Show("Installation Finished", "Elemental Installer");
         }
         private void EndInstall()
         {
