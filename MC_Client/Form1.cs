@@ -138,7 +138,6 @@ namespace MC_Client
             if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
-            if ((tmp152 = AfterP(ER_Settings, "AsyncDownload:")) != null) checkBox_AsyncDownload.Checked = bool.Parse(tmp152);
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
             
             output_c("Launcher start up successful");
@@ -293,7 +292,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             checkBox_Biome.Enabled = false;
-            checkBox_AsyncDownload.Enabled = false;
 
             //stuff Mods
             if (IsRaw)
@@ -338,8 +336,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 await conn.CloseAsync();
             }
 
-            if (checkBox_AsyncDownload.Checked)
-            {
                 output_c("Starting Async installation");
                 if (Directory.Exists(Temp))
                     FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
@@ -473,317 +469,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 await Task.WhenAll(ModTasks.Concat((OtherTasks.Where(t => t != null).ToArray())));
 
-            }
-            else
-            {
-                progressBar1.Maximum = 1200;
-                output_c("Starting installation");
-                if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
-                if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
-                if (!File.Exists(Path_PackV)) File.Create(Path_PackV);
-
-
-                WebClient webClient = new WebClient();
-                Directory.CreateDirectory(Temp);
-                //stuff Config
-                if (Version_Cfg != "null")
-                {
-                    if (Version_Cfg != Installed_Config || IsFresh)
-                    {
-                        string Temp_ConfigPath = (Temp + "\\" + Pack_Name + "_Config.zip");
-                        output_c("Downloading Configs");
-                        try
-                        {
-                            if (Version_Cfg.Contains("http"))
-                            {
-                                webClient.DownloadFile(new Uri(Version_Cfg), Temp_ConfigPath);
-                                IsGit = false;
-                            }
-                            else
-                            {
-                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Configs/archive/" + Version_Cfg + ".zip"), Temp_ConfigPath);
-                                IsGit = true;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            output_c("Download failed");
-                            Console.WriteLine("The process failed: {0}", ex.ToString());
-                        }
-
-                        Directory.CreateDirectory(Path_Config);
-
-                        string[] Tmp122 = Directory.GetFiles(Path_Config);
-                        foreach (string filePath in Tmp122)
-                        {
-                            File.Delete(filePath);
-                        }
-                        string[] Tmp582 = Directory.GetDirectories(Path_Config);
-                        foreach (string filePath in Tmp582)
-                        {
-                            var name = new FileInfo(filePath).Name.ToLower();
-                            if (name != "terraincontrol")
-                            {
-                                Directory.Delete(filePath, true);
-                            }
-                        }
-                        output_c("Installing configs");
-                        Directory.CreateDirectory(Path_Config);
-                        ZipFile.ExtractToDirectory(Temp_ConfigPath, Path_Config);
-                        if (IsGit)
-                            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs-" + Version_Cfg), Path_Config, true);
-                        else
-                            FileSystem.MoveDirectory((Path_Config + "\\MC_Configs"), Path_Config, true);
-                        Pack_Settings[0] = "Cfg:" + Version_Cfg;
-                        Installed_Config = Version_Cfg;
-                    }
-                }
-                progressBar1.Value += 100;
-                //else FileSystem.DeleteDirectory(Path_Config, DeleteDirectoryOption.DeleteAllContents);
-
-                //stuff Biome
-                if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
-                if (checkBox_Biome.Checked == true)
-                {
-                    //Need A ACTUAL copy if the biome folders
-                    output_c("Installing Biome configurations");
-
-                    if (Version_Biome != Installed_Biome || IsFresh)
-                    {
-                        string Temp_BiomePath = (Temp + "\\" + Pack_Name + "_Biome.zip");
-                        output_c("Downloading Biome");
-                        try
-                        {
-                            if (Version_Biome.Contains("http"))
-                            {
-                                IsGit = false;
-                                webClient.DownloadFile(new Uri(Version_Biome), Temp_BiomePath);
-                            }
-                            else
-                            {
-                                IsGit = true;
-                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Biome/archive/" + Version_Biome + ".zip"), Temp_BiomePath);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            output_c("Download failed");
-                            Console.WriteLine("The process failed: {0}", ex.ToString());
-                        }
-
-                        FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
-                        output_c("Installing scripts");
-                        Directory.CreateDirectory(Path_Biome);
-                        ZipFile.ExtractToDirectory(Temp_BiomePath, Temp);
-                        if (IsGit)
-                            FileSystem.MoveDirectory((Temp + "\\MC_Biome-" + Version_Biome), Path_Biome, true);
-                        else
-                            FileSystem.MoveDirectory((Temp + "\\MC_Biome"), Path_Biome, true);
-                        Pack_Settings[1] = "Biome:" + Version_Biome;
-                        Installed_Biome = Version_Biome;
-                    }
-                }
-                else
-                if (Installed_Biome != Version_Biome) FileSystem.DeleteDirectory(Path_Biome, DeleteDirectoryOption.DeleteAllContents);
-                progressBar1.Value += 100;
-
-
-
-                //stuff Forge
-                if (Version_Forge != Installed_Forge || IsFresh)
-                {
-                    string Temp_ForgePath = (Temp + "\\" + Pack_Name + "_Forge.zip");
-                    output_c("Downloading Forge");
-                    try
-                    {
-                        if (Version_Forge.Contains("http"))
-                        {
-                            IsGit = false;
-                            webClient.DownloadFile(new Uri(Version_Forge), Temp_ForgePath);
-                        }
-                        else
-                        {
-                            IsGit = true;
-                            webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Forge/archive/" + Version_Forge + ".zip"), Temp_ForgePath);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        output_c("Download failed");
-                        Console.WriteLine("The process failed: {0}", ex.ToString());
-                    }
-                    ZipFile.ExtractToDirectory(Temp_ForgePath, Temp);
-                    string tmp021;
-                    progressBar1.Value += 100;
-                    if (IsGit)
-                    {
-                        tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge-" + Version_Forge + "\\versions")[0];
-                        FileSystem.MoveDirectory((Temp + "\\MC_Forge-" + Version_Forge), AppData + "\\.minecraft", true);
-                    }
-                    else
-                    {
-                        tmp021 = Directory.GetDirectories(Temp + "\\MC_Forge" + "\\versions")[0];
-                        FileSystem.MoveDirectory((Temp + "\\MC_Forge"), AppData + "\\.minecraft", true);
-                    }
-                    ForgeName = tmp021.Split('\\').LastOrDefault();
-                    Pack_Settings[2] = "Forge:" + Version_Forge;
-                    Pack_Settings[3] = "ForgeName:" + ForgeName;
-                    Installed_Forge = Version_Forge;
-                }
-                else
-                    progressBar1.Value += 100;
-                progressBar1.Value += 100;
-
-                //stuff Scripts
-                if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
-                if (Version_Script != "null")
-                {
-                    if (Version_Script != Installed_Script || IsFresh)
-                    {
-                        string Temp_ScriptPath = (Temp + "\\" + Pack_Name + "_Script.zip");
-                        output_c("Downloading Script");
-                        try
-                        {
-                            if (Version_Script.Contains("http"))
-                            {
-                                IsGit = false;
-                                webClient.DownloadFile(new Uri(Version_Script), Temp_ScriptPath);
-                            }
-                            else
-                            {
-                                IsGit = true;
-                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Script/archive/" + Version_Script + ".zip"), Temp_ScriptPath);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            output_c("Download failed");
-                            Console.WriteLine("The process failed: {0}", ex.ToString());
-                        }
-                        FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-                        output_c("Installing scripts");
-                        Directory.CreateDirectory(Path_Script);
-                        ZipFile.ExtractToDirectory(Temp_ScriptPath, Temp);
-                        if (IsGit)
-                            FileSystem.MoveDirectory((Temp + "\\MC_Script-" + Version_Script), Path_Script, true);
-                        else
-                            FileSystem.MoveDirectory((Temp + "\\MC_Script"), Path_Script, true);
-                        Pack_Settings[4] = "Script:" + Version_Script;
-                        Installed_Script = Version_Script;
-                    }
-                }
-                else FileSystem.DeleteDirectory(Path_Script, DeleteDirectoryOption.DeleteAllContents);
-                progressBar1.Value += 100;
-
-                //stuff Badge
-                if (Version_Badge != "null")
-                {
-                    if (Version_Badge != Installed_Badge || IsFresh)
-                    {
-                        string Temp_BadgePath = (Temp + "\\" + Pack_Name + "_Badge.zip");
-                        output_c("Downloading Badge");
-                        try
-                        {
-                            if (Version_Badge.Contains("http"))
-                            {
-                                IsGit = false;
-                                webClient.DownloadFile(new Uri(Version_Badge), Temp_BadgePath);
-                            }
-                            else
-                            {
-                                IsGit = true;
-                                webClient.DownloadFile(new Uri("https://github.com/" + Pack_Name + "/MC_Badge/archive/" + Version_Badge + ".zip"), Temp_BadgePath);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            output_c("Download failed" + ex.ToString());
-                        }
-                        output_c("Installing badge");
-                        ZipFile.ExtractToDirectory(Temp_BadgePath, Temp);
-                        string tmpBadgeExPath = "";
-                        if (IsGit)
-                            tmpBadgeExPath = Temp + "\\MC_Badge-" + Version_Badge;
-                        else
-                            tmpBadgeExPath = Temp + "\\MC_Badge";
-                        if (!Directory.Exists(Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Path_Pack + "\\ER_resources");
-                        if (!File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png"))
-                        {
-                            if (File.Exists(tmpBadgeExPath + "\\Background.png"))
-                                File.Move(tmpBadgeExPath + "\\Background.png", Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
-                        }
-                        else
-                            File.Delete(tmpBadgeExPath + "\\Background.png");
-                        if (!File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png"))
-                        {
-                            if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
-                                File.Move(tmpBadgeExPath + "\\Icon.png", Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
-                        }
-                        else
-                            File.Delete(tmpBadgeExPath + "\\Icon.png");
-                        FileSystem.MoveDirectory((tmpBadgeExPath), Path_Pack, true);
-                        Pack_Settings[5] = "Badge:" + Version_Badge;
-                        Installed_Badge = Version_Badge;
-                        RefreshBadge();
-                    }
-                }
-
-                output_c("Installing Mods...");
-                //Client mods
-                string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
-                //stuff Mods
-                if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
-                if (IsFresh)
-                {
-                    FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
-                    Directory.CreateDirectory(Path_mod);
-                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
-                    {
-                        int modTBar = 680 / mods.Length;
-                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
-                        {
-                            if (ModLibName[i] == mods[modNum])
-                            {
-                                DownloadM(ModLibLink[i], ModLibName[i]);
-
-                            }
-                        }
-                        progressBar1.Value += modTBar;
-                    }
-                }
-                else
-                {
-                    string[] CurrentMods = Directory.GetFiles(Path_mod);
-                    for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
-                    {
-                        int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
-                        if (modsIndex == -1)
-                        {
-                            File.Delete(CurrentMods[modNum]);
-                            output_c("Deleated: " + CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
-                        }
-                        else
-                            mods[modsIndex] = null;
-
-                    }
-                    mods = mods.Where(s => !string.IsNullOrEmpty(s)).ToArray();
-                    int modTBar = 0;
-                    if (mods.Length != 0)
-                        modTBar = 680 / mods.Length;
-                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
-                    {
-                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
-                        {
-                            if (ModLibName[i] == mods[modNum])
-                            {
-                                DownloadM(ModLibLink[i], ModLibName[i]);
-                                progressBar1.Value += modTBar;
-                            }
-                        }
-                    }
-                }
-                progressBar1.Value = progressBar1.Maximum;
-            }
             //stuff MC launcher profile
             string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
 
@@ -866,7 +551,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             comboBox_Versions.Enabled = true;
             progressBar1.Visible = false;
             checkBox_Fresh.Checked = false;
-            checkBox_AsyncDownload.Enabled = true;
             MessageBox.Show("Installation Finished", "Elemental Installer");
         }
         private void EndInstall()
@@ -1151,43 +835,24 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void OptionsPanelSwitch()
         {
-            int PanelSpeed = 4;// 200 or how ever mutch it is moving by divided by PanelSpeed must equal a round number!
             if (Button_panel.Location.X == 842)
             {
-                while (Button_panel.Location.X != 1042)//200 times
-                {
-                    Button_panel.Location = new Point(Button_panel.Location.X + PanelSpeed, Button_panel.Location.Y);
-                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X + PanelSpeed, OptionalM_Panel.Location.Y);
-                    Settings_panel.Location = new Point(Settings_panel.Location.X + PanelSpeed, Settings_panel.Location.Y);
-                    button_Install.Location = new Point(button_Install.Location.X + PanelSpeed, button_Install.Location.Y);
-                    progressBar1.Size = new Size(progressBar1.Size.Width + PanelSpeed, progressBar1.Size.Height);
-                    Refresh();
-                }
-                //Button_panel.Location = new Point(1042, Button_panel.Location.Y);
-                //OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
-                //Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
-                //button_Install.Location = new Point(940, button_Install.Location.Y);
-                //progressBar1.Size = new Size(1040, progressBar1.Size.Height);
+                Button_panel.Location = new Point(Button_panel.Location.X + 200, Button_panel.Location.Y);
+                OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X + 200, OptionalM_Panel.Location.Y);
+                Settings_panel.Location = new Point(Settings_panel.Location.X + 200, Settings_panel.Location.Y);
+                button_Install.Location = new Point(button_Install.Location.X + 200, button_Install.Location.Y);
+                progressBar1.Size = new Size(progressBar1.Size.Width + 200, progressBar1.Size.Height);
                 checkBox_Timer.Visible = false;
                 textBox_Path.Visible = false;
                 label_RAM.Visible = false;
             }
             else
             {
-                while (Button_panel.Location.X > 842)//200 times
-                {
-                    Button_panel.Location = new Point(Button_panel.Location.X- PanelSpeed, Button_panel.Location.Y);
-                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- PanelSpeed, OptionalM_Panel.Location.Y);
-                    Settings_panel.Location = new Point(Settings_panel.Location.X - PanelSpeed, Settings_panel.Location.Y);
-                    button_Install.Location = new Point(button_Install.Location.X - PanelSpeed, button_Install.Location.Y);
-                    progressBar1.Size = new Size(progressBar1.Size.Width- PanelSpeed, progressBar1.Size.Height);
-                    Refresh();
-                }
-                //Button_panel.Location = new Point(842, Button_panel.Location.Y);
-                //OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
-                //Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
-                //button_Install.Location = new Point(740, button_Install.Location.Y);
-                //progressBar1.Size = new Size(840, progressBar1.Size.Height);
+                    Button_panel.Location = new Point(Button_panel.Location.X- 200, Button_panel.Location.Y);
+                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- 200, OptionalM_Panel.Location.Y);
+                    Settings_panel.Location = new Point(Settings_panel.Location.X - 200, Settings_panel.Location.Y);
+                    button_Install.Location = new Point(button_Install.Location.X - 200, button_Install.Location.Y);
+                    progressBar1.Size = new Size(progressBar1.Size.Width- 200, progressBar1.Size.Height);
             }
         }
 
@@ -1201,11 +866,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Hide();
             ERnotifyIcon.Visible = true;
             ShowWindow(GetConsoleWindow(), 0);
-        }
-
-        private void checkBox_AsyncDownload_CheckedChanged(object sender, EventArgs e)
-        {
-            ER_Settings[6] = "AsyncDownload:" + checkBox_AsyncDownload.Checked;
         }
 
         private void CheckedList_OptionalMods_ItemCheck(object sender, ItemCheckEventArgs e)

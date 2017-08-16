@@ -38,7 +38,6 @@
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
             this.checkBox_Biome = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox_AsyncDownload = new System.Windows.Forms.CheckBox();
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
             this.checkBox_Timer = new System.Windows.Forms.CheckBox();
             this.textBox1_time = new System.Windows.Forms.TextBox();
@@ -171,21 +170,6 @@
             this.toolTip1.ReshowDelay = 100;
             this.toolTip1.ShowAlways = true;
             // 
-            // checkBox_AsyncDownload
-            // 
-            this.checkBox_AsyncDownload.AccessibleDescription = "";
-            this.checkBox_AsyncDownload.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox_AsyncDownload.AutoSize = true;
-            this.checkBox_AsyncDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_AsyncDownload.Location = new System.Drawing.Point(66, 267);
-            this.checkBox_AsyncDownload.Name = "checkBox_AsyncDownload";
-            this.checkBox_AsyncDownload.Size = new System.Drawing.Size(137, 17);
-            this.checkBox_AsyncDownload.TabIndex = 18;
-            this.checkBox_AsyncDownload.Text = "Async Download(BETA)";
-            this.toolTip1.SetToolTip(this.checkBox_AsyncDownload, "Suggested minimum 20Mbps download speeds");
-            this.checkBox_AsyncDownload.UseVisualStyleBackColor = true;
-            this.checkBox_AsyncDownload.CheckedChanged += new System.EventHandler(this.checkBox_AsyncDownload_CheckedChanged);
-            // 
             // checkBox_Fresh
             // 
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -246,7 +230,6 @@
             // Settings_panel
             // 
             this.Settings_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
-            this.Settings_panel.Controls.Add(this.checkBox_AsyncDownload);
             this.Settings_panel.Controls.Add(this.label_RAM);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
@@ -597,7 +580,6 @@
         private System.Windows.Forms.Button button_OpenOptionalM;
         private System.Windows.Forms.Panel OptionalM_Panel;
         private System.Windows.Forms.CheckedListBox CheckedList_OptionalMods;
-        private System.Windows.Forms.CheckBox checkBox_AsyncDownload;
     }
 }
 
