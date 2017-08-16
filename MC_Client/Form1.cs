@@ -2,20 +2,17 @@
 using System;
 using System.Security.Principal;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
-using System.IO.Compression;
 using Microsoft.VisualBasic.FileIO;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic.Devices;
-
+using Octokit;
 
 
 namespace MC_Client
@@ -31,7 +28,7 @@ namespace MC_Client
         public string MCProfile_Path = AppData + "\\.minecraft\\launcher_profiles.json";
         public string Temp;
         public string Path_Config, Path_mod, Path_Change, Path_Settings,Path_PackV, Path_Script, Path_Biome, Path_Pack;
-        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod, Installed_Badge;
+        public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod, Installed_Badge, LastClientVNotification;
         public bool IsRaw = false, IsGit=true, UserSelectedMod=false;
         public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
@@ -133,9 +130,9 @@ namespace MC_Client
             }
             ReloadPackSet();
             if ((tmp152= AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
-            //Could change Dev value to be bool but Database
             if ((tmp152= AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
+            if ((tmp152 = AfterP(ER_Settings, "LastClientCheck:")) != null) LastClientVNotification = tmp152;
             if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
@@ -713,14 +710,22 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void Form_ER_Load(object sender, EventArgs e)
         {
-            if (checkBox_Timer.Checked)
+            try
             {
-                var CWindow = GetConsoleWindow();
-                ERnotifyIcon.Visible = true;
-                ShowWindow(CWindow, 0);
-                this.WindowState = FormWindowState.Minimized;
-                this.Hide();
+                var MC_client = new GitHubClient(new ProductHeaderValue("Elemental_Client")).Repository.Release.GetLatest("ElementalRealms", "MC_Client");
+                string LatestVersion = MC_client.Result.TagName;
+
+                if (LastClientVNotification != LatestVersion)
+                {
+                    ER_Settings[6] = "LastClientCheck:" + LatestVersion;
+                    File.WriteAllLines(Path_Settings, ER_Settings);
+                    if (MessageBox.Show(MC_client.Result.Body + "\n Open releases?",
+                        MC_client.Result.Name,
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        System.Diagnostics.Process.Start("https://github.com/ElementalRealms/MC_Client/releases");
+                }
             }
+            catch (AggregateException) { }
         }
 
         //window movement control 

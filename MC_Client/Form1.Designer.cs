@@ -454,6 +454,7 @@
             // pictureBox_PackLogo
             // 
             this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_PackLogo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
             this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
             this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
