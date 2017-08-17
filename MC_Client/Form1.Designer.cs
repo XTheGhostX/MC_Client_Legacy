@@ -39,9 +39,6 @@
             this.checkBox_Biome = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
-            this.checkBox_Timer = new System.Windows.Forms.CheckBox();
-            this.textBox1_time = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -67,6 +64,7 @@
             this.button_OpenOptionalM = new System.Windows.Forms.Button();
             this.OptionalM_Panel = new System.Windows.Forms.Panel();
             this.CheckedList_OptionalMods = new System.Windows.Forms.CheckedListBox();
+            this.button_OpenMC = new System.Windows.Forms.Button();
             this.Settings_panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -81,9 +79,10 @@
             // 
             this.comboBox_Versions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Versions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_Versions.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.comboBox_Versions.Location = new System.Drawing.Point(94, 14);
             this.comboBox_Versions.Name = "comboBox_Versions";
-            this.comboBox_Versions.Size = new System.Drawing.Size(142, 21);
+            this.comboBox_Versions.Size = new System.Drawing.Size(142, 23);
             this.comboBox_Versions.TabIndex = 2;
             this.comboBox_Versions.SelectedIndexChanged += new System.EventHandler(this.comboBox_Versions_SelectedIndexChanged);
             // 
@@ -99,15 +98,17 @@
             // 
             // button_Path
             // 
+            this.button_Path.BackColor = System.Drawing.Color.Transparent;
             this.button_Path.Enabled = false;
             this.button_Path.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Path.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.button_Path.Location = new System.Drawing.Point(213, 488);
             this.button_Path.Name = "button_Path";
             this.button_Path.Size = new System.Drawing.Size(25, 25);
             this.button_Path.TabIndex = 4;
             this.button_Path.Text = "..";
             this.button_Path.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button_Path.UseVisualStyleBackColor = true;
+            this.button_Path.UseVisualStyleBackColor = false;
             this.button_Path.Click += new System.EventHandler(this.button_Path_Click);
             // 
             // button_Install
@@ -115,6 +116,7 @@
             this.button_Install.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(147)))), ((int)(((byte)(147)))));
             this.button_Install.Enabled = false;
             this.button_Install.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Install.Font = new System.Drawing.Font("Segoe UI Emoji", 8.25F);
             this.button_Install.Location = new System.Drawing.Point(940, 10);
             this.button_Install.Name = "button_Install";
             this.button_Install.Size = new System.Drawing.Size(90, 30);
@@ -127,26 +129,30 @@
             // 
             this.checkBox_Dev.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Dev.AutoSize = true;
+            this.checkBox_Dev.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Dev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Dev.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.checkBox_Dev.Location = new System.Drawing.Point(66, 313);
             this.checkBox_Dev.Name = "checkBox_Dev";
-            this.checkBox_Dev.Size = new System.Drawing.Size(138, 17);
+            this.checkBox_Dev.Size = new System.Drawing.Size(144, 19);
             this.checkBox_Dev.TabIndex = 7;
             this.checkBox_Dev.Text = "Enable Dev Pack Builds";
-            this.checkBox_Dev.UseVisualStyleBackColor = true;
+            this.checkBox_Dev.UseVisualStyleBackColor = false;
             this.checkBox_Dev.CheckedChanged += new System.EventHandler(this.checkBox_Dev_CheckedChanged);
             // 
             // checkBox_Log
             // 
             this.checkBox_Log.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Log.AutoSize = true;
+            this.checkBox_Log.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Log.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Log.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.checkBox_Log.Location = new System.Drawing.Point(66, 336);
             this.checkBox_Log.Name = "checkBox_Log";
-            this.checkBox_Log.Size = new System.Drawing.Size(109, 17);
+            this.checkBox_Log.Size = new System.Drawing.Size(117, 19);
             this.checkBox_Log.TabIndex = 8;
             this.checkBox_Log.Text = "Launcher Console";
-            this.checkBox_Log.UseVisualStyleBackColor = true;
+            this.checkBox_Log.UseVisualStyleBackColor = false;
             this.checkBox_Log.CheckedChanged += new System.EventHandler(this.checkBox_Log_CheckedChanged);
             // 
             // checkBox_Biome
@@ -154,13 +160,15 @@
             this.checkBox_Biome.AccessibleDescription = "";
             this.checkBox_Biome.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Biome.AutoSize = true;
+            this.checkBox_Biome.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Biome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Biome.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.checkBox_Biome.Location = new System.Drawing.Point(66, 290);
             this.checkBox_Biome.Name = "checkBox_Biome";
-            this.checkBox_Biome.Size = new System.Drawing.Size(118, 17);
+            this.checkBox_Biome.Size = new System.Drawing.Size(128, 19);
             this.checkBox_Biome.TabIndex = 10;
             this.checkBox_Biome.Text = "Custom Biomes (SP)";
-            this.checkBox_Biome.UseVisualStyleBackColor = true;
+            this.checkBox_Biome.UseVisualStyleBackColor = false;
             this.checkBox_Biome.CheckedChanged += new System.EventHandler(this.checkBox_Biome_CheckedChanged);
             // 
             // toolTip1
@@ -174,52 +182,29 @@
             // 
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBox_Fresh.AutoSize = true;
+            this.checkBox_Fresh.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Fresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_Fresh.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.checkBox_Fresh.Location = new System.Drawing.Point(66, 359);
             this.checkBox_Fresh.Name = "checkBox_Fresh";
-            this.checkBox_Fresh.Size = new System.Drawing.Size(80, 17);
+            this.checkBox_Fresh.Size = new System.Drawing.Size(86, 19);
             this.checkBox_Fresh.TabIndex = 11;
             this.checkBox_Fresh.Text = "Clean Install";
-            this.checkBox_Fresh.UseVisualStyleBackColor = true;
+            this.checkBox_Fresh.UseVisualStyleBackColor = false;
             this.checkBox_Fresh.CheckedChanged += new System.EventHandler(this.checkBox_Fresh_CheckedChanged);
-            // 
-            // checkBox_Timer
-            // 
-            this.checkBox_Timer.AutoSize = true;
-            this.checkBox_Timer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox_Timer.Location = new System.Drawing.Point(33, 451);
-            this.checkBox_Timer.Name = "checkBox_Timer";
-            this.checkBox_Timer.Size = new System.Drawing.Size(86, 17);
-            this.checkBox_Timer.TabIndex = 12;
-            this.checkBox_Timer.Text = "Auto Update:";
-            this.checkBox_Timer.UseVisualStyleBackColor = true;
-            this.checkBox_Timer.CheckedChanged += new System.EventHandler(this.checkBox_Timer_CheckedChanged);
-            // 
-            // textBox1_time
-            // 
-            this.textBox1_time.Location = new System.Drawing.Point(141, 450);
-            this.textBox1_time.Name = "textBox1_time";
-            this.textBox1_time.Size = new System.Drawing.Size(63, 20);
-            this.textBox1_time.TabIndex = 13;
-            this.textBox1_time.Text = "30";
-            this.textBox1_time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1_time.TextChanged += new System.EventHandler(this.textBox1_time_TextChanged);
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 60000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button_Modpack
             // 
             this.button_Modpack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Modpack.BackColor = System.Drawing.Color.Transparent;
             this.button_Modpack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Modpack.Font = new System.Drawing.Font("Segoe UI Emoji", 8.5F);
             this.button_Modpack.Location = new System.Drawing.Point(443, 17);
             this.button_Modpack.Name = "button_Modpack";
             this.button_Modpack.Size = new System.Drawing.Size(154, 25);
             this.button_Modpack.TabIndex = 15;
             this.button_Modpack.Text = "Add Modpack";
-            this.button_Modpack.UseVisualStyleBackColor = true;
+            this.button_Modpack.UseVisualStyleBackColor = false;
             this.button_Modpack.Click += new System.EventHandler(this.button_Modpack_Click);
             // 
             // ERnotifyIcon
@@ -237,10 +222,8 @@
             this.Settings_panel.Controls.Add(this.checkBox_Log);
             this.Settings_panel.Controls.Add(this.checkBox_Fresh);
             this.Settings_panel.Controls.Add(this.checkBox_Biome);
-            this.Settings_panel.Controls.Add(this.textBox1_time);
             this.Settings_panel.Controls.Add(this.textBox_Path);
             this.Settings_panel.Controls.Add(this.button_Path);
-            this.Settings_panel.Controls.Add(this.checkBox_Timer);
             this.Settings_panel.Location = new System.Drawing.Point(1040, 80);
             this.Settings_panel.Name = "Settings_panel";
             this.Settings_panel.Size = new System.Drawing.Size(260, 520);
@@ -249,9 +232,10 @@
             // label_RAM
             // 
             this.label_RAM.AutoSize = true;
+            this.label_RAM.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.label_RAM.Location = new System.Drawing.Point(49, 426);
             this.label_RAM.Name = "label_RAM";
-            this.label_RAM.Size = new System.Drawing.Size(60, 13);
+            this.label_RAM.Size = new System.Drawing.Size(61, 15);
             this.label_RAM.TabIndex = 17;
             this.label_RAM.Text = "Pack Ram:";
             // 
@@ -259,12 +243,13 @@
             // 
             this.comboBox_RAM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_RAM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_RAM.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.comboBox_RAM.FormattingEnabled = true;
             this.comboBox_RAM.Items.AddRange(new object[] {
             "3"});
             this.comboBox_RAM.Location = new System.Drawing.Point(141, 423);
             this.comboBox_RAM.Name = "comboBox_RAM";
-            this.comboBox_RAM.Size = new System.Drawing.Size(63, 21);
+            this.comboBox_RAM.Size = new System.Drawing.Size(63, 23);
             this.comboBox_RAM.TabIndex = 15;
             this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
             // 
@@ -286,7 +271,7 @@
             // button_SetMenu
             // 
             this.button_SetMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_SetMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.button_SetMenu.BackColor = System.Drawing.Color.Transparent;
             this.button_SetMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_SetMenu.BackgroundImage")));
             this.button_SetMenu.FlatAppearance.BorderSize = 0;
             this.button_SetMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -300,12 +285,14 @@
             // comboBox_Pack
             // 
             this.comboBox_Pack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox_Pack.BackColor = System.Drawing.SystemColors.Window;
             this.comboBox_Pack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Pack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox_Pack.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
             this.comboBox_Pack.FormattingEnabled = true;
-            this.comboBox_Pack.Location = new System.Drawing.Point(263, 19);
+            this.comboBox_Pack.Location = new System.Drawing.Point(263, 18);
             this.comboBox_Pack.Name = "comboBox_Pack";
-            this.comboBox_Pack.Size = new System.Drawing.Size(174, 21);
+            this.comboBox_Pack.Size = new System.Drawing.Size(174, 23);
             this.comboBox_Pack.TabIndex = 14;
             this.comboBox_Pack.SelectedIndexChanged += new System.EventHandler(this.comboBox_Pack_SelectedIndexChanged);
             // 
@@ -352,7 +339,7 @@
             // button_ToTray
             // 
             this.button_ToTray.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_ToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_ToTray.BackColor = System.Drawing.Color.Transparent;
             this.button_ToTray.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_ToTray.BackgroundImage")));
             this.button_ToTray.FlatAppearance.BorderSize = 0;
             this.button_ToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -366,7 +353,7 @@
             // button_Close
             // 
             this.button_Close.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
+            this.button_Close.BackColor = System.Drawing.Color.Transparent;
             this.button_Close.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Close.BackgroundImage")));
             this.button_Close.FlatAppearance.BorderSize = 0;
             this.button_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -441,7 +428,8 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.panel1.Controls.Add(this.button_OpenMC);
             this.panel1.Controls.Add(this.label_version);
             this.panel1.Controls.Add(this.label_InstalledV);
             this.panel1.Controls.Add(this.comboBox_Versions);
@@ -454,7 +442,6 @@
             // pictureBox_PackLogo
             // 
             this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_PackLogo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_PackLogo.Location = new System.Drawing.Point(12, 90);
             this.pictureBox_PackLogo.Name = "pictureBox_PackLogo";
             this.pictureBox_PackLogo.Size = new System.Drawing.Size(240, 240);
@@ -474,6 +461,7 @@
             // button_OpenOptionalM
             // 
             this.button_OpenOptionalM.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_OpenOptionalM.BackColor = System.Drawing.Color.Transparent;
             this.button_OpenOptionalM.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_OpenOptionalM.BackgroundImage")));
             this.button_OpenOptionalM.FlatAppearance.BorderSize = 0;
             this.button_OpenOptionalM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -495,13 +483,31 @@
             // 
             // CheckedList_OptionalMods
             // 
+            this.CheckedList_OptionalMods.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.CheckedList_OptionalMods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
-            this.CheckedList_OptionalMods.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CheckedList_OptionalMods.Location = new System.Drawing.Point(60, 79);
+            this.CheckedList_OptionalMods.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.CheckedList_OptionalMods.Font = new System.Drawing.Font("Segoe UI Emoji", 8.25F);
+            this.CheckedList_OptionalMods.Location = new System.Drawing.Point(63, 15);
             this.CheckedList_OptionalMods.Name = "CheckedList_OptionalMods";
-            this.CheckedList_OptionalMods.Size = new System.Drawing.Size(181, 392);
+            this.CheckedList_OptionalMods.Size = new System.Drawing.Size(181, 493);
+            this.CheckedList_OptionalMods.Sorted = true;
             this.CheckedList_OptionalMods.TabIndex = 0;
             this.CheckedList_OptionalMods.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedList_OptionalMods_ItemCheck);
+            // 
+            // button_OpenMC
+            // 
+            this.button_OpenMC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_OpenMC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.button_OpenMC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_OpenMC.BackgroundImage")));
+            this.button_OpenMC.FlatAppearance.BorderSize = 0;
+            this.button_OpenMC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_OpenMC.Location = new System.Drawing.Point(902, 8);
+            this.button_OpenMC.Name = "button_OpenMC";
+            this.button_OpenMC.Size = new System.Drawing.Size(32, 32);
+            this.button_OpenMC.TabIndex = 32;
+            this.button_OpenMC.UseVisualStyleBackColor = false;
+            this.button_OpenMC.Visible = false;
+            this.button_OpenMC.Click += new System.EventHandler(this.button_OpenMC_Click);
             // 
             // Form_ER
             // 
@@ -553,9 +559,6 @@
         private System.Windows.Forms.CheckBox checkBox_Biome;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox checkBox_Fresh;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.CheckBox checkBox_Timer;
-        private System.Windows.Forms.TextBox textBox1_time;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button_Modpack;
         private System.Windows.Forms.NotifyIcon ERnotifyIcon;
@@ -581,6 +584,7 @@
         private System.Windows.Forms.Button button_OpenOptionalM;
         private System.Windows.Forms.Panel OptionalM_Panel;
         private System.Windows.Forms.CheckedListBox CheckedList_OptionalMods;
+        private System.Windows.Forms.Button button_OpenMC;
     }
 }
 

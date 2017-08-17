@@ -13,7 +13,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic.Devices;
 using Octokit;
-
+using System.Diagnostics;
 
 namespace MC_Client
 {
@@ -88,6 +88,7 @@ namespace MC_Client
             Path_Packs = Path + "\\ER_Packs.ini";
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
+            if (File.Exists(AppData + "\\.minecraft\\launcher.jar")) button_OpenMC.Visible = true;
             PackList();
 
             textBox_Path.Text=Path;
@@ -133,13 +134,13 @@ namespace MC_Client
             if ((tmp152= AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
             if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "LastClientCheck:")) != null) LastClientVNotification = tmp152;
-            if ((tmp152= AfterP(ER_Settings, "UpdateChecker:")) != null) checkBox_Timer.Checked = bool.Parse(tmp152);
-            if ((tmp152= AfterP(ER_Settings, "UpdateCheckerMin:")) != null) textBox1_time.Text = tmp152;
             label_InstalledV.Text = "Installed version: "+Installed_PackV;
             
             output_c("Launcher start up successful");
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
+
+            
             /*----Does not look good
             //System colors
             panel2.BackColor = SystemColors.WindowFrame;
@@ -160,7 +161,6 @@ namespace MC_Client
             checkBox_Fresh.ForeColor= SystemColors.WindowText;
             checkBox_Log.ForeColor= SystemColors.WindowText;
             comboBox_Versions.ForeColor= SystemColors.WindowText;
-            checkBox_Timer.ForeColor= SystemColors.WindowText;
             textBox1_time.ForeColor= SystemColors.WindowText;
             textBox_Path.ForeColor= SystemColors.WindowText;
             button_Path.ForeColor= SystemColors.WindowText;
@@ -751,8 +751,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 this.Location = new Point(
                     (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
-
-                this.Update();
             }
         }
 
@@ -762,8 +760,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 this.Location = new Point(
                     (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
-
-                this.Update();
             }
         }
 
@@ -816,7 +812,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                if(Button_panel.Location.X!=842) OptionsPanelSwitch();
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
                 OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
-                checkBox_Timer.Visible = true;
                 textBox_Path.Visible = true;
                 label_RAM.Visible = true;
             }
@@ -838,6 +833,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void button_OpenMC_Click(object sender, EventArgs e)
+        {
+            if(File.Exists(AppData + "\\.minecraft\\launcher.jar"))
+            Process.Start(AppData + "\\.minecraft\\launcher.jar");
+        }
+
         private void OptionsPanelSwitch()
         {
             if (Button_panel.Location.X == 842)
@@ -847,7 +848,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Settings_panel.Location = new Point(Settings_panel.Location.X + 200, Settings_panel.Location.Y);
                 button_Install.Location = new Point(button_Install.Location.X + 200, button_Install.Location.Y);
                 progressBar1.Size = new Size(progressBar1.Size.Width + 200, progressBar1.Size.Height);
-                checkBox_Timer.Visible = false;
                 textBox_Path.Visible = false;
                 label_RAM.Visible = false;
             }
@@ -889,40 +889,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Hide();
             ERnotifyIcon.Visible = true;
             ShowWindow(GetConsoleWindow(), 0);
-        }
-        
-        //stuff timer
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            CheckV();
-            if (comboBox_Versions.Text != Installed_PackV)
-                MessageBox.Show(comboBox_Pack.Text + ": " + comboBox_Versions.Text + "\n Is the latest pack version", "ER Pack update");
-        }
-
-        private void checkBox_Timer_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer.Checked == true)
-                timer1.Start();
-            else
-                timer1.Stop();
-            ER_Settings[3] = "UpdateChecker:" + checkBox_Timer.Checked;
-        }
-
-        private void textBox1_time_TextChanged(object sender, EventArgs e)
-        {
-            //Make sure the user is not a idiot(null value, or to big to store)
-            checkBox_Timer.Checked = false;
-            if(textBox1_time.Text!="")
-            try
-            {
-                timer1.Interval = int.Parse(textBox1_time.Text) * 60000;
-                ER_Settings[4] = "UpdateCheckerMin:" + textBox1_time.Text;
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
         }
 
         private void Form_ER_FormClosing(object sender, FormClosingEventArgs e)
@@ -1045,7 +1011,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             if (File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
             else BackgroundImage = null;
-            if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png")) pictureBox_PackLogo.Image = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
+            if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png"))
+            {
+                Image PackLog = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
+                pictureBox_PackLogo.Size = new Size(PackLog.Width, PackLog.Height);
+                pictureBox_PackLogo.Image = PackLog;
+            }
             else pictureBox_PackLogo.Image = null;
         }
 
