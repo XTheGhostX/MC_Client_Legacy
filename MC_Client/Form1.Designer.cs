@@ -59,12 +59,12 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.label_InstalledV = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_OpenMC = new System.Windows.Forms.Button();
             this.pictureBox_PackLogo = new System.Windows.Forms.PictureBox();
             this.Button_panel = new System.Windows.Forms.Panel();
             this.button_OpenOptionalM = new System.Windows.Forms.Button();
             this.OptionalM_Panel = new System.Windows.Forms.Panel();
             this.CheckedList_OptionalMods = new System.Windows.Forms.CheckedListBox();
-            this.button_OpenMC = new System.Windows.Forms.Button();
             this.Settings_panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -173,9 +173,9 @@
             // 
             // toolTip1
             // 
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 100;
-            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.AutoPopDelay = 0;
+            this.toolTip1.InitialDelay = 900;
+            this.toolTip1.ReshowDelay = 0;
             this.toolTip1.ShowAlways = true;
             // 
             // checkBox_Fresh
@@ -279,6 +279,7 @@
             this.button_SetMenu.Name = "button_SetMenu";
             this.button_SetMenu.Size = new System.Drawing.Size(50, 50);
             this.button_SetMenu.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.button_SetMenu, "Options");
             this.button_SetMenu.UseVisualStyleBackColor = false;
             this.button_SetMenu.Click += new System.EventHandler(this.button_SetMenu_Click);
             // 
@@ -347,6 +348,7 @@
             this.button_ToTray.Name = "button_ToTray";
             this.button_ToTray.Size = new System.Drawing.Size(50, 50);
             this.button_ToTray.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.button_ToTray, "Minimize to tray");
             this.button_ToTray.UseVisualStyleBackColor = false;
             this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click_1);
             // 
@@ -361,6 +363,7 @@
             this.button_Close.Name = "button_Close";
             this.button_Close.Size = new System.Drawing.Size(50, 50);
             this.button_Close.TabIndex = 29;
+            this.toolTip1.SetToolTip(this.button_Close, "Exit");
             this.button_Close.UseVisualStyleBackColor = false;
             this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
             // 
@@ -439,6 +442,21 @@
             this.panel1.Size = new System.Drawing.Size(1100, 50);
             this.panel1.TabIndex = 28;
             // 
+            // button_OpenMC
+            // 
+            this.button_OpenMC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_OpenMC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.button_OpenMC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_OpenMC.BackgroundImage")));
+            this.button_OpenMC.FlatAppearance.BorderSize = 0;
+            this.button_OpenMC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_OpenMC.Location = new System.Drawing.Point(902, 8);
+            this.button_OpenMC.Name = "button_OpenMC";
+            this.button_OpenMC.Size = new System.Drawing.Size(32, 32);
+            this.button_OpenMC.TabIndex = 32;
+            this.button_OpenMC.UseVisualStyleBackColor = false;
+            this.button_OpenMC.Visible = false;
+            this.button_OpenMC.Click += new System.EventHandler(this.button_OpenMC_Click);
+            // 
             // pictureBox_PackLogo
             // 
             this.pictureBox_PackLogo.BackColor = System.Drawing.Color.Transparent;
@@ -469,6 +487,7 @@
             this.button_OpenOptionalM.Name = "button_OpenOptionalM";
             this.button_OpenOptionalM.Size = new System.Drawing.Size(50, 50);
             this.button_OpenOptionalM.TabIndex = 31;
+            this.toolTip1.SetToolTip(this.button_OpenOptionalM, "Optional mods");
             this.button_OpenOptionalM.UseVisualStyleBackColor = false;
             this.button_OpenOptionalM.Click += new System.EventHandler(this.button_OpenOptionalM_Click);
             // 
@@ -493,21 +512,6 @@
             this.CheckedList_OptionalMods.Sorted = true;
             this.CheckedList_OptionalMods.TabIndex = 0;
             this.CheckedList_OptionalMods.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedList_OptionalMods_ItemCheck);
-            // 
-            // button_OpenMC
-            // 
-            this.button_OpenMC.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_OpenMC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(31)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
-            this.button_OpenMC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_OpenMC.BackgroundImage")));
-            this.button_OpenMC.FlatAppearance.BorderSize = 0;
-            this.button_OpenMC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_OpenMC.Location = new System.Drawing.Point(902, 8);
-            this.button_OpenMC.Name = "button_OpenMC";
-            this.button_OpenMC.Size = new System.Drawing.Size(32, 32);
-            this.button_OpenMC.TabIndex = 32;
-            this.button_OpenMC.UseVisualStyleBackColor = false;
-            this.button_OpenMC.Visible = false;
-            this.button_OpenMC.Click += new System.EventHandler(this.button_OpenMC_Click);
             // 
             // Form_ER
             // 
