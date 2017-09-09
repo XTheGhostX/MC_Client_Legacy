@@ -35,7 +35,7 @@ namespace MC_Client
         public string[] ModLibLink = new string[0];
         public int IsDev = 0;
         public bool IsFresh;
-        string[] Pack_List =new string[0];
+        public List<string> Pack_List=new List<string>();
         public string ForgeName="Forge-Name";
         public string Version_Script = "Script_V";
         public string Version_Biome = "Biome_V";
@@ -51,7 +51,7 @@ namespace MC_Client
 
         public Form_ER()
         {
-            string tmp999=Environment.GetEnvironmentVariable("ERealms", EnvironmentVariableTarget.User);
+            string tmp999 = Environment.GetEnvironmentVariable("ERealms", EnvironmentVariableTarget.User);
             if (tmp999 != null)
             {
                 Path = tmp999;
@@ -89,9 +89,11 @@ namespace MC_Client
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
             if (File.Exists(AppData + "\\.minecraft\\launcher.jar")) button_OpenMC.Visible = true;
+            Task.Run(() => {
+                RefreshBadge();
+            });
             PackList();
-
-            textBox_Path.Text=Path;
+            textBox_Path.Text = Path;
             if (HasAdminPrivliges)
             {
                 button_Path.Enabled = true;
@@ -130,43 +132,52 @@ namespace MC_Client
                 comboBox_RAM.Items.Add(i);
             }
             ReloadPackSet();
-            if ((tmp152= AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
-            if ((tmp152= AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
-            if ((tmp152= AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
+            if ((tmp152 = AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
+            if ((tmp152 = AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
+            if ((tmp152 = AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "LastClientCheck:")) != null) LastClientVNotification = tmp152;
-            label_InstalledV.Text = "Installed version: "+Installed_PackV;
-            
-            output_c("Launcher start up successful");
+            label_InstalledV.Text = "Installed version: " + Installed_PackV;
+
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
 
-            
-            /*----Does not look good
-            //System colors
-            panel2.BackColor = SystemColors.WindowFrame;
-            BackColor = SystemColors.Control;
-            Settings_panel.BackColor = SystemColors.ActiveBorder;
-            comboBox_Pack.BackColor =SystemColors.ScrollBar;
-            comboBox_Versions.BackColor =SystemColors.ScrollBar;
-            progressBar1.BackColor = SystemColors.WindowFrame;
-            //text colors
-            temp_name.ForeColor = SystemColors.WindowText;
-            comboBox_Pack.ForeColor= SystemColors.WindowText;
-            button_Modpack.ForeColor= SystemColors.WindowText;
-            label_InstalledV.ForeColor= SystemColors.WindowText;
-            label_version.ForeColor= SystemColors.WindowText;
-            button_Install.ForeColor= SystemColors.WindowText;
-            checkBox_Biome.ForeColor= SystemColors.WindowText;
-            checkBox_Dev.ForeColor=SystemColors.WindowText;
-            checkBox_Fresh.ForeColor= SystemColors.WindowText;
-            checkBox_Log.ForeColor= SystemColors.WindowText;
-            comboBox_Versions.ForeColor= SystemColors.WindowText;
-            textBox1_time.ForeColor= SystemColors.WindowText;
-            textBox_Path.ForeColor= SystemColors.WindowText;
-            button_Path.ForeColor= SystemColors.WindowText;
-            */
-            RefreshBadge();
+            //Remove context menu next commit replace with proper UI
+            ContextMenu PacksMenu = new ContextMenu();
+            PacksMenu.MenuItems.Add("Remove Pack", RemovePack_Click);
+            PacksMenu.MenuItems.Add("Add Pack from clipbaord", AddPack_Click);
+            listBox_Packs.ContextMenu = PacksMenu;
+            output_c("Launcher start up successful");
+
         }
+
+        private void AddPack_Click(object sender, EventArgs e)
+        {
+            string NewPack = Clipboard.GetText();
+            if (NewPack.Split('[', ']').Count() >= 6)
+            {
+                Pack_List[0] = NewPack;
+                File.WriteAllLines(Path_Packs, Pack_List);
+                PackList();
+                output_c("New Pack:" + NewPack.Split('[', ']')[3]);
+            }
+            else
+            {
+                output_c("Format not recognised");
+                return;
+            }
+        }
+
+        private void RemovePack_Click(object sender, EventArgs e)
+        {
+            if (listBox_Packs.Items.Count > 0 && listBox_Packs.SelectedIndex != -1)
+            {
+                Pack_List.RemoveAt(listBox_Packs.SelectedIndex + 1);
+                Pack_List.RemoveAt(0);
+                File.WriteAllLines(Path_Packs, Pack_List);
+                PackList();
+            }
+        }
+
         public void ReloadPackSet()
         {
             string tmp153;
@@ -215,7 +226,7 @@ namespace MC_Client
                 }
                 catch (MySqlException ex)
                 {
-                    Console.Write(ex.Message);
+                    output_c(ex.Message);
                     MessageBox.Show(ex.Message, "ERealms connection error",
        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -314,7 +325,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
                 {
-                    Console.Write(ex.Message);
+                    output_c(ex.Message);
                 }
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -624,7 +635,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (MySqlException ex)
                 {
-                    Console.Write(ex.Message);
+                    output_c(ex.Message);
                 }
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -676,7 +687,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 button_OpenOptionalM.Visible = true;
                 CheckedList_OptionalMods.Items.Clear();
                 CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
-                //DEV Load checked mods/ Custom ones
                 UserSelectedMod = false;
                 if (File.Exists(Path_Pack + "\\OptionalMods.list"))
                 {
@@ -921,14 +931,19 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public void PackList()
         {
-            Pack_List= new string[0];
-            Array.Resize(ref Pack_List, Pack_List.Length + 1);
-            Pack_List[0] = "[db.elementalrealms.net][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]";
+            Pack_List.Clear();
+            Pack_List.Add("[db.elementalrealms.net][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]");
             if (!File.Exists(Path_Packs)) File.Create(Path_Packs); else
-            Pack_List = Pack_List.Concat(File.ReadAllLines(Path_Packs)).ToArray().Where(c => c != null).ToArray();
+            Pack_List.AddRange(File.ReadAllLines(Path_Packs).Where(c => c != null));
             comboBox_Pack.Items.Clear();
-            for (int i=0;i<Pack_List.Length; i++)
-                comboBox_Pack.Items.Add(Pack_List[i].Split('[', ']')[3]);
+            listBox_Packs.Items.Clear();
+            for (int i = 0; i < Pack_List.Count; i++)
+            {
+                string Pname = Pack_List[i].Split('[', ']')[3];
+                comboBox_Pack.Items.Add(Pname);
+                if(i!=0)
+                listBox_Packs.Items.Add(Pname);
+            }
             comboBox_Pack.Text=Pack_List[0].Split('[', ']')[3];
         }
 
@@ -937,20 +952,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             Pack_Name = comboBox_Pack.Text;
             Path_Pack = Path + "\\" + Pack_Name;
             string[] tmp105 =new string[8];
-            int i;
-            for(i = 0; i < Pack_List.Length; i++)
-            {
-                tmp105 = Pack_List[i].Split('[', ']');
-                if (tmp105[3] == Pack_Name)
-                    break;
-            }
-            if (tmp105[i] == "raw" || tmp105[i]=="link")
+            tmp105 = Pack_List[comboBox_Pack.SelectedIndex].Split('[', ']');
+            if (tmp105[1] == "raw" || tmp105[1]=="link")
             {
                 IsRaw = true;
-                if (tmp105[i] == "link")
+                if (tmp105[1] == "link")
                 {
+                    string webData;
                     WebClient wc = new WebClient();
-                    string webData = wc.DownloadString(tmp105[5]);
+                    try {
+                        webData = wc.DownloadString(tmp105[5]);
+                    }catch{
+                        output_c("Could not download from: " + tmp105[5]);
+                        return;
+                    }
                     raw_Version = webData.Split('[', ']')[1].Split(',');
                     raw_Mod = webData.Split('[', ']')[3];
                 }
@@ -1013,9 +1028,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             else BackgroundImage = null;
             if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png"))
             {
-                Image PackLog = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
-                pictureBox_PackLogo.Size = new Size(PackLog.Width, PackLog.Height);
-                pictureBox_PackLogo.Image = PackLog;
+                Image PackLogo = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
+                pictureBox_PackLogo.Size = new Size(PackLogo.Width, PackLogo.Height);
+                pictureBox_PackLogo.Image = PackLogo;
             }
             else pictureBox_PackLogo.Image = null;
         }
