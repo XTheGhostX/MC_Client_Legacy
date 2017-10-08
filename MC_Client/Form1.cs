@@ -732,10 +732,10 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 {
                     ER_Settings[6] = "LastClientCheck:" + LatestVersion;
                     File.WriteAllLines(Path_Settings, ER_Settings);
-                    if (MessageBox.Show(MC_client.Result.Name + ":/n"+MC_client.Result.Body + "\n Open releases?",
+                    if (MessageBox.Show(MC_client.Result.Name + ":/n"+MC_client.Result.Body + "\n Download?",
                         "Update Notification",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        System.Diagnostics.Process.Start("https://github.com/ElementalRealms/MC_Client/releases");
+                        Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/"+LatestVersion+"/Elemental_Installer.exe");
                 }
             }
             catch (AggregateException) { }
