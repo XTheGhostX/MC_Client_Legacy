@@ -89,6 +89,18 @@ namespace MC_Client
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
             if (File.Exists(AppData + "\\.minecraft\\launcher.jar")) button_OpenMC.Visible = true;
+            else
+            {
+                try
+                {
+                    Task.Run(() => {
+                        using(WebClient webclient =new WebClient())
+                       webclient.DownloadFileAsync(new Uri("http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar"), AppData + "\\.minecraft\\launcher.jar");
+                    });
+                    button_OpenMC.Visible = true;
+                }
+                catch { output_c("Error Downloading launcher"); }
+            }
             Task.Run(() => {
                 RefreshBadge();
             });
@@ -300,6 +312,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             button_Install.Enabled = false;
             comboBox_Versions.Enabled = false;
             checkBox_Biome.Enabled = false;
+            button_OpenMC.Enabled = false;
 
             //stuff Mods
             if (IsRaw)
@@ -559,11 +572,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             comboBox_Versions.Enabled = true;
             progressBar1.Visible = false;
             checkBox_Fresh.Checked = false;
+            button_OpenMC.Enabled = true;
             MessageBox.Show("Installation Finished", "Elemental Installer");
-        }
-        private void EndInstall()
-        {
-
         }
         private void checkBox_Dev_CheckedChanged(object sender, EventArgs e)
         {
@@ -577,13 +587,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             ER_Settings[1] = "IsDev:"+checkBox_Dev.Checked;
             CheckV();
-        }
-
-        private void button_Modpack_Click(object sender, EventArgs e)
-        {
-            var OpenEditText =System.Diagnostics.Process.Start(Path_Packs);
-            OpenEditText.WaitForExit();
-            PackList();
         }
 
         private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
@@ -808,7 +811,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             button_Install.BackColor = Color.FromArgb(80, 39, 174, 185);
             button_Install.UseVisualStyleBackColor = true;
         }
-
+        //ToDo needs rewrite bad
         private void button_SetMenu_Click(object sender, EventArgs e)
         {
             Settings_panel.BringToFront();
@@ -821,6 +824,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                if(Button_panel.Location.X!=842) OptionsPanelSwitch();
                 Settings_panel.Location = new Point(840, Settings_panel.Location.Y);
+                panel_Packs.Location = new Point(1040, panel_Packs.Location.Y);
                 OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
                 textBox_Path.Visible = true;
                 label_RAM.Visible = true;
@@ -839,7 +843,25 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 if (Button_panel.Location.X != 842) OptionsPanelSwitch();
                 OptionalM_Panel.Location = new Point(840, OptionalM_Panel.Location.Y);
+                panel_Packs.Location = new Point(1040, panel_Packs.Location.Y);
                 Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+            }
+        }
+
+        private void button_Modpack_Click(object sender, EventArgs e)
+        {
+            panel_Packs.BringToFront();
+            Button_panel.BringToFront();
+            if(panel_Packs.Location.X == 840)
+            {
+                OptionsPanelSwitch();
+            }
+            else
+            {
+                if (Button_panel.Location.X != 842) OptionsPanelSwitch();
+                OptionalM_Panel.Location = new Point(1040, OptionalM_Panel.Location.Y);
+                Settings_panel.Location = new Point(1040, Settings_panel.Location.Y);
+                panel_Packs.Location = new Point(840, panel_Packs.Location.Y);
             }
         }
 
@@ -847,12 +869,14 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
         {
             if(File.Exists(AppData + "\\.minecraft\\launcher.jar"))
             Process.Start(AppData + "\\.minecraft\\launcher.jar");
+            Close();
         }
 
         private void OptionsPanelSwitch()
         {
             if (Button_panel.Location.X == 842)
             {
+                panel_Packs.Location = new Point(panel_Packs.Location.X + 200, panel_Packs.Location.Y);
                 Button_panel.Location = new Point(Button_panel.Location.X + 200, Button_panel.Location.Y);
                 OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X + 200, OptionalM_Panel.Location.Y);
                 Settings_panel.Location = new Point(Settings_panel.Location.X + 200, Settings_panel.Location.Y);
@@ -863,11 +887,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                    Button_panel.Location = new Point(Button_panel.Location.X- 200, Button_panel.Location.Y);
-                    OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- 200, OptionalM_Panel.Location.Y);
-                    Settings_panel.Location = new Point(Settings_panel.Location.X - 200, Settings_panel.Location.Y);
-                    button_Install.Location = new Point(button_Install.Location.X - 200, button_Install.Location.Y);
-                    progressBar1.Size = new Size(progressBar1.Size.Width- 200, progressBar1.Size.Height);
+                panel_Packs.Location = new Point(panel_Packs.Location.X - 200, panel_Packs.Location.Y);
+                Button_panel.Location = new Point(Button_panel.Location.X- 200, Button_panel.Location.Y);
+                OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- 200, OptionalM_Panel.Location.Y);
+                Settings_panel.Location = new Point(Settings_panel.Location.X - 200, Settings_panel.Location.Y);
+                button_Install.Location = new Point(button_Install.Location.X - 200, button_Install.Location.Y);
+                progressBar1.Size = new Size(progressBar1.Size.Width- 200, progressBar1.Size.Height);
             }
         }
 

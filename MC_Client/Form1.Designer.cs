@@ -520,7 +520,7 @@
             // 
             this.panel_Packs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
             this.panel_Packs.Controls.Add(this.listBox_Packs);
-            this.panel_Packs.Location = new System.Drawing.Point(533, 80);
+            this.panel_Packs.Location = new System.Drawing.Point(1040, 80);
             this.panel_Packs.Name = "panel_Packs";
             this.panel_Packs.Size = new System.Drawing.Size(260, 520);
             this.panel_Packs.TabIndex = 31;
@@ -544,8 +544,8 @@
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1100, 600);
-            this.Controls.Add(this.panel_Packs);
             this.Controls.Add(this.Button_panel);
+            this.Controls.Add(this.panel_Packs);
             this.Controls.Add(this.OptionalM_Panel);
             this.Controls.Add(this.pictureBox_PackLogo);
             this.Controls.Add(this.panel2);
