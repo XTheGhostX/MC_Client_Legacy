@@ -262,7 +262,7 @@
             this.button_Modpack.FlatAppearance.BorderSize = 0;
             this.button_Modpack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Modpack.Font = new System.Drawing.Font("Segoe UI Emoji", 8.5F);
-            this.button_Modpack.Location = new System.Drawing.Point(4, 125);
+            this.button_Modpack.Location = new System.Drawing.Point(4, 460);
             this.button_Modpack.Name = "button_Modpack";
             this.button_Modpack.Size = new System.Drawing.Size(50, 50);
             this.button_Modpack.TabIndex = 15;
@@ -491,7 +491,7 @@
             this.Button_panel.Controls.Add(this.button_Modpack);
             this.Button_panel.Location = new System.Drawing.Point(1042, 80);
             this.Button_panel.Name = "Button_panel";
-            this.Button_panel.Size = new System.Drawing.Size(57, 183);
+            this.Button_panel.Size = new System.Drawing.Size(57, 520);
             this.Button_panel.TabIndex = 29;
             // 
             // OptionalM_Panel

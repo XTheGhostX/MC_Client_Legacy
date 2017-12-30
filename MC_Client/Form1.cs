@@ -678,7 +678,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 checkBox_Biome.Enabled = true;
             }
             
-            if (List_Client == "null")
+            if (List_Client == "")
             {
                 CheckedList_OptionalMods.Enabled = false;
                 button_OpenOptionalM.Visible = false;
