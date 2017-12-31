@@ -42,6 +42,7 @@
             this.button_ToTray = new System.Windows.Forms.Button();
             this.button_Close = new System.Windows.Forms.Button();
             this.button_OpenOptionalM = new System.Windows.Forms.Button();
+            this.checkBox_LegacyMC = new System.Windows.Forms.CheckBox();
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button_Modpack = new System.Windows.Forms.Button();
@@ -91,9 +92,9 @@
             // textBox_Path
             // 
             this.textBox_Path.Enabled = false;
-            this.textBox_Path.Location = new System.Drawing.Point(9, 489);
+            this.textBox_Path.Location = new System.Drawing.Point(66, 489);
             this.textBox_Path.Name = "textBox_Path";
-            this.textBox_Path.Size = new System.Drawing.Size(198, 20);
+            this.textBox_Path.Size = new System.Drawing.Size(141, 20);
             this.textBox_Path.TabIndex = 3;
             this.textBox_Path.Text = "%appdata%\\.minecraft\\ElementalRealms";
             this.textBox_Path.Visible = false;
@@ -139,6 +140,7 @@
             this.checkBox_Dev.Size = new System.Drawing.Size(144, 19);
             this.checkBox_Dev.TabIndex = 7;
             this.checkBox_Dev.Text = "Enable Dev Pack Builds";
+            this.toolTip1.SetToolTip(this.checkBox_Dev, "May couse crashing and instability");
             this.checkBox_Dev.UseVisualStyleBackColor = false;
             this.checkBox_Dev.CheckedChanged += new System.EventHandler(this.checkBox_Dev_CheckedChanged);
             // 
@@ -170,6 +172,7 @@
             this.checkBox_Biome.Size = new System.Drawing.Size(128, 19);
             this.checkBox_Biome.TabIndex = 10;
             this.checkBox_Biome.Text = "Custom Biomes (SP)";
+            this.toolTip1.SetToolTip(this.checkBox_Biome, "May make Downloading/loading times a lot longer");
             this.checkBox_Biome.UseVisualStyleBackColor = false;
             this.checkBox_Biome.CheckedChanged += new System.EventHandler(this.checkBox_Biome_CheckedChanged);
             // 
@@ -240,6 +243,24 @@
             this.button_OpenOptionalM.UseVisualStyleBackColor = false;
             this.button_OpenOptionalM.Click += new System.EventHandler(this.button_OpenOptionalM_Click);
             // 
+            // checkBox_LegacyMC
+            // 
+            this.checkBox_LegacyMC.AccessibleDescription = "";
+            this.checkBox_LegacyMC.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox_LegacyMC.AutoSize = true;
+            this.checkBox_LegacyMC.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox_LegacyMC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBox_LegacyMC.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
+            this.checkBox_LegacyMC.Location = new System.Drawing.Point(66, 265);
+            this.checkBox_LegacyMC.Name = "checkBox_LegacyMC";
+            this.checkBox_LegacyMC.Size = new System.Drawing.Size(113, 19);
+            this.checkBox_LegacyMC.TabIndex = 18;
+            this.checkBox_LegacyMC.Text = "Legacy minecraft";
+            this.toolTip1.SetToolTip(this.checkBox_LegacyMC, "Will add a button to open the minecraft legacy launcher\r\n(This is curently requir" +
+        "ed for auto launch to function)");
+            this.checkBox_LegacyMC.UseVisualStyleBackColor = false;
+            this.checkBox_LegacyMC.CheckedChanged += new System.EventHandler(this.checkBox_LegacyMC_CheckedChanged);
+            // 
             // checkBox_Fresh
             // 
             this.checkBox_Fresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -253,7 +274,6 @@
             this.checkBox_Fresh.TabIndex = 11;
             this.checkBox_Fresh.Text = "Clean Install";
             this.checkBox_Fresh.UseVisualStyleBackColor = false;
-            this.checkBox_Fresh.CheckedChanged += new System.EventHandler(this.checkBox_Fresh_CheckedChanged);
             // 
             // button_Modpack
             // 
@@ -278,6 +298,7 @@
             // Settings_panel
             // 
             this.Settings_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            this.Settings_panel.Controls.Add(this.checkBox_LegacyMC);
             this.Settings_panel.Controls.Add(this.label_RAM);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
             this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
@@ -296,7 +317,7 @@
             // 
             this.label_RAM.AutoSize = true;
             this.label_RAM.Font = new System.Drawing.Font("Segoe UI Emoji", 9F);
-            this.label_RAM.Location = new System.Drawing.Point(49, 426);
+            this.label_RAM.Location = new System.Drawing.Point(63, 426);
             this.label_RAM.Name = "label_RAM";
             this.label_RAM.Size = new System.Drawing.Size(61, 15);
             this.label_RAM.TabIndex = 17;
@@ -616,6 +637,7 @@
         private System.Windows.Forms.Button button_OpenMC;
         private System.Windows.Forms.Panel panel_Packs;
         private System.Windows.Forms.ListBox listBox_Packs;
+        private System.Windows.Forms.CheckBox checkBox_LegacyMC;
     }
 }
 

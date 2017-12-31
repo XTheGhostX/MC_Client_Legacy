@@ -34,7 +34,6 @@ namespace MC_Client
         public string[] ModLibName =new string[0];
         public string[] ModLibLink = new string[0];
         public int IsDev = 0;
-        public bool IsFresh;
         public List<string> Pack_List=new List<string>();
         public string ForgeName="Forge-Name";
         public string Version_Script = "Script_V";
@@ -88,19 +87,6 @@ namespace MC_Client
             Path_Packs = Path + "\\ER_Packs.ini";
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
-            if (File.Exists(AppData + "\\.minecraft\\launcher.jar")) button_OpenMC.Visible = true;
-            else
-            {
-                try
-                {
-                    Task.Run(() => {
-                        using(WebClient webclient =new WebClient())
-                       webclient.DownloadFileAsync(new Uri("http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar"), AppData + "\\.minecraft\\launcher.jar");
-                    });
-                    button_OpenMC.Visible = true;
-                }
-                catch { output_c("Error Downloading launcher"); }
-            }
             Task.Run(() => {
                 RefreshBadge();
             });
@@ -115,8 +101,6 @@ namespace MC_Client
                 toolTip1.SetToolTip(textBox_Path, "To change dir Run as admin");
                 toolTip1.SetToolTip(button_Path, "To change dir Run as admin");
             }
-            toolTip1.SetToolTip(checkBox_Biome, "May make Downloading/loading times a lot longer");
-            toolTip1.SetToolTip(checkBox_Dev, "May couse crashing and instability");
             if (!File.Exists(Path_Settings))
             {
                 checkBox_Fresh.Checked = true;
@@ -126,8 +110,18 @@ namespace MC_Client
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!File.Exists(MCProfile_Path))
             {
-                MessageBox.Show("You must open the Minecraft launcher atleast once before installing the pack", "ERealms user error",
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (MessageBox.Show("You do not seem to have a version of minecraft installed \n would you like to enable Legacy support? \n if you would like to use the newer minecraft launcher you will have to install is manually \n in addition due to frequent changes in the new launcher we do not guarantee support", "Profile error",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                {
+                    DownloadLegacyMC();
+                    button_OpenMC.Visible = true;
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+                MessageBox.Show("Download Sucessful\n please close minecraft and relaunch the Elemental Launcher");
+                Process.Start(AppData + "\\.minecraft\\launcher.jar");
                 Environment.Exit(0);
             }
             if (!Directory.Exists(Path_Pack)) Directory.CreateDirectory(Path_Pack);
@@ -145,10 +139,12 @@ namespace MC_Client
             }
             ReloadPackSet();
             if ((tmp152 = AfterP(ER_Settings, "Biomes:")) != null) checkBox_Biome.Checked = bool.Parse(tmp152);
+            if ((tmp152 = AfterP(ER_Settings, "IsLegacyMC:")) != null) checkBox_LegacyMC.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "LastClientCheck:")) != null) LastClientVNotification = tmp152;
             label_InstalledV.Text = "Installed version: " + Installed_PackV;
+            if (checkBox_LegacyMC.Checked) button_OpenMC.Visible = true;
 
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF020, 0x00000000);
@@ -371,11 +367,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 string[] mods = SList_Mods.Split(',').Concat(CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()).ToArray();
 
                 progressBar1.Maximum = 0;
-                if ((Version_Biome != Installed_Biome || IsFresh) && checkBox_Biome.Checked)        progressBar1.Maximum += 20;
-                if (Version_Forge != Installed_Forge || IsFresh)                                    progressBar1.Maximum += 20;
-                if ((Version_Script != Installed_Script || IsFresh) && Version_Script != "null")    progressBar1.Maximum += 20;
-                if ((Version_Badge != Installed_Badge || IsFresh) && Version_Badge != "null")       progressBar1.Maximum += 20;
-                if ((Version_Cfg != Installed_Config || IsFresh) && Version_Cfg != "null")          progressBar1.Maximum += 20;
+                if ((Version_Biome != Installed_Biome || checkBox_Fresh.Checked) && checkBox_Biome.Checked)        progressBar1.Maximum += 20;
+                if (Version_Forge != Installed_Forge || checkBox_Fresh.Checked)                                    progressBar1.Maximum += 20;
+                if ((Version_Script != Installed_Script || checkBox_Fresh.Checked) && Version_Script != "null")    progressBar1.Maximum += 20;
+                if ((Version_Badge != Installed_Badge || checkBox_Fresh.Checked) && Version_Badge != "null")       progressBar1.Maximum += 20;
+                if ((Version_Cfg != Installed_Config || checkBox_Fresh.Checked) && Version_Cfg != "null")          progressBar1.Maximum += 20;
 
                 //stuff Mods
                 if (!Directory.Exists(Path_mod))
@@ -384,7 +380,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Task[] ModTasks;
                 Task[] OtherTasks = new Task[5];
 
-                if (IsFresh)
+                if (checkBox_Fresh.Checked)
                 {
                     FileSystem.DeleteDirectory(Path_mod, DeleteDirectoryOption.DeleteAllContents);
                     Directory.CreateDirectory(Path_mod);
@@ -440,7 +436,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //stuff Config
                 if (Version_Cfg != "null")
                 {
-                    if (Version_Cfg != Installed_Config || IsFresh)
+                    if (Version_Cfg != Installed_Config || checkBox_Fresh.Checked)
                     {
                         OtherTasks[0] =
                             new AsyncMod().DownloadConfig();
@@ -450,7 +446,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (!Directory.Exists(Path_Biome)) Directory.CreateDirectory(Path_Biome);
                 if (checkBox_Biome.Checked == true)
                 {
-                    if (Version_Biome != Installed_Biome || IsFresh)
+                    if (Version_Biome != Installed_Biome || checkBox_Fresh.Checked)
                     {
                         OtherTasks[1] =
                             new AsyncMod().DownloadBiome();
@@ -461,7 +457,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
                 //stuff Forge
-                if (Version_Forge != Installed_Forge || IsFresh)
+                if (Version_Forge != Installed_Forge || checkBox_Fresh.Checked)
                 {
                     OtherTasks[2] =
                         new AsyncMod().DownloadForge();
@@ -471,7 +467,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (!Directory.Exists(Path_Script)) Directory.CreateDirectory(Path_Script);
                 if (Version_Script != "null")
                 {
-                    if (Version_Script != Installed_Script || IsFresh)
+                    if (Version_Script != Installed_Script || checkBox_Fresh.Checked)
                     {
                         OtherTasks[3] =
                             new AsyncMod().DownloadScripts();
@@ -482,7 +478,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //stuff Badge
                 if (Version_Badge != "null")
                 {
-                    if (Version_Badge != Installed_Badge || IsFresh)
+                    if (Version_Badge != Installed_Badge || checkBox_Fresh.Checked)
                     {
                         OtherTasks[4] =
                             new AsyncMod().DownloadBadge();
@@ -594,15 +590,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             output_c(null);            
             ER_Settings[2] = "Log:"+checkBox_Log.Checked;
             if (!checkBox_Log.Checked) Close();
-        }
-
-
-        private void checkBox_Fresh_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Fresh.Checked)
-                IsFresh = true;
-            else
-                IsFresh = false;
         }
 
         private void comboBox_Versions_SelectedIndexChanged(object sender, EventArgs e)
@@ -733,7 +720,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ER_Settings[6] = "LastClientCheck:" + LatestVersion;
                     File.WriteAllLines(Path_Settings, ER_Settings);
                     if(LastClientVNotification != null)
-                    if (MessageBox.Show(MC_client.Result.Name + ":/n"+MC_client.Result.Body + "\n Download?",
+                    if (MessageBox.Show(MC_client.Result.Name + ":\n"+MC_client.Result.Body + "\n Download?",
                         "Update Notification",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                         Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/"+LatestVersion+"/Elemental_Installer.exe");
@@ -866,6 +853,25 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void checkBox_LegacyMC_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_LegacyMC.Checked) { DownloadLegacyMC(); button_OpenMC.Visible = true; }
+            else
+                button_OpenMC.Visible = false;
+            ER_Settings[7] = "IsLegacyMC:" + checkBox_LegacyMC.Checked;
+        }
+        private void DownloadLegacyMC()
+        {
+            if(!File.Exists(AppData + "\\.minecraft\\launcher.jar"))
+                try
+                {
+                    using (WebClient webclient = new WebClient())
+                        webclient.DownloadFile(new Uri("http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar"), AppData + "\\.minecraft\\launcher.jar");
+                    button_OpenMC.Visible = true;
+                }
+                catch { output_c("Error Downloading launcher"); }
+        }
+
         private void button_OpenMC_Click(object sender, EventArgs e)
         {
             if(File.Exists(AppData + "\\.minecraft\\launcher.jar"))
@@ -882,6 +888,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X + 200, OptionalM_Panel.Location.Y);
                 Settings_panel.Location = new Point(Settings_panel.Location.X + 200, Settings_panel.Location.Y);
                 button_Install.Location = new Point(button_Install.Location.X + 200, button_Install.Location.Y);
+                button_OpenMC.Location = new Point(button_OpenMC.Location.X + 200, button_OpenMC.Location.Y);
                 progressBar1.Size = new Size(progressBar1.Size.Width + 200, progressBar1.Size.Height);
                 textBox_Path.Visible = false;
                 label_RAM.Visible = false;
@@ -893,6 +900,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 OptionalM_Panel.Location = new Point(OptionalM_Panel.Location.X- 200, OptionalM_Panel.Location.Y);
                 Settings_panel.Location = new Point(Settings_panel.Location.X - 200, Settings_panel.Location.Y);
                 button_Install.Location = new Point(button_Install.Location.X - 200, button_Install.Location.Y);
+                button_OpenMC.Location = new Point(button_OpenMC.Location.X - 200, button_OpenMC.Location.Y);
                 progressBar1.Size = new Size(progressBar1.Size.Width- 200, progressBar1.Size.Height);
             }
         }
@@ -918,8 +926,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-
-        //end of window move code 
         private void button_Totray_Click(object sender, EventArgs e)
         {
             Hide();
@@ -1034,20 +1040,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         }
 
-        private void DownloadM(string ModLibLink,string ModLibName)
-        {
-            try
-            {
-                using (WebClient webClient =new WebClient()) {
-                    webClient.DownloadFile(new Uri(ModLibLink), Path_mod + "\\" + ModLibName);
-                    output_c("Downloading " + ModLibName + " successful");
-                }
-            }
-            catch (Exception ex)
-            {
-                output_c("Downloading " + ModLibName + " failed..." + ex);
-            }
-        }
         public void RefreshBadge()
         {
             if (File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
