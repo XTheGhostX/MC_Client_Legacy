@@ -50,7 +50,6 @@
             this.Settings_panel = new System.Windows.Forms.Panel();
             this.label_RAM = new System.Windows.Forms.Label();
             this.comboBox_RAM = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBox_Pack = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -211,7 +210,7 @@
             this.button_ToTray.TabIndex = 27;
             this.toolTip1.SetToolTip(this.button_ToTray, "Minimize to tray");
             this.button_ToTray.UseVisualStyleBackColor = false;
-            this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click_1);
+            this.button_ToTray.Click += new System.EventHandler(this.button_ToTray_Click);
             // 
             // button_Close
             // 
@@ -301,7 +300,6 @@
             this.Settings_panel.Controls.Add(this.checkBox_LegacyMC);
             this.Settings_panel.Controls.Add(this.label_RAM);
             this.Settings_panel.Controls.Add(this.comboBox_RAM);
-            this.Settings_panel.Controls.Add(this.tableLayoutPanel2);
             this.Settings_panel.Controls.Add(this.checkBox_Dev);
             this.Settings_panel.Controls.Add(this.checkBox_Log);
             this.Settings_panel.Controls.Add(this.checkBox_Fresh);
@@ -336,21 +334,6 @@
             this.comboBox_RAM.Size = new System.Drawing.Size(63, 23);
             this.comboBox_RAM.TabIndex = 15;
             this.comboBox_RAM.SelectedIndexChanged += new System.EventHandler(this.comboBox_RAM_SelectedIndexChanged);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(189, 254);
-            this.tableLayoutPanel2.TabIndex = 14;
             // 
             // comboBox_Pack
             // 
@@ -619,7 +602,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label temp_name;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label_version;
         private System.Windows.Forms.Label label_InstalledV;
         private System.Windows.Forms.PictureBox pictureBox_ERlogo;

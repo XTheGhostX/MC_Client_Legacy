@@ -19,8 +19,6 @@ namespace MC_Client
 {
     public partial class Form_ER : Form
     {
-        //Add feedback that the program is installing (Change mouse cursor or something IDK)
-        //Add method of writing and reading custom install
         static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public string Path = AppData + "\\.minecraft\\ElementalRealms";
         public bool HasAdminPrivliges = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator); 
@@ -29,6 +27,7 @@ namespace MC_Client
         public string Temp;
         public string Path_Config, Path_mod, Path_Change, Path_Settings,Path_PackV, Path_Script, Path_Biome, Path_Pack;
         public string Installed_Config, Installed_Forge, Installed_Biome, Installed_Script,Installed_PackV , Pack_Name, Path_Packs, raw_Mod, Installed_Badge, LastClientVNotification;
+        private string LogoLink, BackgroundLink;
         public bool IsRaw = false, IsGit=true, UserSelectedMod=false;
         public string[] raw_Version = new string[0];
         public string[] ModLibName =new string[0];
@@ -155,7 +154,27 @@ namespace MC_Client
             PacksMenu.MenuItems.Add("Add Pack from clipbaord", AddPack_Click);
             listBox_Packs.ContextMenu = PacksMenu;
             output_c("Launcher start up successful");
+        }
 
+        private void Form_ER_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var MC_client = new GitHubClient(new ProductHeaderValue("Elemental_Client")).Repository.Release.GetLatest("ElementalRealms", "MC_Client");
+                string LatestVersion = MC_client.Result.TagName;
+
+                if (LastClientVNotification != LatestVersion)
+                {
+                    ER_Settings[6] = "LastClientCheck:" + LatestVersion;
+                    File.WriteAllLines(Path_Settings, ER_Settings);
+                    if (LastClientVNotification != null)
+                        if (MessageBox.Show(MC_client.Result.Name + ":\n" + MC_client.Result.Body + "\n Download?",
+                            "Update Notification",
+                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/" + LatestVersion + "/Elemental_Installer.exe");
+                }
+            }
+            catch (AggregateException) { }
         }
 
         private void AddPack_Click(object sender, EventArgs e)
@@ -611,6 +630,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Version_Forge = tmp910[4];
                 SList_Mods = tmp910[8];
                 List_Client = tmp910[9];
+                BackgroundLink = tmp910[11];
+                LogoLink = tmp910[12];
             }
             else
             {
@@ -639,6 +660,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Version_Forge = (dataReader["Forge"].ToString());
                     SList_Mods = (dataReader["Mods"].ToString());
                     List_Client = (dataReader["Client"].ToString());
+                    BackgroundLink = (dataReader["Background"].ToString());
+                    LogoLink = (dataReader["Logo"].ToString());
                 }
                 dataReader.Close();
                 conn.CloseAsync();
@@ -706,27 +729,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolTip1.ShowAlways = true;
                 toolTip1.Show(toolTipString, control, control.Width / 2, control.Height / 2);
             }
-        }
-
-        private void Form_ER_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                var MC_client = new GitHubClient(new ProductHeaderValue("Elemental_Client")).Repository.Release.GetLatest("ElementalRealms", "MC_Client");
-                string LatestVersion = MC_client.Result.TagName;
-
-                if (LastClientVNotification != LatestVersion)
-                {
-                    ER_Settings[6] = "LastClientCheck:" + LatestVersion;
-                    File.WriteAllLines(Path_Settings, ER_Settings);
-                    if(LastClientVNotification != null)
-                    if (MessageBox.Show(MC_client.Result.Name + ":\n"+MC_client.Result.Body + "\n Download?",
-                        "Update Notification",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/"+LatestVersion+"/Elemental_Installer.exe");
-                }
-            }
-            catch (AggregateException) { }
         }
 
         //window movement control 
@@ -910,13 +912,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             this.Close();
         }
 
-        private void button_ToTray_Click_1(object sender, EventArgs e)
-        {
-            Hide();
-            ERnotifyIcon.Visible = true;
-            ShowWindow(GetConsoleWindow(), 0);
-        }
-
         private void CheckedList_OptionalMods_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (UserSelectedMod)
@@ -926,7 +921,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void button_Totray_Click(object sender, EventArgs e)
+        private void button_ToTray_Click(object sender, EventArgs e)
         {
             Hide();
             ERnotifyIcon.Visible = true;
@@ -1042,22 +1037,65 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         public void RefreshBadge()
         {
-            if (File.Exists(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png")) BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\Background" + Version_Badge + ".png");
-            else BackgroundImage = null;
-            if (File.Exists(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png"))
-            {
-                Image PackLogo = Image.FromFile(Path_Pack + "\\ER_resources\\Icon" + Version_Badge + ".png");
-                pictureBox_PackLogo.Size = new Size(PackLogo.Width, PackLogo.Height);
-                pictureBox_PackLogo.Image = PackLogo;
+            if (BackgroundLink != null){
+                string StandardBG = StandardString(BackgroundLink);
+                if (Directory.Exists(Path_Pack + "\\ER_resources\\BG-" + StandardBG)){
+                    this.BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\BG-" + StandardBG + "\\Background.png");
+                }
+                else{
+                    Directory.CreateDirectory(Path_Pack + "\\ER_resources\\BG-" + StandardBG);
+                    try{
+                        using(WebClient webclient=new WebClient()){
+                            webclient.DownloadFile(BackgroundLink, Path_Pack + "\\ER_resources\\BG-" + StandardBG + "\\Background.png");
+                        }
+                        this.BackgroundImage = Image.FromFile(Path_Pack + "\\ER_resources\\BG-" + StandardBG + "\\Background.png");
+                    }
+                    catch(Exception ex){
+                        output_c("Error with Background " + ex);
+                    }
+                }
             }
-            else pictureBox_PackLogo.Image = null;
+            else this.BackgroundImage = null;
+
+            if (LogoLink != null){
+                string StandardLG = StandardString(LogoLink);
+                if (Directory.Exists(Path_Pack + "\\ER_resources\\LG-" + StandardLG)){
+                    Image tmpPackLogo = Image.FromFile(Path_Pack + "\\ER_resources\\LG-" + StandardLG + "\\Logo.png");
+                    pictureBox_PackLogo.Size = new Size(tmpPackLogo.Width, tmpPackLogo.Height);
+                    pictureBox_PackLogo.Image = tmpPackLogo;
+                }
+                else{
+                    Directory.CreateDirectory(Path_Pack + "\\ER_resources\\LG-" + StandardLG);
+                    try{
+                        using (WebClient webclient = new WebClient()){
+                            webclient.DownloadFile(LogoLink, Path_Pack + "\\ER_resources\\LG-" + StandardLG + "\\Logo.png");
+                        }
+                        Image tmpPackLogo = Image.FromFile(Path_Pack + "\\ER_resources\\LG-" + StandardLG + "\\Logo.png");
+                        pictureBox_PackLogo.Size = new Size(tmpPackLogo.Width, tmpPackLogo.Height);
+                        pictureBox_PackLogo.Image = tmpPackLogo;
+                    }
+                    catch (Exception ex)
+                    {
+                        output_c("Error with Background " + ex);
+                    }
+                }
+            }else pictureBox_PackLogo.Image = null;
         }
 
         public void AsyncDone(int Value)
         {
             progressBar1.Increment(Value);
         }
-
+        public static string StandardString(string Str)
+        {
+            string Nstr="";
+            foreach (char c in Str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                    Nstr += c;
+            }
+            return Nstr;
+        }
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();

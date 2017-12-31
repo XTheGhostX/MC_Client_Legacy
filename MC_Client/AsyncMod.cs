@@ -228,21 +228,6 @@ namespace MC_Client
                 tmpBadgeExPath = Program.erForm.Temp + "\\MC_Badge-" + Program.erForm.Version_Badge;
             else
                 tmpBadgeExPath = Program.erForm.Temp + "\\MC_Badge";
-            if (!Directory.Exists(Program.erForm.Path_Pack + "\\ER_resources")) Directory.CreateDirectory(Program.erForm.Path_Pack + "\\ER_resources");
-            if (!File.Exists(Program.erForm.Path_Pack + "\\ER_resources\\Background" + Program.erForm.Version_Badge + ".png"))
-            {
-                if (File.Exists(tmpBadgeExPath + "\\Background.png"))
-                    File.Move(tmpBadgeExPath + "\\Background.png", Program.erForm.Path_Pack + "\\ER_resources\\Background" + Program.erForm.Version_Badge + ".png");
-            }
-            else
-                File.Delete(tmpBadgeExPath + "\\Background.png");
-            if (!File.Exists(Program.erForm.Path_Pack + "\\ER_resources\\Icon" + Program.erForm.Version_Badge + ".png"))
-            {
-                if (File.Exists(tmpBadgeExPath + "\\Icon.png"))
-                    File.Move(tmpBadgeExPath + "\\Icon.png", Program.erForm.Path_Pack + "\\ER_resources\\Icon" + Program.erForm.Version_Badge + ".png");
-            }
-            else
-                File.Delete(tmpBadgeExPath + "\\Icon.png");
             FileSystem.MoveDirectory((tmpBadgeExPath), Program.erForm.Path_Pack, true);
             Program.erForm.Pack_Settings[5] = "Badge:" + Program.erForm.Version_Badge;
             Program.erForm.Installed_Badge = Program.erForm.Version_Badge;
