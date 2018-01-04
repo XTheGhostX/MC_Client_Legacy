@@ -513,7 +513,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             foreach (JProperty jproperty in MCP_dynamic.profiles) {
                 if(jproperty.Name == Pack_Name)
                 {
-                    Console.WriteLine("jproperty.Name = {0}\n{1}\n{2}", jproperty.Name, jproperty.Value,jproperty.Value["name"]);
                     jproperty.Value["name"]= Pack_Name;
                     jproperty.Value["gameDir"] = Path_Pack;
                     jproperty.Value["lastVersionId"] = ForgeName;
