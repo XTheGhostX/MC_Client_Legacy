@@ -14,6 +14,8 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualBasic.Devices;
 using Octokit;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MC_Client
 {
@@ -109,7 +111,7 @@ namespace MC_Client
             if (Directory.Exists(Temp)) FileSystem.DeleteDirectory(Temp, DeleteDirectoryOption.DeleteAllContents);
             if (!File.Exists(MCProfile_Path))
             {
-                if (MessageBox.Show("You do not seem to have a version of minecraft installed \n would you like to enable Legacy support? \n if you would like to use the newer minecraft launcher you will have to install is manually \n in addition due to frequent changes in the new launcher we do not guarantee support", "Profile error",
+                if (MessageBox.Show("You do not seem to have a version of minecraft installed \n would you like to enable Legacy support?", "Profile error",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                 {
                     DownloadLegacyMC();
@@ -506,70 +508,40 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 await Task.WhenAll(ModTasks.Concat((OtherTasks.Where(t => t != null).ToArray())));
 
             //stuff MC launcher profile
-            string[] MCP_Text = File.ReadAllLines(MCProfile_Path);
-
-            bool isERProfile = false;
-            for (int currentLine = 3; currentLine <= MCP_Text.Length - 1; ++currentLine)
-            {
-                if (MCP_Text[currentLine].Contains(Pack_Name)) isERProfile = true;
-                if (MCP_Text[currentLine].Contains("\"selectedProfile\""))
+            dynamic MCP_dynamic = JsonConvert.DeserializeObject(File.ReadAllText(MCProfile_Path));
+            bool isERPfresh = true;
+            foreach (JProperty jproperty in MCP_dynamic.profiles) {
+                if(jproperty.Name == Pack_Name)
                 {
-                    MCP_Text[currentLine] = "  \"selectedProfile\": \"" + Pack_Name + "\",";
-                }
-            }
-            //Finnish isERProfile
-            int InsertionLine = 0;
-            for (int currentLine = InsertionLine; currentLine <= MCP_Text.Length - 1; ++currentLine)
-            {
-                InsertionLine = currentLine;
-                if (MCP_Text[currentLine].Contains("\"profiles\": {}"))
-                {
-                    MCP_Text[InsertionLine] = "    \"profiles\": {";
-                    List<string> tmp910 = MCP_Text.ToList();
-                    tmp910.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
-                    tmp910.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
-                    tmp910.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
-                    tmp910.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
-                    tmp910.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
-                    tmp910.Insert(InsertionLine + 6, "    }");
-                    tmp910.Insert(InsertionLine + 7, "  },");
-                    MCP_Text = tmp910.ToArray();
-                    output_c("Made ERealms profile");
-                    isERProfile = true;
+                    Console.WriteLine("jproperty.Name = {0}\n{1}\n{2}", jproperty.Name, jproperty.Value,jproperty.Value["name"]);
+                    jproperty.Value["name"]= Pack_Name;
+                    jproperty.Value["gameDir"] = Path_Pack;
+                    jproperty.Value["lastVersionId"] = ForgeName;
+                    jproperty.Value["javaArgs"] = "-Xmx"+ PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
+                    try { File.WriteAllText(MCProfile_Path, jproperty.Root.ToString()); }
+                    catch(Exception ex) { output_c("Could not change profile:\n" + ex); }
+                    isERPfresh = false;
                     break;
                 }
-                else
-                if (MCP_Text[currentLine].Contains("\"profiles\":")) break;
             }
-            if (!isERProfile)
+            if (isERPfresh)
             {
-                List<string> tmp010 = MCP_Text.ToList();
-                tmp010.Insert(InsertionLine + 1, "    \"" + Pack_Name + "\": {");
-                tmp010.Insert(InsertionLine + 2, "      \"name\": \"" + Pack_Name + "\",");
-                tmp010.Insert(InsertionLine + 3, "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",");
-                tmp010.Insert(InsertionLine + 4, "      \"lastVersionId\": \"" + ForgeName + "\",");
-                tmp010.Insert(InsertionLine + 5, "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"");
-                tmp010.Insert(InsertionLine + 6, "    },");
-                MCP_Text = tmp010.ToArray();
-                output_c("Made ERealms profile");
+                //Make new entry if no name is found
+                JObject New_ERP =
+                    new JObject(
+                        new JProperty("profiles",
+                        new JObject(
+                        new JProperty(Pack_Name,
+                        new JObject(
+                            new JProperty("name", Pack_Name),
+                            new JProperty("gameDir", Path_Pack),
+                            new JProperty("lastVersionId", ForgeName),
+                            new JProperty("javaArgs", "-Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M")
+                        )))));
+                New_ERP.Merge(JObject.Parse(File.ReadAllText(MCProfile_Path)));
+                try { File.WriteAllText(MCProfile_Path, New_ERP.ToString()); }
+                catch (Exception ex) { output_c("Could not create profile:\n" + ex); }
             }
-            else
-            {
-                for (int currentLine = 3; currentLine <= MCP_Text.Length - 1; ++currentLine)
-                {
-                    if (MCP_Text[currentLine].Contains("\"" + Pack_Name + "\": {"))
-                    {
-                        MCP_Text[currentLine + 2] = "      \"gameDir\": \"" + (Path_Pack.Replace(@"\", @"\\")) + "\",";
-                        MCP_Text[currentLine + 3] = "      \"lastVersionId\": \"" + ForgeName + "\",";
-                        if (MCP_Text[currentLine + 5].Contains("},"))
-                            MCP_Text[currentLine + 4] = "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\"";
-                        else
-                            MCP_Text[currentLine + 4] = "      \"javaArgs\": \" -Xmx" + PackRAM + "G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M\",";
-                        break;
-                    }
-                }
-            }
-            File.WriteAllLines(MCProfile_Path, MCP_Text);
 
             //ClassCacheTweaker Support
             if (File.Exists(Path_Pack + "\\" + "classCache.dat")) File.Delete(Path_Pack + "\\" + "classCache.dat");
