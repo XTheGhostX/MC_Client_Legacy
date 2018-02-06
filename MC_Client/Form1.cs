@@ -16,6 +16,7 @@ using Octokit;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace MC_Client
 {
@@ -88,22 +89,25 @@ namespace MC_Client
             Path_Packs = Path + "\\ER_Packs.ini";
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             InitializeComponent();
+            
+        }
+
+        private void Form_ER_Load(object sender, EventArgs e)
+        {
             Task.Run(() => {
                 RefreshBadge();
             });
             PackList();
             textBox_Path.Text = Path;
-            if (HasAdminPrivliges)
-            {
+
+            if (HasAdminPrivliges){
                 button_Path.Enabled = true;
-            }
-            else
-            {
+            }else{
                 toolTip1.SetToolTip(textBox_Path, "To change dir Run as admin");
                 toolTip1.SetToolTip(button_Path, "To change dir Run as admin");
             }
-            if (!File.Exists(Path_Settings))
-            {
+
+            if (!File.Exists(Path_Settings)){
                 checkBox_Fresh.Checked = true;
                 if (!Directory.Exists(Path_mod)) Directory.CreateDirectory(Path_mod);
                 File.Create(Path_Settings).Close();
@@ -156,10 +160,8 @@ namespace MC_Client
             PacksMenu.MenuItems.Add("Add Pack from clipbaord", AddPack_Click);
             listBox_Packs.ContextMenu = PacksMenu;
             output_c("Launcher start up successful");
-        }
 
-        private void Form_ER_Load(object sender, EventArgs e)
-        {
+            //Update code, needs improvment
             try
             {
                 var MC_client = new GitHubClient(new ProductHeaderValue("Elemental_Client")).Repository.Release.GetLatest("ElementalRealms", "MC_Client");
@@ -674,16 +676,15 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 UserSelectedMod = false;
                 if (File.Exists(Path_Pack + "\\OptionalMods.list"))
                 {
-                    string[] LoadOptionalMods = File.ReadAllText(Path_Pack + "\\OptionalMods.list").Split(',');
-                    for (int modNum = 0; modNum <= LoadOptionalMods.Length - 1; ++modNum)
+                    string[] LoadOptionalMods = File.ReadAllLines(Path_Pack + "\\OptionalMods.erList");
+                    for (int modNum = 0; modNum < LoadOptionalMods.Length;modNum++)
                     {
-                        for (int i = 0; i <= CheckedList_OptionalMods.Items.Count - 1; i++)
-                        {
-                            if (LoadOptionalMods[modNum] == CheckedList_OptionalMods.Items.OfType<string>().ToArray()[i])
-                            {
-                                CheckedList_OptionalMods.SetItemChecked(i, true);
-                            }
-                        }
+                        string[] LoadModItem = LoadOptionalMods[modNum].Split(',');
+                        if(CheckedList_OptionalMods.Items.Contains(LoadModItem[0]))
+                        CheckedList_OptionalMods.SetItemChecked(
+                        CheckedList_OptionalMods.Items.IndexOf(LoadModItem[0]),
+                        (LoadModItem[1]=="Checked")
+                        );
                     }
                 }
             }
@@ -885,10 +886,23 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         private void CheckedList_OptionalMods_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (UserSelectedMod)
-            {
-                this.BeginInvoke((MethodInvoker)(() => File.WriteAllText(Path_Pack + "\\OptionalMods.list", string.Join(",", CheckedList_OptionalMods.CheckedItems.OfType<string>().ToArray()))));
-                output_c("Updated optional mods");
+            if (UserSelectedMod){
+                if (e.CurrentValue == CheckState.Indeterminate) {
+                    e.NewValue = CheckState.Indeterminate;
+                    return; }
+
+                new Thread(() => {
+                    Thread.Sleep(10);
+                        using (StreamWriter OptionalModsTemp = new StreamWriter(Path_Pack + "\\OptionalMods.erList", false))
+                        {
+                            for (int i = 0; i < CheckedList_OptionalMods.Items.Count; i++)
+                            {
+                                if (CheckedList_OptionalMods.GetItemCheckState(i) != CheckState.Indeterminate)
+                                    OptionalModsTemp.WriteLine(CheckedList_OptionalMods.Items[i] + "," + CheckedList_OptionalMods.GetItemCheckState(i));
+                            }
+                        }
+                }).Start();
+                output_c("Saved optional mods");
             }
         }
 
