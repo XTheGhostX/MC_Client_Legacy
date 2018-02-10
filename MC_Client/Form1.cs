@@ -16,7 +16,6 @@ using Octokit;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Threading;
 
 namespace MC_Client
 {
@@ -249,7 +248,7 @@ namespace MC_Client
             }
             else{
                 MySqlConnection conn = new MySqlConnection(ERConnectionString);
-                string query = "SELECT * FROM " + Pack_Name + ".Version";
+                string query = "SELECT * FROM " + Pack_Name + ".Version ORDER BY Version_UID";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 try
                 {
@@ -672,15 +671,33 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CheckedList_OptionalMods.Enabled = true;
                 button_OpenOptionalM.Visible = true;
                 CheckedList_OptionalMods.Items.Clear();
-                CheckedList_OptionalMods.Items.AddRange(List_Client.Split(','));
+                //Load optional mods
                 UserSelectedMod = false;
-                if (File.Exists(Path_Pack + "\\OptionalMods.list"))
+                foreach (string ClientMod in List_Client.Split(','))
+                {
+                    output_c(ClientMod.Last().ToString());
+                    switch (ClientMod.Last())
+                    {
+                        case '1':
+                            CheckedList_OptionalMods.Items.Add(ClientMod.Remove(ClientMod.LastIndexOf('.')+4), CheckState.Indeterminate);
+                            break;
+                        case '0':
+                            CheckedList_OptionalMods.Items.Add(ClientMod.Remove(ClientMod.LastIndexOf('.')+4), CheckState.Checked);
+                            break;
+                        default:
+                            CheckedList_OptionalMods.Items.Add(ClientMod);
+                            break;
+                    }
+                }
+                //Load saved states of optional mods
+                if (File.Exists(Path_Pack + "\\OptionalMods.erlist"))
                 {
                     string[] LoadOptionalMods = File.ReadAllLines(Path_Pack + "\\OptionalMods.erList");
                     for (int modNum = 0; modNum < LoadOptionalMods.Length;modNum++)
                     {
                         string[] LoadModItem = LoadOptionalMods[modNum].Split(',');
                         if(CheckedList_OptionalMods.Items.Contains(LoadModItem[0]))
+                            if(CheckedList_OptionalMods.GetItemCheckState(CheckedList_OptionalMods.Items.IndexOf(LoadModItem[0])) != CheckState.Indeterminate)
                         CheckedList_OptionalMods.SetItemChecked(
                         CheckedList_OptionalMods.Items.IndexOf(LoadModItem[0]),
                         (LoadModItem[1]=="Checked")
@@ -890,18 +907,20 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (e.CurrentValue == CheckState.Indeterminate) {
                     e.NewValue = CheckState.Indeterminate;
                     return; }
-
-                new Thread(() => {
-                    Thread.Sleep(10);
-                        using (StreamWriter OptionalModsTemp = new StreamWriter(Path_Pack + "\\OptionalMods.erList", false))
+                using (StreamWriter OptionalModsTemp = new StreamWriter(Path_Pack + "\\OptionalMods.erList", false))
+                {
+                    for (int i = 0; i < CheckedList_OptionalMods.Items.Count; i++)
+                    {
+                        if (CheckedList_OptionalMods.GetItemCheckState(i) != CheckState.Indeterminate)
                         {
-                            for (int i = 0; i < CheckedList_OptionalMods.Items.Count; i++)
-                            {
-                                if (CheckedList_OptionalMods.GetItemCheckState(i) != CheckState.Indeterminate)
-                                    OptionalModsTemp.WriteLine(CheckedList_OptionalMods.Items[i] + "," + CheckedList_OptionalMods.GetItemCheckState(i));
-                            }
+                            //makes sure that the updated value is written
+                            if (CheckedList_OptionalMods.SelectedIndex != i)
+                                OptionalModsTemp.WriteLine(CheckedList_OptionalMods.Items[i] + "," + CheckedList_OptionalMods.GetItemCheckState(i));
+                            else
+                                OptionalModsTemp.WriteLine(CheckedList_OptionalMods.Items[i] + "," + e.NewValue);
                         }
-                }).Start();
+                    }
+                }
                 output_c("Saved optional mods");
             }
         }

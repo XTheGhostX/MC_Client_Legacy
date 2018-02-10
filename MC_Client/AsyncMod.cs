@@ -1,11 +1,9 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MC_Client
@@ -26,7 +24,8 @@ namespace MC_Client
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Downloading " + ModLibName + " failed..." + ex);
+                Program.erForm.output_c("Downloading " + ModLibName + " failed...\n" + ex);
+                File.Delete(Program.erForm.Path_mod + "\\" + ModLibName);
             }
             Program.erForm.AsyncDone(1);
         }
