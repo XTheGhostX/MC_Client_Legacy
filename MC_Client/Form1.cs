@@ -408,9 +408,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Directory.CreateDirectory(Path_mod);
                     ModTasks = new Task[mods.Length];
                     progressBar1.Maximum += mods.Length;
-                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    for (int modNum = 0; modNum < mods.Length; ++modNum)
                     {
-                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        for (int i = 0; i < ModLibName.Length; ++i)
                         {
                             if (ModLibName[i] == mods[modNum])
                             {
@@ -423,7 +423,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
                     string[] CurrentMods = Directory.GetFiles(Path_mod);
-                    for (int modNum = 0; modNum <= CurrentMods.Length - 1; ++modNum)
+                    for (int modNum = 0; modNum < CurrentMods.Length; ++modNum)
                     {
                         int modsIndex = Array.IndexOf(mods, CurrentMods[modNum].Remove(0, Path_mod.Length + 1));
                         if (modsIndex == -1)
@@ -442,9 +442,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                     {
                         output_c("No mods to install");
                     }else
-                    for (int modNum = 0; modNum <= mods.Length - 1; ++modNum)
+                    for (int modNum = 0; modNum < mods.Length; ++modNum)
                     {
-                        for (int i = 0; i <= ModLibName.Length - 1; ++i)
+                        for (int i = 0; i < ModLibName.Length; ++i)
                         {
                             if (ModLibName[i] == mods[modNum])
                             {
@@ -506,7 +506,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                             new AsyncMod().DownloadBadge();
                     }
                 }
-                await Task.WhenAll(ModTasks.Concat((OtherTasks.Where(t => t != null).ToArray())));
+                await Task.WhenAll(ModTasks.Concat(OtherTasks).Where(t => t != null));
 
             //stuff MC launcher profile
             dynamic MCP_dynamic = JsonConvert.DeserializeObject(File.ReadAllText(MCProfile_Path));
@@ -675,7 +675,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 UserSelectedMod = false;
                 foreach (string ClientMod in List_Client.Split(','))
                 {
-                    output_c(ClientMod.Last().ToString());
                     switch (ClientMod.Last())
                     {
                         case '1':
