@@ -17,6 +17,8 @@ namespace MC_Client
         {
             try
             {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
                 using (WebClient webClient = new WebClient())
                 {
                     await webClient.DownloadFileTaskAsync(new Uri(ModLibLink), Program.erForm.Path_mod + "\\" + ModLibName);
