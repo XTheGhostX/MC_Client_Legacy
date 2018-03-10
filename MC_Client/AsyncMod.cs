@@ -11,6 +11,7 @@ namespace MC_Client
     class AsyncMod
     {
         static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
         //#######################################################################################################################################
         public async Task DownloadMod(string ModLibLink, string ModLibName)
         {
@@ -34,25 +35,17 @@ namespace MC_Client
         {
             string Temp_ConfigPath = (Program.erForm.Temp + "\\" + Program.erForm.Pack_Name + "_Config.zip");
             Program.erForm.output_c("Downloading Configs");
-            bool IsGit=true;
+            Uri DownloadURL;
+            bool IsGit = CheckUrl_Git(Program.erForm.Version_Cfg, out DownloadURL, "/MC_Configs/archive/" + Program.erForm.Version_Cfg + ".zip");
             try
             {
-                using(WebClient webClient = new WebClient())
-                if (Program.erForm.Version_Cfg.Contains("http"))
-                {
-                    await webClient.DownloadFileTaskAsync(new Uri(Program.erForm.Version_Cfg), Temp_ConfigPath);
-                    IsGit = false;
-                }
-                else
-                {
-                    await webClient.DownloadFileTaskAsync(new Uri("https://github.com/" + Program.erForm.Pack_Name + "/MC_Configs/archive/" + Program.erForm.Version_Cfg + ".zip"), Temp_ConfigPath);
-                    IsGit = true;
-                }
+                await new WebClient().DownloadFileTaskAsync(DownloadURL, Temp_ConfigPath);
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Config Download failed: "+ ex.ToString());
+                Program.erForm.output_c("Config Download failed \n" + ex.ToString());
             }
+
             Directory.CreateDirectory(Program.erForm.Path_Config);
 
             string[] Tmp122 = Directory.GetFiles(Program.erForm.Path_Config);
@@ -86,25 +79,15 @@ namespace MC_Client
         {
             string Temp_BiomePath = (Program.erForm.Temp + "\\" + Program.erForm.Pack_Name + "_Biome.zip");
             Program.erForm.output_c("Downloading Biome");
-            bool IsGit = true;
+            Uri DownloadURL;
+            bool IsGit = CheckUrl_Git(Program.erForm.Version_Biome, out DownloadURL, "/MC_Biome/archive/" + Program.erForm.Version_Biome + ".zip");
             try
             {
-                using(WebClient webClient = new WebClient())
-                if (Program.erForm.Version_Biome.Contains("http"))
-                {
-                    IsGit = false;
-                    await webClient.DownloadFileTaskAsync(new Uri(Program.erForm.Version_Biome), Temp_BiomePath);
-                }
-                else
-                {
-                    IsGit = true;
-                    await webClient.DownloadFileTaskAsync(new Uri("https://github.com/" + Program.erForm.Pack_Name + "/MC_Biome/archive/" + Program.erForm.Version_Biome + ".zip"), Temp_BiomePath);
-                }
+                await new WebClient().DownloadFileTaskAsync(DownloadURL, Temp_BiomePath);
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Download failed");
-                Console.WriteLine("The process failed: {0}", ex.ToString());
+                Program.erForm.output_c("Biome Download failed \n"+ ex.ToString());
             }
 
             FileSystem.DeleteDirectory(Program.erForm.Path_Biome, DeleteDirectoryOption.DeleteAllContents);
@@ -123,26 +106,17 @@ namespace MC_Client
         {
             string Temp_ForgePath = (Program.erForm.Temp + "\\" + Program.erForm.Pack_Name + "_Forge.zip");
             Program.erForm.output_c("Downloading Forge");
-            bool IsGit = true;
+            Uri DownloadURL;
+            bool IsGit = CheckUrl_Git(Program.erForm.Version_Forge,out DownloadURL, "/MC_Forge/archive/" + Program.erForm.Version_Forge + ".zip");
             try
             {
-                using (WebClient webClient = new WebClient())
-                if (Program.erForm.Version_Forge.Contains("http"))
-                {
-                    IsGit = false;
-                        await webClient.DownloadFileTaskAsync(new Uri(Program.erForm.Version_Forge), Temp_ForgePath);
-                }
-                else
-                {
-                    IsGit = true;
-                        await webClient.DownloadFileTaskAsync(new Uri("https://github.com/" + Program.erForm.Pack_Name + "/MC_Forge/archive/" + Program.erForm.Version_Forge + ".zip"), Temp_ForgePath);
-                }
+                await new WebClient().DownloadFileTaskAsync(DownloadURL, Temp_ForgePath);
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Download failed");
-                Console.WriteLine("The process failed: {0}", ex.ToString());
+                Program.erForm.output_c("Forge Download failed \n" + ex.ToString());
             }
+
             ZipFile.ExtractToDirectory(Temp_ForgePath, Program.erForm.Temp);
             string tmp021;
             if (IsGit)
@@ -165,25 +139,15 @@ namespace MC_Client
         {
             string Temp_ScriptPath = (Program.erForm.Temp + "\\" + Program.erForm.Pack_Name + "_Script.zip");
             Program.erForm.output_c("Downloading Script");
-            bool IsGit = true;
+            Uri DownloadURL;
+            bool IsGit = CheckUrl_Git(Program.erForm.Version_Script, out DownloadURL, "/MC_Script/archive/" + Program.erForm.Version_Script + ".zip");
             try
             {
-                using(WebClient webClient = new WebClient())
-                if (Program.erForm.Version_Script.Contains("http"))
-                {
-                    IsGit = false;
-                    await webClient.DownloadFileTaskAsync(new Uri(Program.erForm.Version_Script), Temp_ScriptPath);
-                }
-                else
-                {
-                    IsGit = true;
-                    await webClient.DownloadFileTaskAsync(new Uri("https://github.com/" + Program.erForm.Pack_Name + "/MC_Script/archive/" + Program.erForm.Version_Script + ".zip"), Temp_ScriptPath);
-                }
+                await new WebClient().DownloadFileTaskAsync(DownloadURL, Temp_ScriptPath);
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Download failed");
-                Console.WriteLine("The process failed: {0}", ex.ToString());
+                Program.erForm.output_c("Script Download failed \n" + ex.ToString());
             }
             FileSystem.DeleteDirectory(Program.erForm.Path_Script, DeleteDirectoryOption.DeleteAllContents);
             Program.erForm.output_c("Installing scripts");
@@ -201,24 +165,15 @@ namespace MC_Client
         {
             string Temp_BadgePath = (Program.erForm.Temp + "\\" + Program.erForm.Pack_Name + "_Badge.zip");
             Program.erForm.output_c("Downloading Badge");
-            bool IsGit = true;
+            Uri DownloadURL;
+            bool IsGit = CheckUrl_Git(Program.erForm.Version_Badge, out DownloadURL, "/MC_Badge/archive/" + Program.erForm.Version_Badge + ".zip");
             try
             {
-                using (WebClient webClient = new WebClient())
-                if (Program.erForm.Version_Badge.Contains("http"))
-                {
-                    IsGit = false;
-                    await webClient.DownloadFileTaskAsync(new Uri(Program.erForm.Version_Badge), Temp_BadgePath);
-                }
-                else
-                {
-                    IsGit = true;
-                    await webClient.DownloadFileTaskAsync(new Uri("https://github.com/" + Program.erForm.Pack_Name + "/MC_Badge/archive/" + Program.erForm.Version_Badge + ".zip"), Temp_BadgePath);
-                }
+                await new WebClient().DownloadFileTaskAsync(DownloadURL, Temp_BadgePath);
             }
             catch (Exception ex)
             {
-                Program.erForm.output_c("Download failed" + ex.ToString());
+                Program.erForm.output_c("Badge Download failed \n" + ex.ToString());
             }
             Program.erForm.output_c("Installing badge");
             ZipFile.ExtractToDirectory(Temp_BadgePath, Program.erForm.Temp);
@@ -233,5 +188,15 @@ namespace MC_Client
             Program.erForm.RefreshBadge();
         }
         //#######################################################################################################################################
+        private bool CheckUrl_Git(string inUrl, out Uri outUrl, string GitLink)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            bool isUrl = Uri.TryCreate(inUrl, UriKind.Absolute,out outUrl)
+                && (outUrl.Scheme == Uri.UriSchemeHttp || outUrl.Scheme == Uri.UriSchemeHttps);
+            bool isGit = !isUrl || inUrl.ToLower().Contains("github.com");
+            if (isGit && !isUrl) outUrl = new Uri("http://github.com/" + Program.erForm.Pack_Name + "/"+GitLink);
+            return isGit;
+        }
     }
 }
