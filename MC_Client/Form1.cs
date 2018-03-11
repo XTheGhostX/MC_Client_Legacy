@@ -12,7 +12,6 @@ using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic.Devices;
-using Octokit;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -163,18 +162,20 @@ namespace MC_Client
             //Update code, needs improvment
             try
             {
-                var MC_client = new GitHubClient(new ProductHeaderValue("Elemental_Client")).Repository.Release.GetLatest("ElementalRealms", "MC_Client");
-                string LatestVersion = MC_client.Result.TagName;
-
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                string LatestVersion = WebRequest.Create("https://github.com/ElementalRealms/MC_Client/releases/latest").GetResponse().ResponseUri.ToString().Remove(0,58);
                 if (LastClientVNotification != LatestVersion)
                 {
                     ER_Settings[6] = "LastClientCheck:" + LatestVersion;
                     File.WriteAllLines(Path_Settings, ER_Settings);
                     if (LastClientVNotification != null)
-                        if (MessageBox.Show(MC_client.Result.Name + ":\n" + MC_client.Result.Body + "\n Download?",
+                        if (MessageBox.Show("Download new version?",
                             "Update Notification",
-                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            MessageBoxButtons.YesNo) == DialogResult.Yes){
                             Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/" + LatestVersion + "/Elemental_Installer.exe");
+                            this.Close();
+                            }
                 }
             }
             catch (AggregateException) { }
