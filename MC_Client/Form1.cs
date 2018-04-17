@@ -146,7 +146,6 @@ namespace MC_Client
             if ((tmp152 = AfterP(ER_Settings, "IsDev:")) != null) checkBox_Dev.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "Log:")) != null) checkBox_Log.Checked = bool.Parse(tmp152);
             if ((tmp152 = AfterP(ER_Settings, "LastClientCheck:")) != null) LastClientVNotification = tmp152;
-            label_InstalledV.Text = "Installed version: " + Installed_PackV;
             if (checkBox_LegacyMC.Checked) button_OpenMC.Visible = true;
 
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), 0xF060, 0x00000000);
@@ -259,7 +258,7 @@ namespace MC_Client
                 {
                     output_c(ex.Message);
                     MessageBox.Show(ex.Message, "ERealms connection error",
-       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (IsDev == 1)
@@ -293,9 +292,12 @@ namespace MC_Client
                 conn.CloseAsync();
                 dataReader.Close();
             }
-            if (comboBox_Versions.Text!=null)
+            if (comboBox_Versions.Text != null)
             {
-        output_c("Sucess please select a version");
+                if (comboBox_Versions.Items.Contains(Installed_PackV)) comboBox_Versions.Text=Installed_PackV;
+                if (comboBox_Versions.Items.IndexOf(Installed_PackV) < comboBox_Versions.Items.Count-1) label_InstalledV.Text = "▲ Update available";
+                else label_InstalledV.Text = "";
+                output_c("Sucess please select a version");
                 button_Install.Enabled = true;
             }
         }
@@ -303,22 +305,22 @@ namespace MC_Client
 
         private void button_Path_Click(object sender, EventArgs e)
         {
-            DialogResult tmp310 = folderBrowserDialog1.ShowDialog();
-            if (tmp310 == DialogResult.OK)
+            FolderBrowserDialog PathChangeDialog = new FolderBrowserDialog();
+            if (PathChangeDialog.ShowDialog() == DialogResult.OK)
             {
                 button_Path.Enabled = false;
-                if (!string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
+                if (!string.IsNullOrWhiteSpace(PathChangeDialog.SelectedPath))
                 {
-                   textBox_Path.Text= folderBrowserDialog1.SelectedPath;
+                   textBox_Path.Text= PathChangeDialog.SelectedPath;
                     Path_Change = textBox_Path.Text;
                     if (!File.Exists(AppData + "\\.minecraft\\ER_PathChange.tmp")) File.Create(AppData + "\\.minecraft\\ER_PathChange.tmp").Close();
-                    File.WriteAllText(AppData + "\\.minecraft\\ER_PathChange.tmp", folderBrowserDialog1.SelectedPath);
+                    File.WriteAllText(AppData + "\\.minecraft\\ER_PathChange.tmp", PathChangeDialog.SelectedPath);
                     this.Close();
                     return;
                 }
                 else
                     MessageBox.Show("Please select a valid install destination", "ERealms user error",
-MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             if (HasAdminPrivliges)button_Path.Enabled = true;
         }
@@ -548,7 +550,8 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (File.Exists(Path_Pack + "\\" + "classCache.dat")) File.Delete(Path_Pack + "\\" + "classCache.dat");
             //stuff end
             Installed_PackV = comboBox_Versions.Text;
-            label_InstalledV.Text = "Installed version: " + Installed_PackV;
+            if (comboBox_Versions.Items.IndexOf(Installed_PackV) < comboBox_Versions.Items.Count - 1) label_InstalledV.Text = "▲ Update available";
+            else label_InstalledV.Text = "";
             Pack_Settings[6] = "Version:" + Installed_PackV;
             output_c("Installation Finished");
             File.WriteAllLines(Path_PackV, Pack_Settings);
@@ -851,6 +854,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 button_OpenMC.Visible = false;
             ER_Settings[7] = "IsLegacyMC:" + checkBox_LegacyMC.Checked;
         }
+
+        private void textBox_Path_DoubleClick(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", "/root," + Path);
+        }
+
+        private void label_InstalledV_Click(object sender, EventArgs e)
+        {
+            comboBox_Versions.SelectedIndex = comboBox_Versions.Items.Count - 1;
+            button_Install.PerformClick();
+        }
+
         private void DownloadLegacyMC()
         {
             if(!File.Exists(AppData + "\\.minecraft\\launcher.jar"))
@@ -1021,10 +1036,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 Pack_Settings = File.ReadAllLines(Path_PackV);
                 ReloadPackSet();
-                label_InstalledV.Text = "Installed version: " + Installed_PackV;
             }
-            else
-                label_InstalledV.Text = "No version installed";
             CheckV();
             RefreshBadge();
         }

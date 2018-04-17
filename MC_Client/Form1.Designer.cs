@@ -44,7 +44,6 @@
             this.button_OpenOptionalM = new System.Windows.Forms.Button();
             this.checkBox_LegacyMC = new System.Windows.Forms.CheckBox();
             this.checkBox_Fresh = new System.Windows.Forms.CheckBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button_Modpack = new System.Windows.Forms.Button();
             this.ERnotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Settings_panel = new System.Windows.Forms.Panel();
@@ -90,13 +89,13 @@
             // 
             // textBox_Path
             // 
-            this.textBox_Path.Enabled = false;
             this.textBox_Path.Location = new System.Drawing.Point(66, 489);
             this.textBox_Path.Name = "textBox_Path";
             this.textBox_Path.Size = new System.Drawing.Size(141, 20);
             this.textBox_Path.TabIndex = 3;
             this.textBox_Path.Text = "%appdata%\\.minecraft\\ElementalRealms";
             this.textBox_Path.Visible = false;
+            this.textBox_Path.DoubleClick += new System.EventHandler(this.textBox_Path_DoubleClick);
             // 
             // button_Path
             // 
@@ -449,6 +448,7 @@
             this.label_InstalledV.Size = new System.Drawing.Size(111, 19);
             this.label_InstalledV.TabIndex = 26;
             this.label_InstalledV.Text = "Installed version:";
+            this.label_InstalledV.Click += new System.EventHandler(this.label_InstalledV_Click);
             // 
             // panel1
             // 
@@ -593,7 +593,6 @@
         private System.Windows.Forms.CheckBox checkBox_Biome;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox checkBox_Fresh;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button_Modpack;
         private System.Windows.Forms.NotifyIcon ERnotifyIcon;
         private System.Windows.Forms.Panel Settings_panel;

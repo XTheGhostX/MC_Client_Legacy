@@ -15,6 +15,7 @@ namespace MC_Client
         //#######################################################################################################################################
         public async Task DownloadMod(string ModLibLink, string ModLibName)
         {
+            if (ModLibLink == "null") return;
             try
             {
                 ServicePointManager.Expect100Continue = true;
@@ -46,6 +47,7 @@ namespace MC_Client
             catch (Exception ex)
             {
                 Program.erForm.output_c("Config Download failed \n" + ex.ToString());
+                return;
             }
 
             Directory.CreateDirectory(Program.erForm.Path_Config);
@@ -90,6 +92,7 @@ namespace MC_Client
             catch (Exception ex)
             {
                 Program.erForm.output_c("Biome Download failed \n"+ ex.ToString());
+                return;
             }
 
             FileSystem.DeleteDirectory(Program.erForm.Path_Biome, DeleteDirectoryOption.DeleteAllContents);
@@ -117,6 +120,7 @@ namespace MC_Client
             catch (Exception ex)
             {
                 Program.erForm.output_c("Forge Download failed \n" + ex.ToString());
+                return;
             }
 
             ZipFile.ExtractToDirectory(Temp_ForgePath, Program.erForm.Temp);
@@ -150,6 +154,7 @@ namespace MC_Client
             catch (Exception ex)
             {
                 Program.erForm.output_c("Script Download failed \n" + ex.ToString());
+                return;
             }
             FileSystem.DeleteDirectory(Program.erForm.Path_Script, DeleteDirectoryOption.DeleteAllContents);
             Program.erForm.output_c("Installing scripts");
@@ -176,6 +181,7 @@ namespace MC_Client
             catch (Exception ex)
             {
                 Program.erForm.output_c("Badge Download failed \n" + ex.ToString());
+                return;
             }
             Program.erForm.output_c("Installing badge");
             ZipFile.ExtractToDirectory(Temp_BadgePath, Program.erForm.Temp);
