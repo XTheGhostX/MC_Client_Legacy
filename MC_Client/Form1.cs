@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Security.Principal;
 using System.Collections.Generic;
@@ -95,7 +95,7 @@ namespace MC_Client
             Task.Run(() => {
                 RefreshBadge();
             });
-            PackList();
+            
             textBox_Path.Text = Path;
 
             if (HasAdminPrivliges){
@@ -123,7 +123,7 @@ namespace MC_Client
                 {
                     Environment.Exit(0);
                 }
-                MessageBox.Show("Download Sucessful\n please close minecraft and relaunch the Elemental Launcher");
+                MessageBox.Show("Download Successful\n please close minecraft and relaunch the Elemental Launcher");
                 Process.Start(AppData + "\\.minecraft\\launcher.jar");
                 Environment.Exit(0);
             }
@@ -163,7 +163,7 @@ namespace MC_Client
             {
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                string LatestVersion = WebRequest.Create("https://github.com/ElementalRealms/MC_Client/releases/latest").GetResponse().ResponseUri.ToString().Remove(0,58);
+                string LatestVersion = WebRequest.Create("https://github.com/ElementalRealms/MC_Client_Legacy/releases/latest").GetResponse().ResponseUri.ToString().Remove(0,58);
                 if (LastClientVNotification != LatestVersion)
                 {
                     ER_Settings[6] = "LastClientCheck:" + LatestVersion;
@@ -172,12 +172,13 @@ namespace MC_Client
                         if (MessageBox.Show("Download new version?",
                             "Update Notification",
                             MessageBoxButtons.YesNo) == DialogResult.Yes){
-                            Process.Start("https://github.com/ElementalRealms/MC_Client/releases/download/" + LatestVersion + "/Elemental_Installer.exe");
+                            Process.Start("https://github.com/ElementalRealms/MC_Client_Legacy/releases/download/" + LatestVersion + "/Elemental_Installer.exe");
                             this.Close();
                             }
                 }
             }
             catch (AggregateException) { }
+            PackList();
         }
 
         private void AddPack_Click(object sender, EventArgs e)
@@ -294,10 +295,13 @@ namespace MC_Client
             }
             if (comboBox_Versions.Text != null)
             {
-                if (comboBox_Versions.Items.Contains(Installed_PackV)) comboBox_Versions.Text=Installed_PackV;
+                if (Installed_PackV != null)
+                {
+                    if (comboBox_Versions.Items.Contains(Installed_PackV)) comboBox_Versions.Text=Installed_PackV;
                 if (comboBox_Versions.Items.IndexOf(Installed_PackV) < comboBox_Versions.Items.Count-1) label_InstalledV.Text = "▲ Update available";
                 else label_InstalledV.Text = "";
-                output_c("Sucess please select a version");
+                }
+                output_c("Success please select a version");
                 button_Install.Enabled = true;
             }
         }
@@ -978,7 +982,7 @@ namespace MC_Client
         public void PackList()
         {
             Pack_List.Clear();
-            Pack_List.Add("[db.elementalrealms.net][ElementalRealms][ermlpublicread][hmDmxuhheilgKXUWTjzC]");
+            Pack_List.Add("[remotemysql.com][LQyrJM1g6x][LQyrJM1g6x][R7923n8aIs]");
             if (!File.Exists(Path_Packs)) File.Create(Path_Packs); else
             Pack_List.AddRange(File.ReadAllLines(Path_Packs).Where(c => c != null));
             comboBox_Pack.Items.Clear();
